@@ -9,12 +9,16 @@ const StyledCurrentSketchSettings = styled.div``;
 export const CurrentSketchSettings: React.FC<ICurrentSketchSettingsProps> = ({
   ...restProps
 }) => {
-  const { code } = useCurrentSketchContext();
+  const { sketch } = useCurrentSketchContext();
+
+  if (!sketch) {
+    return null;
+  }
 
   return (
     <StyledCurrentSketchSettings {...restProps}>
       Current sketch
-      <div>Current sketch code length: {code.length}</div>
+      <div>name: {sketch.name}</div>
     </StyledCurrentSketchSettings>
   );
 };

@@ -6,7 +6,7 @@ import * as R from "ramda";
  * Kinda bad, maybe necessary
  */
 
-export const useModifyCode = (code: string, shouldRecompile: boolean) => {
+export const useModifyCode = (code: string) => {
   const codeLines = code.split("\n");
 
   const modifiedLines = R.pipe(R.flatten)(codeLines);

@@ -29,7 +29,6 @@ export const CanvasWrapper: React.FC<ICanvasWrapperProps> = ({
   const { sketch } = useCurrentSketchContext();
 
   const shouldRecompileAt = sketch?.shouldRecompileAt;
-  console.log(shouldRecompileAt);
 
   return (
     <StyledCanvasWrapper {...restProps}>

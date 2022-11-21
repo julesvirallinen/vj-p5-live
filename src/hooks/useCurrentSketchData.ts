@@ -36,9 +36,7 @@ const assocShouldCompile = R.assocPath(["shouldRecompileAt"]);
 
 export const useCurrentSketchData = () => {
   const context = useContext(CurrentSketchContext);
-  const [sketch, setSketch] = useState<ICurrentSketch>(
-    context.sketch || DEFAULT_SKETCH
-  );
+  const [sketch, setSketch] = useState<ICurrentSketch | null>(context.sketch);
 
   const setCode = (code: string) => setSketch(assocCode(code, sketch));
 
@@ -46,15 +44,19 @@ export const useCurrentSketchData = () => {
     timestamp
   ) => setSketch(assocShouldCompile(timestamp, sketch));
 
-  const code: string = sketch.code;
+  const code = sketch?.code;
 
   const { getItem, setItem } = useLocalStorage();
   useEffect(() => {
-    if (!code) {
-      const persisted = getItem<string>("sketchCode");
-      setCode(persisted || defaultSketchCode);
+    if (!sketch) {
+      const persisted = getItem<ICurrentSketch>("sketch");
+      setSketch(persisted || DEFAULT_SKETCH);
     } else {
-      setItem("sketchCode", code);
+      setItem("sketch", {
+        code,
+        id: sketch.id ?? new Date().getTime,
+        name: sketch.name ?? `new${Math.random() * 1000}`,
+      });
     }
   }, [code, setCode]);
 
