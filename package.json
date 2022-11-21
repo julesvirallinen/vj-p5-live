@@ -1,6 +1,9 @@
 {
-  "name": "my-react-ts-app",
+  "name": "vj-p5-live",
   "private": true,
+  "author": {
+    "name": "Julius Uusinarkaus"
+  },
   "version": "0.0.0",
   "type": "module",
   "scripts": {

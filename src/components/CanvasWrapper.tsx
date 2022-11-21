@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { P5Canvas } from "./P5Canvas";
 import { P5Editor } from "./P5Editor";
@@ -30,13 +30,23 @@ const StyledCanvasWrapper = styled.div`
 
 const StyledEditor = styled(P5Editor)`
   width: 100rem;
-  height: 100vh;
+  height: 100%;
 `;
 
 export const CanvasWrapper: React.FC<ICanvasWrapperProps> = ({
   ...restProps
 }) => {
-  const [code, setCode] = useState(defaultSketch);
+  const [code, setCode] = useState<string>("");
+
+  useEffect(() => {
+    if (code.length === 0) {
+      const persisted = localStorage.getItem("sketchCode");
+      setCode(JSON.parse(persisted || defaultSketch) || defaultSketch);
+    } else {
+      localStorage.setItem("sketchCode", JSON.stringify(code));
+    }
+  }, [code, setCode]);
+
   return (
     <StyledCanvasWrapper {...restProps}>
       <P5Canvas code={code} />

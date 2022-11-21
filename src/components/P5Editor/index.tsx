@@ -22,6 +22,14 @@ const StyledP5Editor = styled(AceEditor)`
     background-color: #3a3a3a;
     color: #c2c1c1;
   }
+
+  .ace_gutter-layer {
+    background-color: black;
+  }
+
+  .ace_gutter-active-line {
+    background-color: #2c2c2c;
+  }
 `;
 
 export const P5Editor: React.FC<IP5EditorProps> = ({
