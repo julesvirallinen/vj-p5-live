@@ -5,11 +5,9 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-iplastic";
 import "ace-builds/src-noconflict/ext-language_tools";
+import { useCurrentSketchContext } from "../../Providers/currentSketchProvider";
 
-export interface IP5EditorProps {
-  code: string;
-  setCode: (code: string) => void;
-}
+export interface IP5EditorProps {}
 
 const StyledP5Editor = styled(AceEditor)`
   background-color: transparent;
@@ -32,14 +30,9 @@ const StyledP5Editor = styled(AceEditor)`
   }
 `;
 
-export const P5Editor: React.FC<IP5EditorProps> = ({
-  code,
-  setCode,
-  ...restProps
-}) => {
-  function onChange(newValue: string) {
-    console.log("change", newValue);
-  }
+export const P5Editor: React.FC<IP5EditorProps> = ({ ...restProps }) => {
+  const { code, setCode } = useCurrentSketchContext();
+
   return (
     <StyledP5Editor
       {...restProps}

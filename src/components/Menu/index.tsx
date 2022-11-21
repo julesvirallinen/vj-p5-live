@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { CurrentSketchSettings } from "./components/CurrentSketch";
 
 export interface IMenuProps {}
 
@@ -13,5 +14,9 @@ const StyledMenu = styled.div`
 `;
 
 export const Menu: React.FC<IMenuProps> = ({ ...restProps }) => {
-  return <StyledMenu {...restProps}>heloo</StyledMenu>;
+  return (
+    <StyledMenu {...restProps}>
+      <CurrentSketchSettings />
+    </StyledMenu>
+  );
 };
