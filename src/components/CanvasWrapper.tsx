@@ -26,6 +26,11 @@ const StyledEditor = styled(P5Editor)`
 export const CanvasWrapper: React.FC<ICanvasWrapperProps> = ({
   ...restProps
 }) => {
+  const { sketch } = useCurrentSketchContext();
+
+  const shouldRecompileAt = sketch?.shouldRecompileAt;
+  console.log(shouldRecompileAt);
+
   return (
     <StyledCanvasWrapper {...restProps}>
       <P5Canvas />

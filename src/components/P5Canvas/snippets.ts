@@ -1,3 +1,5 @@
+export const SHOULD_RECOMPILE_SKETCH = "SHOULD_RECOMPILE_SKETCH";
+
 export const windowResizer = `function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }`;

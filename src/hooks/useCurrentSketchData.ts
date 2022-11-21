@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import CurrentSketchContext from "../Providers/currentSketchProvider";
+import CurrentSketchContext, {
+  ICurrentSketchContext,
+} from "../Providers/currentSketchProvider";
 import { useLocalStorage } from "./useLocalStorage";
 import * as R from "ramda";
 
@@ -7,6 +9,7 @@ export interface ICurrentSketch {
   code: string;
   id: string;
   name: string;
+  shouldRecompileAt?: number;
 }
 
 const defaultSketchCode = `
@@ -28,13 +31,22 @@ const DEFAULT_SKETCH: ICurrentSketch = {
   name: "new",
 };
 
+const assocCode = R.assocPath(["code"]);
+const assocShouldCompile = R.assocPath(["shouldRecompileAt"]);
+
 export const useCurrentSketchData = () => {
   const context = useContext(CurrentSketchContext);
-  const [sketch, setSketch] = useState<ICurrentSketch | null>(context.sketch);
+  const [sketch, setSketch] = useState<ICurrentSketch>(
+    context.sketch || DEFAULT_SKETCH
+  );
 
-  const setCode = (code: string) =>
-    R.pipe(R.assocPath(["code"], code), setSketch)(sketch);
-  const code = R.prop("code")(sketch);
+  const setCode = (code: string) => setSketch(assocCode(code, sketch));
+
+  const setShouldRecompileAt: ICurrentSketchContext["setShouldRecompileAt"] = (
+    timestamp
+  ) => setSketch(assocShouldCompile(timestamp, sketch));
+
+  const code: string = sketch.code;
 
   const { getItem, setItem } = useLocalStorage();
   useEffect(() => {
@@ -46,5 +58,5 @@ export const useCurrentSketchData = () => {
     }
   }, [code, setCode]);
 
-  return { code, setCode, sketch };
+  return { code, setCode, sketch, setShouldRecompileAt };
 };
