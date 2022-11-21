@@ -1,0 +1,29 @@
+{
+  "name": "my-react-ts-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "ace-builds": "^1.13.1",
+    "dangerously-set-html-content": "^1.0.12",
+    "eslint": "^8.28.0",
+    "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "react-ace": "^10.1.0",
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.6"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
+    "@types/styled-components": "^5.1.26",
+    "@vitejs/plugin-react": "^2.2.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.2.3"
+  }
+}
