@@ -22,7 +22,7 @@ const getSketchKey = (sketch: Pick<ICurrentSketch, "id" | "name">) =>
 
 export const useSketchManager = () => {
   const dispatchSettings = useSettingsDispatchContext();
-  const { sketches } = useSettingsStateContext();
+  const { sketches, loadedSketchId } = useSettingsStateContext();
   const dispatchSketch = useCurrentSketchDispatchContext();
   const { setItem, getItem } = useLocalStorage();
 
@@ -46,18 +46,26 @@ export const useSketchManager = () => {
 
     if (loadedSketch) {
       dispatchSketch({ type: "setSketch", payload: loadedSketch });
+      dispatchSettings({
+        type: "setLoadedSketchId",
+        payload: { id: loadedSketch.id },
+      });
     }
   };
 
-  const getFirstSketch = () => {
-    const first = sketches[0];
-    if (R.isNil(first)) {
-      const sketch = fetchSketch(first);
+  const getInitialSketch = () => {
+    const loadedSketch = sketches.find(
+      (sketch) => sketch.id === loadedSketchId
+    );
+    const sketchToLoad = loadedSketch ?? sketches[0];
+    if (!R.isNil(sketchToLoad)) {
+      const sketch = fetchSketch(sketchToLoad);
+      console.log(sketch);
       if (sketch) {
         return sketch;
       }
     }
   };
 
-  return { newSketch, saveSketch, loadSketch, getFirstSketch };
+  return { newSketch, saveSketch, loadSketch, getInitialSketch };
 };

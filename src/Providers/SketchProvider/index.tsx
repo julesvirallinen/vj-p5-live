@@ -68,12 +68,12 @@ const reducer = (
 export const CurrentSketchProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { saveSketch, getFirstSketch } = useSketchManager();
+  const { saveSketch, getInitialSketch } = useSketchManager();
   const [state, dispatch] = useReducer(
     R.pipe(reducer, R.tap(saveSketch)),
     defaultSketch,
     (initialSketch) => {
-      return getFirstSketch() ?? initialSketch;
+      return getInitialSketch() ?? initialSketch;
     }
   );
 

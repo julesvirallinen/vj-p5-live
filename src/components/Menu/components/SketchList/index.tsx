@@ -8,7 +8,7 @@ export interface ISketchListProps {}
 const StyledSketchList = styled.div``;
 
 export const SketchList: React.FC<ISketchListProps> = ({ ...restProps }) => {
-  const { sketches } = useSettingsStateContext();
+  const { sketches, loadedSketchId } = useSettingsStateContext();
   const { loadSketch } = useSketchManager();
 
   return (
@@ -16,7 +16,7 @@ export const SketchList: React.FC<ISketchListProps> = ({ ...restProps }) => {
       <h4>Sketches</h4>
       {sketches.map((sketch) => (
         <li key={sketch.id} onClick={() => loadSketch(sketch)}>
-          {sketch.name}
+          {loadedSketchId === sketch.id ? <b>{sketch.name}</b> : sketch.name}
         </li>
       ))}
     </StyledSketchList>

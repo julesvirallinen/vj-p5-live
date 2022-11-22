@@ -6,6 +6,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 export interface ISettings {
   sketches: { name: string; id: string }[];
   showMenu: boolean;
+  loadedSketchId?: string;
 }
 
 export type IAction =
@@ -13,7 +14,8 @@ export type IAction =
       type: "addSketch";
       payload: { name: string; id: string };
     }
-  | { type: "toggleShowMenu" };
+  | { type: "toggleShowMenu" }
+  | { type: "setLoadedSketchId"; payload: { id: string } };
 
 const assocSettingsPath =
   (settings: ISettings) =>
@@ -37,12 +39,13 @@ const SettingsDispatchContext = createContext<React.Dispatch<IAction>>(
 const reducer = (settings: ISettings, action: IAction): ISettings => {
   const assoc = assocSettingsPath(settings);
   const assocSketches = assoc(["sketches"]);
-
   switch (action.type) {
     case "addSketch":
       return assocSketches(R.union([action.payload], settings.sketches));
     case "toggleShowMenu":
       return assoc(["showMenu"])(!settings.showMenu);
+    case "setLoadedSketchId":
+      return assoc(["loadedSketchId"])(action.payload.id);
     default:
       throw new Error();
   }
