@@ -3,10 +3,9 @@ import "./App.css";
 import { CanvasWrapper } from "./components/CanvasWrapper";
 import styled from "styled-components";
 import { Menu } from "./components/Menu";
-import { CurrentSketchContextProvider } from "./Providers/currentSketchProvider";
-import { useCurrentSketchData } from "./hooks/useCurrentSketchData";
 import { ShortcutProvider } from "./Providers/ShortcutProvider";
-import { SettingsProvider } from "./hooks/useSettings";
+import { SettingsProvider } from "./Providers/SettingsProvider";
+import { CurrentSketchProvider } from "./Providers/SketchProvider";
 
 const StyledApp = styled.div`
   margin: 0;
@@ -14,17 +13,15 @@ const StyledApp = styled.div`
 `;
 
 const App: FC = () => {
-  const props = useCurrentSketchData();
-
   return (
     <StyledApp>
       <SettingsProvider>
-        <CurrentSketchContextProvider value={props}>
+        <CurrentSketchProvider>
           <ShortcutProvider>
             <CanvasWrapper />
             <Menu />
           </ShortcutProvider>
-        </CurrentSketchContextProvider>
+        </CurrentSketchProvider>
       </SettingsProvider>
     </StyledApp>
   );

@@ -1,9 +1,8 @@
-import { Component, FC, useEffect } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 import InnerHTML from "dangerously-set-html-content";
 import * as SNIPPETS from "./snippets";
-import { useCurrentSketchContext } from "../../Providers/currentSketchProvider";
-import { useModifyCode } from "../../hooks/useModifyCode";
+import { useCurrentSketchStateContext } from "../../Providers/SketchProvider";
 
 interface P5CanvasProps {}
 
@@ -11,7 +10,7 @@ const StyledCanvas = styled.div``;
 
 // i'm not sure this can ever be production safe :D very dangerous
 export const P5Canvas: FC<P5CanvasProps> = ({ ...rest }) => {
-  const { code } = useCurrentSketchContext();
+  const { code } = useCurrentSketchStateContext();
 
   const html = `
     <script type="text/javascript"> ${code}</script>

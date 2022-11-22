@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import CurrentSketchContext, {
-  useCurrentSketchContext,
-} from "../Providers/currentSketchProvider";
+import { useCurrentSketchStateContext } from "../Providers/SketchProvider";
+
 import { P5Canvas } from "./P5Canvas";
 import { P5Editor } from "./P5Editor";
 
@@ -26,10 +25,6 @@ const StyledEditor = styled(P5Editor)`
 export const CanvasWrapper: React.FC<ICanvasWrapperProps> = ({
   ...restProps
 }) => {
-  const { sketch } = useCurrentSketchContext();
-
-  const shouldRecompileAt = sketch?.shouldRecompileAt;
-
   return (
     <StyledCanvasWrapper {...restProps}>
       <P5Canvas />

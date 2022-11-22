@@ -5,7 +5,10 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-iplastic";
 import "ace-builds/src-noconflict/ext-language_tools";
-import { useCurrentSketchContext } from "../../Providers/currentSketchProvider";
+import {
+  useCurrentSketchDispatchContext,
+  useCurrentSketchStateContext,
+} from "../../Providers/SketchProvider";
 
 export interface IP5EditorProps {}
 
@@ -31,7 +34,9 @@ const StyledP5Editor = styled(AceEditor)`
 `;
 
 export const P5Editor: React.FC<IP5EditorProps> = ({ ...restProps }) => {
-  const { code, setCode } = useCurrentSketchContext();
+  const { code } = useCurrentSketchStateContext();
+
+  const dispatch = useCurrentSketchDispatchContext();
 
   return (
     <StyledP5Editor
@@ -41,7 +46,9 @@ export const P5Editor: React.FC<IP5EditorProps> = ({ ...restProps }) => {
       highlightActiveLine={false}
       mode="java"
       theme="iplastic"
-      onChange={setCode}
+      onChange={(updatedCode) =>
+        dispatch({ type: "updateCode", payload: { code: updatedCode } })
+      }
       showPrintMargin={false}
       value={code}
       name="UNIQUE_ID_OF_DIV"

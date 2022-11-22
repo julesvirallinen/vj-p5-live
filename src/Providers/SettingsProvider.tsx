@@ -1,6 +1,7 @@
 import React, { createContext, FC, useContext, useReducer } from "react";
 import * as R from "ramda";
 import { Path } from "ramda";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export interface ISettings {
   sketches: string[];
@@ -50,7 +51,21 @@ const reducer = (settings: ISettings, action: IAction): ISettings => {
 export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { setItem, getItem } = useLocalStorage();
+  const updateSettings = (settings: ISettings) => setItem("settings", settings);
+
+  const [state, dispatch] = useReducer(
+    R.pipe(reducer, R.tap(updateSettings)),
+    initialState,
+    (initial) => {
+      const fromStorage = getItem<ISettings>("settings");
+      console.log();
+      if (fromStorage) {
+        return fromStorage;
+      }
+      return initial;
+    }
+  );
 
   return (
     <SettingsDispatchContext.Provider value={dispatch}>

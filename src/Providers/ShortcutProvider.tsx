@@ -1,6 +1,5 @@
-import { useCallback } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
-import { useSettingsDispatchContext } from "../hooks/useSettings";
+import { useSettingsDispatchContext } from "./SettingsProvider";
 
 /**
  * TODO: override ace shortcuts
