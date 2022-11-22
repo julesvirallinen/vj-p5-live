@@ -6,6 +6,7 @@ import { Menu } from "./components/Menu";
 import { CurrentSketchContextProvider } from "./Providers/currentSketchProvider";
 import { useCurrentSketchData } from "./hooks/useCurrentSketchData";
 import { ShortcutProvider } from "./Providers/ShortcutProvider";
+import { SettingsProvider } from "./hooks/useSettings";
 
 const StyledApp = styled.div`
   margin: 0;
@@ -17,12 +18,14 @@ const App: FC = () => {
 
   return (
     <StyledApp>
-      <CurrentSketchContextProvider value={props}>
-        <ShortcutProvider>
-          <CanvasWrapper />
-          <Menu />
-        </ShortcutProvider>
-      </CurrentSketchContextProvider>
+      <SettingsProvider>
+        <CurrentSketchContextProvider value={props}>
+          <ShortcutProvider>
+            <CanvasWrapper />
+            <Menu />
+          </ShortcutProvider>
+        </CurrentSketchContextProvider>
+      </SettingsProvider>
     </StyledApp>
   );
 };
