@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
-import { useCurrentSketchContext } from "./currentSketchProvider";
+import { useSettingsDispatchContext } from "../hooks/useSettings";
 
 /**
  * TODO: override ace shortcuts
@@ -8,7 +8,7 @@ import { useCurrentSketchContext } from "./currentSketchProvider";
  */
 
 const keyMap = {
-  COMPILE: "ctrl+enter",
+  SHOW_MENU: "ctrl+m",
 };
 
 interface IShortcutProviderProps {
@@ -18,14 +18,10 @@ interface IShortcutProviderProps {
 export const ShortcutProvider: React.FC<IShortcutProviderProps> = ({
   children,
 }) => {
-  const { setShouldRecompileAt } = useCurrentSketchContext();
-
-  const updateShouldRecompile = useCallback(() => {
-    setShouldRecompileAt(new Date().getTime());
-  }, [setShouldRecompileAt]);
+  const dispatch = useSettingsDispatchContext();
 
   const handlers = {
-    COMPILE: updateShouldRecompile,
+    SHOW_MENU: () => dispatch({ type: "toggleShowMenu" }),
   };
 
   return (

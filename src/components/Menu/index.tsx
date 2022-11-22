@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useSettingsStateContext } from "../../hooks/useSettings";
 import { CurrentSketchSettings } from "./components/CurrentSketch";
 
 export interface IMenuProps {}
@@ -14,6 +15,12 @@ const StyledMenu = styled.div`
 `;
 
 export const Menu: React.FC<IMenuProps> = ({ ...restProps }) => {
+  const { showMenu } = useSettingsStateContext();
+
+  if (!showMenu) {
+    return null;
+  }
+
   return (
     <StyledMenu {...restProps}>
       <CurrentSketchSettings />

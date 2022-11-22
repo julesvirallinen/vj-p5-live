@@ -1,15 +1,18 @@
-import { createContext, FC, useContext, useReducer } from "react";
+import React, { createContext, FC, useContext, useReducer } from "react";
 import * as R from "ramda";
 import { Path } from "ramda";
 
 export interface ISettings {
   sketches: string[];
+  showMenu: boolean;
 }
 
-export type IAction = {
-  type: "addSketch";
-  payload: { sketchId: string };
-};
+export type IAction =
+  | {
+      type: "addSketch";
+      payload: { sketchId: string };
+    }
+  | { type: "toggleShowMenu" };
 
 const assocSettingsPath =
   (settings: ISettings) =>
@@ -17,13 +20,18 @@ const assocSettingsPath =
   (val: unknown): ISettings =>
     R.assocPath(path, val, settings);
 
-const initialState = { sketches: ["sketch", "wohoo"] };
+const initialState: ISettings = {
+  sketches: ["sketch", "wohoo"],
+  showMenu: true,
+};
 
 // context for using state
 const SettingsStateContext = createContext<ISettings>({} as ISettings);
 
 // context for updating state
-const SettingsDispatchContext = createContext({});
+const SettingsDispatchContext = createContext<React.Dispatch<IAction>>(
+  () => {}
+);
 
 const reducer = (settings: ISettings, action: IAction): ISettings => {
   const assoc = assocSettingsPath(settings);
@@ -32,7 +40,8 @@ const reducer = (settings: ISettings, action: IAction): ISettings => {
   switch (action.type) {
     case "addSketch":
       return assocSketches(R.union([action.payload.sketchId]));
-
+    case "toggleShowMenu":
+      return assoc(["showMenu"])(!settings.showMenu);
     default:
       throw new Error();
   }
