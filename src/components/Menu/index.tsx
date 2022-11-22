@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useSettingsStateContext } from "../../Providers/SettingsProvider";
 import { CurrentSketchSettings } from "./components/CurrentSketch";
+import { NewSketch } from "./components/NewSketch";
+import { SketchList } from "./components/SketchList";
 
 export interface IMenuProps {}
 
@@ -24,6 +26,8 @@ export const Menu: React.FC<IMenuProps> = ({ ...restProps }) => {
   return (
     <StyledMenu {...restProps}>
       <CurrentSketchSettings />
+      <NewSketch />
+      <SketchList />
     </StyledMenu>
   );
 };

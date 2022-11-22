@@ -9,6 +9,7 @@ import {
   useCurrentSketchDispatchContext,
   useCurrentSketchStateContext,
 } from "../../Providers/SketchProvider";
+import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 
 export interface IP5EditorProps {}
 
@@ -34,10 +35,7 @@ const StyledP5Editor = styled(AceEditor)`
 `;
 
 export const P5Editor: React.FC<IP5EditorProps> = ({ ...restProps }) => {
-  const { code } = useCurrentSketchStateContext();
-
-  const dispatch = useCurrentSketchDispatchContext();
-
+  const { updateSketch, code } = useCurrentSketch();
   return (
     <StyledP5Editor
       {...restProps}
@@ -46,9 +44,7 @@ export const P5Editor: React.FC<IP5EditorProps> = ({ ...restProps }) => {
       highlightActiveLine={false}
       mode="java"
       theme="iplastic"
-      onChange={(updatedCode) =>
-        dispatch({ type: "updateCode", payload: { code: updatedCode } })
-      }
+      onChange={updateSketch}
       showPrintMargin={false}
       value={code}
       name="UNIQUE_ID_OF_DIV"

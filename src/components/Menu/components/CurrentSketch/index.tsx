@@ -11,7 +11,6 @@ export const CurrentSketchSettings: React.FC<ICurrentSketchSettingsProps> = ({
   ...restProps
 }) => {
   const { name } = useCurrentSketchStateContext();
-  const { sketches } = useSettingsStateContext();
 
   if (!name) {
     return null;
@@ -21,7 +20,6 @@ export const CurrentSketchSettings: React.FC<ICurrentSketchSettingsProps> = ({
     <StyledCurrentSketchSettings {...restProps}>
       Current sketch
       <div>name: {name}</div>
-      {sketches.join("\n")}
     </StyledCurrentSketchSettings>
   );
 };

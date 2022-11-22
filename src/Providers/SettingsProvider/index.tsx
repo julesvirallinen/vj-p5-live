@@ -1,17 +1,18 @@
 import React, { createContext, FC, useContext, useReducer } from "react";
 import * as R from "ramda";
 import { Path } from "ramda";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { defaultSketchCode } from "../SketchProvider";
 
 export interface ISettings {
-  sketches: string[];
+  sketches: { name: string; id: string }[];
   showMenu: boolean;
 }
 
 export type IAction =
   | {
       type: "addSketch";
-      payload: { sketchId: string };
+      payload: { name: string; id: string };
     }
   | { type: "toggleShowMenu" };
 
@@ -22,7 +23,7 @@ const assocSettingsPath =
     R.assocPath(path, val, settings);
 
 const initialState: ISettings = {
-  sketches: ["sketch", "wohoo"],
+  sketches: [],
   showMenu: true,
 };
 
@@ -40,7 +41,7 @@ const reducer = (settings: ISettings, action: IAction): ISettings => {
 
   switch (action.type) {
     case "addSketch":
-      return assocSketches(R.union([action.payload.sketchId]));
+      return assocSketches(R.union([action.payload], settings.sketches));
     case "toggleShowMenu":
       return assoc(["showMenu"])(!settings.showMenu);
     default:
@@ -76,7 +77,6 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
   );
 };
 
-// use them context we've created
 export const useSettingsStateContext = () => useContext(SettingsStateContext);
 export const useSettingsDispatchContext = () =>
   useContext(SettingsDispatchContext);

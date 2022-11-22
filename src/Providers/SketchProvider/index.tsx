@@ -1,7 +1,7 @@
 import React, { createContext, FC, useContext, useReducer } from "react";
 import * as R from "ramda";
 import { Path } from "ramda";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useSketchManager } from "../../hooks/useSketchManager";
 
 export interface ICurrentSketch {
   code: string;
@@ -9,12 +9,17 @@ export interface ICurrentSketch {
   name: string;
 }
 
-export type IAction = {
-  type: "updateCode";
-  payload: { code: string };
-};
+export type IAction =
+  | {
+      type: "updateCode";
+      payload: { code: string };
+    }
+  | {
+      type: "setSketch";
+      payload: ICurrentSketch;
+    };
 
-const defaultSketchCode = `
+export const defaultSketchCode = `
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -27,7 +32,7 @@ function draw() {
 
 `;
 
-const initialState: ICurrentSketch = {
+export const defaultSketch: ICurrentSketch = {
   name: "new",
   code: defaultSketchCode,
   id: "defaultNew",
@@ -53,16 +58,24 @@ const reducer = (
   switch (action.type) {
     case "updateCode":
       return assoc(["code"], action.payload.code);
+    case "setSketch":
+      return action.payload;
     default:
-      throw new Error();
+      throw new Error(`action type not implemented`);
   }
 };
 
 export const CurrentSketchProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const local = useLocalStorage();
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { saveSketch, getFirstSketch } = useSketchManager();
+  const [state, dispatch] = useReducer(
+    R.pipe(reducer, R.tap(saveSketch)),
+    defaultSketch,
+    (initialSketch) => {
+      return getFirstSketch() ?? initialSketch;
+    }
+  );
 
   return (
     <CurrentSketchDispatchContext.Provider value={dispatch}>
