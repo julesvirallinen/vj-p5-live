@@ -1,4 +1,3 @@
-import { useSettingsDispatchContext } from "../Providers/SettingsProvider";
 import {
   useCurrentSketchDispatchContext,
   useCurrentSketchStateContext,

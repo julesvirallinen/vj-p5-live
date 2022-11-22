@@ -45,7 +45,7 @@ const CurrentSketchStateContext = createContext<ICurrentSketch>(
 
 // context for updating state
 const CurrentSketchDispatchContext = createContext<React.Dispatch<IAction>>(
-  () => {}
+  () => ({})
 );
 
 const reducer = (

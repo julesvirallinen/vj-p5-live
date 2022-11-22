@@ -5,13 +5,7 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-iplastic";
 import "ace-builds/src-noconflict/ext-language_tools";
-import {
-  useCurrentSketchDispatchContext,
-  useCurrentSketchStateContext,
-} from "../../Providers/SketchProvider";
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
-
-export interface IP5EditorProps {}
 
 const StyledP5Editor = styled(AceEditor)`
   background-color: transparent;
@@ -34,7 +28,7 @@ const StyledP5Editor = styled(AceEditor)`
   }
 `;
 
-export const P5Editor: React.FC<IP5EditorProps> = ({ ...restProps }) => {
+export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
   return (
     <StyledP5Editor

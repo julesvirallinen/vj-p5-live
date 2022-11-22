@@ -2,7 +2,6 @@ import React, { createContext, FC, useContext, useReducer } from "react";
 import * as R from "ramda";
 import { Path } from "ramda";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { defaultSketchCode } from "../SketchProvider";
 
 export interface ISettings {
   sketches: { name: string; id: string }[];
@@ -32,7 +31,7 @@ const SettingsStateContext = createContext<ISettings>({} as ISettings);
 
 // context for updating state
 const SettingsDispatchContext = createContext<React.Dispatch<IAction>>(
-  () => {}
+  () => ({})
 );
 
 const reducer = (settings: ISettings, action: IAction): ISettings => {

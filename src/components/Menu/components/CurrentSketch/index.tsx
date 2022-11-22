@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useSettingsStateContext } from "../../../../Providers/SettingsProvider";
-import { useCurrentSketchStateContext } from "../../../../Providers/SketchProvider";
+import { useCurrentSketch } from "../../../../hooks/useCurrentSketch";
 
 export interface ICurrentSketchSettingsProps {}
 
@@ -10,11 +9,7 @@ const StyledCurrentSketchSettings = styled.div``;
 export const CurrentSketchSettings: React.FC<ICurrentSketchSettingsProps> = ({
   ...restProps
 }) => {
-  const { name } = useCurrentSketchStateContext();
-
-  if (!name) {
-    return null;
-  }
+  const { name } = useCurrentSketch();
 
   return (
     <StyledCurrentSketchSettings {...restProps}>

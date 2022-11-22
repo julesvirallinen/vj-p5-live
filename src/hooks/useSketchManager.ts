@@ -51,7 +51,7 @@ export const useSketchManager = () => {
 
   const getFirstSketch = () => {
     const first = sketches[0];
-    if (first) {
+    if (R.isNil(first)) {
       const sketch = fetchSketch(first);
       if (sketch) {
         return sketch;

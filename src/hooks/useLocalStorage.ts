@@ -1,7 +1,9 @@
+import * as R from "ramda";
+
 export const useLocalStorage = () => {
   const getItem = <T>(name: string): T | null => {
     const raw = localStorage.getItem(name);
-    if (!raw) return null;
+    if (R.isNil(raw)) return null;
 
     return JSON.parse(raw);
   };

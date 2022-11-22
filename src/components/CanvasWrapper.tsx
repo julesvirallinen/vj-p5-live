@@ -1,6 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useCurrentSketchStateContext } from "../Providers/SketchProvider";
 
 import { P5Canvas } from "./P5Canvas";
 import { P5Editor } from "./P5Editor";
