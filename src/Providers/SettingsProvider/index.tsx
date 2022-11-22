@@ -7,6 +7,7 @@ export interface ISettings {
   sketches: { name: string; id: string }[];
   showMenu: boolean;
   loadedSketchId?: string;
+  compileAfterMs: number;
 }
 
 export type IAction =
@@ -26,6 +27,7 @@ const assocSettingsPath =
 const initialState: ISettings = {
   sketches: [],
   showMenu: true,
+  compileAfterMs: 2000,
 };
 
 // context for using state
@@ -64,7 +66,7 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
       const fromStorage = getItem<ISettings>("settings");
       console.log();
       if (fromStorage) {
-        return fromStorage;
+        return R.mergeLeft(fromStorage, initial);
       }
       return initial;
     }

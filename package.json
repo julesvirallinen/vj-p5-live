@@ -31,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
     "@vitejs/plugin-react": "^2.2.0",
+    "eslint-plugin-react": "^7.31.11",
     "typescript": "^4.6.4",
     "vite": "^3.2.3"
   }
