@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
-import { useSettingsStateContext } from "../Providers/SettingsProvider";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useSettingsDispatchContext,
+  useSettingsStateContext,
+} from "../Providers/SettingsProvider";
 import {
   useCurrentSketchDispatchContext,
   useCurrentSketchStateContext,
@@ -7,8 +10,11 @@ import {
 
 export const useCurrentSketch = () => {
   const sketch = useCurrentSketchStateContext();
+
   const dispatchCurrentSketch = useCurrentSketchDispatchContext();
-  const { compileAfterMs } = useSettingsStateContext();
+  const dispatchSettings = useSettingsDispatchContext();
+
+  const { compileAfterMs, loadedSketchId } = useSettingsStateContext();
   const [codeToCompile, setCodeToCompile] = useState(sketch.code);
   const [lastCompiledAt, setLastCompiledAt] = useState(new Date().getTime());
 

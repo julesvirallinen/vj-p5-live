@@ -12,7 +12,7 @@ const StyledMenu = styled.div`
   right: 0;
   height: 100vh;
   width: 10rem;
-  background-color: black;
+  background-color: #000;
   top: 0;
 `;
 

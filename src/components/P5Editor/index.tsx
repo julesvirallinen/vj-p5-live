@@ -38,6 +38,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
       highlightActiveLine={false}
       mode="java"
       theme="iplastic"
+      fontSize={15}
       onChange={updateSketch}
       showPrintMargin={false}
       value={code}

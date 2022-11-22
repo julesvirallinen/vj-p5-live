@@ -1,13 +1,22 @@
-import React, { createContext, FC, useContext, useReducer } from "react";
+import React, {
+  createContext,
+  FC,
+  useContext,
+  useReducer,
+  useRef,
+} from "react";
 import * as R from "ramda";
 import { Path } from "ramda";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+
+export const NON_PERSISTED_KEYS = ["internal", "compileAfterMs"];
 
 export interface ISettings {
   sketches: { name: string; id: string }[];
   showMenu: boolean;
   loadedSketchId?: string;
   compileAfterMs: number;
+  internal: { canvasRef: React.RefObject<HTMLDivElement> | null };
 }
 
 export type IAction =
@@ -27,6 +36,7 @@ const assocSettingsPath =
 const initialState: ISettings = {
   sketches: [],
   showMenu: true,
+  compileAfterMs: 500,
   compileAfterMs: 2000,
 };
 
@@ -57,14 +67,16 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { setItem, getItem } = useLocalStorage();
-  const updateSettings = (settings: ISettings) => setItem("settings", settings);
+  const canvasRef = useRef<HTMLDivElement | null>(null);
+
+  const updateSettings = (settings: ISettings) =>
+    setItem("settings", R.omit(NON_PERSISTED_KEYS, settings));
 
   const [state, dispatch] = useReducer(
     R.pipe(reducer, R.tap(updateSettings)),
     initialState,
     (initial) => {
       const fromStorage = getItem<ISettings>("settings");
-      console.log();
       if (fromStorage) {
         return R.mergeLeft(fromStorage, initial);
       }

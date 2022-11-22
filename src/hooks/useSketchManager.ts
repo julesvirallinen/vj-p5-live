@@ -60,7 +60,6 @@ export const useSketchManager = () => {
     const sketchToLoad = loadedSketch ?? sketches[0];
     if (!R.isNil(sketchToLoad)) {
       const sketch = fetchSketch(sketchToLoad);
-      console.log(sketch);
       if (sketch) {
         return sketch;
       }
