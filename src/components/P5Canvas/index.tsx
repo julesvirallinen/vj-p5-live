@@ -1,10 +1,13 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import styled from "styled-components";
 import InnerHTML from "dangerously-set-html-content";
 import * as SNIPPETS from "./snippets";
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 import CustomIframe from "./components/CanvasIframe";
-import { useSettingsStateContext } from "../../Providers/SettingsProvider";
+import {
+  useSettingsDispatchContext,
+  useSettingsStateContext,
+} from "../../Providers/SettingsProvider";
 
 const StyledCanvas = styled.div`
   width: 100vw;
@@ -23,10 +26,21 @@ const CanvasIframe = styled(CustomIframe)`
 `;
 
 export const P5Canvas: FC = ({ ...rest }) => {
-  const { codeToCompile } = useCurrentSketch();
+  const { codeToCompile, id } = useCurrentSketch();
   const {
     internal: { lastHardCompiledAt },
   } = useSettingsStateContext();
+  const dispatch = useSettingsDispatchContext();
+
+  useEffect(() => {
+    setTimeout(
+      () =>
+        dispatch({
+          type: "resetCanvasKey",
+        }),
+      1000
+    );
+  }, [id]);
 
   const html = `
   <script type="text/javascript"> ${codeToCompile}</script>
@@ -39,10 +53,9 @@ export const P5Canvas: FC = ({ ...rest }) => {
     
   </script>
   <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.min.js"></script>
 
 `;
-
-  console.log(lastHardCompiledAt);
 
   return (
     <StyledCanvas id={"p5canvas-container"} {...rest}>

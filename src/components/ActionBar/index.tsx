@@ -1,5 +1,7 @@
 import React, { KeyboardEventHandler, useState } from "react";
 import styled from "styled-components";
+import { useSketchManager } from "../../hooks/useSketchManager";
+import { useSettingsStateContext } from "../../Providers/SettingsProvider";
 
 export interface IActionBarProps {}
 
@@ -17,10 +19,20 @@ const StyledInput = styled.input`
 
 export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const [command, setCommand] = useState(">");
+  const { sketches } = useSettingsStateContext();
+  const { loadSketch } = useSketchManager();
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === "Enter") {
-      console.log("do validate");
+      const commandRegex = /(s )(.+)$/;
+      const match = command.match(commandRegex);
+
+      if (match && match[1] == "s ") {
+        const sketchToLoad = sketches.find((sketch) =>
+          sketch.name.includes(match[2])
+        );
+        loadSketch(sketchToLoad);
+      }
     }
   };
 

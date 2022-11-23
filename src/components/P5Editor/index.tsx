@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import AceEditor from "react-ace";
 
@@ -9,6 +9,7 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 import { GlobalHotKeys } from "react-hotkeys";
 import { useSettingsDispatchContext } from "../../Providers/SettingsProvider";
+import { useSketchManager } from "../../hooks/useSketchManager";
 
 const StyledP5Editor = styled(AceEditor)`
   background-color: transparent;
@@ -34,6 +35,7 @@ const StyledP5Editor = styled(AceEditor)`
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
   const dispatch = useSettingsDispatchContext();
+
   return (
     <StyledP5Editor
       {...restProps}
