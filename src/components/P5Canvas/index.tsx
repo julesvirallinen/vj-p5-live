@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import InnerHTML from "dangerously-set-html-content";
 import * as SNIPPETS from "./snippets";
@@ -16,6 +16,15 @@ const StyledCanvas = styled.div`
   top: 0;
 `;
 
+const StyledLoading = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 0;
+  color: black;
+  background-color: black;
+  color-scheme: none;
+`;
+
 const CanvasIframe = styled(CustomIframe)`
   width: 100%;
   height: 100%;
@@ -27,19 +36,24 @@ const CanvasIframe = styled(CustomIframe)`
 
 export const P5Canvas: FC = ({ ...rest }) => {
   const { codeToCompile, id } = useCurrentSketch();
+  const [loading, setLoading] = useState(false);
   const {
     internal: { lastHardCompiledAt },
   } = useSettingsStateContext();
   const dispatch = useSettingsDispatchContext();
 
   useEffect(() => {
-    setTimeout(
-      () =>
-        dispatch({
-          type: "resetCanvasKey",
-        }),
-      1000
-    );
+    // TODO: improve reset on sketch change
+    // This seems to work but takes a second...
+    // TODO: load scripts locally?
+    setLoading(true);
+    const timer = setTimeout(() => {
+      dispatch({
+        type: "resetCanvasKey",
+      });
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, [id]);
 
   const html = `
@@ -56,10 +70,17 @@ export const P5Canvas: FC = ({ ...rest }) => {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.min.js"></script>
 
 `;
+  if (loading) {
+    return <StyledLoading />;
+  }
 
   return (
-    <StyledCanvas id={"p5canvas-container"} {...rest}>
-      <CanvasIframe content={html} key={`${lastHardCompiledAt}`}>
+    <StyledCanvas
+      id={"p5canvas-container"}
+      {...rest}
+      key={`${lastHardCompiledAt}`}
+    >
+      <CanvasIframe>
         <InnerHTML html={html} />
       </CanvasIframe>
     </StyledCanvas>

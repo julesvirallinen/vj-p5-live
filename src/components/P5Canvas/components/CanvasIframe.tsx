@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 
 interface ICanvasIframeProps {
   children: React.ReactNode;
-  content: string;
 }
 
 const CustomIframe: FC<ICanvasIframeProps> = ({ children, ...props }) => {
