@@ -1,10 +1,7 @@
 import * as R from "ramda";
 import { useCallback, useEffect, useState } from "react";
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
-import {
-  useSettingsDispatchContext,
-  useSettingsStateContext,
-} from "../../Providers/SettingsProvider";
+import { useSettingsStateContext } from "../../Providers/SettingsProvider";
 import { useSketchCodeManager } from "./useSketchCodeManager";
 
 export type TInnerHTMLScript = {
@@ -13,27 +10,12 @@ export type TInnerHTMLScript = {
   content?: string;
   shouldOverwrite?: boolean;
 };
+
 export type TSrcScript = {
   type: "path";
   path: string;
   id: string;
   shouldOverwrite?: boolean;
-};
-
-const resetSketch = (doc: Document | undefined, callback: () => void) => {
-  if (R.isNil(doc)) return null;
-  const main = doc.getElementsByTagName("main")[0];
-  doc.getElementsByTagName("main")[0]?.remove();
-  for (const tag of doc.getElementsByTagName("script")) {
-    tag.remove();
-  }
-
-  const script = doc.createElement("script");
-  script.innerHTML = `setup()`;
-  script.id = "setupCaller";
-
-  doc.body.appendChild(script);
-  doc.body.append(main);
 };
 
 const loadScriptTags = (
@@ -65,15 +47,11 @@ const loadProcessingScripts = (
   if (R.isNil(doc)) return null;
   const hasCallback = !R.isNil(callback);
   const existingScript = doc.getElementById(scriptProps.id);
+  existingScript?.remove();
   const script = doc.createElement("script");
 
-  if (scriptProps?.shouldOverwrite && existingScript) {
-    existingScript.innerHTML = scriptProps?.content ?? "";
-    console.log("replaced user code");
-    existingScript.onload = () => {
-      if (hasCallback) callback();
-    };
-  }
+  script.id = scriptProps.id;
+
   script.innerHTML = scriptProps.content ?? "";
 
   doc.body.appendChild(script);
@@ -84,9 +62,11 @@ const loadProcessingScripts = (
   if (existingScript && hasCallback) callback();
 };
 
-export const useScriptLoader = (iframeDocument: Document | undefined) => {
+export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
+  const iframeContentWindow = iframeRef?.contentWindow;
+  const iframeDocument = iframeContentWindow?.document;
   const [p5loaded, setP5loaded] = useState(false);
-  const [useCodeLoaded, setUserCodeLoaded] = useState(false);
+  const [userCodeLoaded, setUserCodeLoaded] = useState(false);
   const { id } = useCurrentSketch();
 
   const {
@@ -95,15 +75,8 @@ export const useScriptLoader = (iframeDocument: Document | undefined) => {
 
   const sketchCode = useSketchCodeManager();
 
-  const resetSketchCallback = useCallback(() => {
-    if (!useCodeLoaded) return;
-    console.log("restr");
-    resetSketch(iframeDocument, () => {
-      console.log("reset sketch");
-    });
-  }, [useCodeLoaded, iframeDocument]);
-
   const loadUserCode = useCallback(() => {
+    setUserCodeLoaded(false);
     loadProcessingScripts(
       iframeDocument,
       {
@@ -119,24 +92,56 @@ export const useScriptLoader = (iframeDocument: Document | undefined) => {
     );
   }, [sketchCode, iframeDocument]);
 
+  const loadScripts = useCallback(() => {
+    loadScriptTags(
+      iframeDocument,
+      {
+        id: "p5jssound",
+        path: "/public/js/p5sound.min.js",
+        type: "path",
+      },
+      () => {
+        loadUserCode();
+      }
+    );
+  }, [iframeDocument, loadUserCode]);
+
   const loadP5js = useCallback(() => {
     loadScriptTags(
       iframeDocument,
       { id: "p5js", path: "/public/js/p5.min.js", type: "path" },
       () => {
-        console.log("loaded p5js");
         setP5loaded(true);
+        loadScripts();
       }
     );
-  }, [iframeDocument]);
+  }, [iframeDocument, loadScripts]);
 
   useEffect(() => {
-    console.log(iframeDocument?.body);
-    !p5loaded && loadP5js();
+    loadP5js();
+  }, [loadP5js]);
+
+  useEffect(() => {
     loadUserCode();
-  }, [sketchCode, id, p5loaded, loadP5js, loadUserCode, iframeDocument]);
+  }, [
+    sketchCode,
+    p5loaded,
+    loadP5js,
+    loadUserCode,
+    iframeDocument,
+    lastHardCompiledAt,
+    id,
+  ]);
 
+  // implicitly run on lastHardCompiledAt or id change, not great :)
   useEffect(() => {
-    resetSketchCallback();
-  }, [resetSketchCallback, lastHardCompiledAt, id]);
+    if (iframeContentWindow && userCodeLoaded) {
+      // @ts-ignore
+      iframeContentWindow.frameCount = 0;
+      // @ts-ignore
+      iframeContentWindow.setup();
+    }
+  }, [lastHardCompiledAt, iframeContentWindow, id, userCodeLoaded]);
+
+  return { userCodeLoaded };
 };

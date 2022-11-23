@@ -31,7 +31,7 @@ const CanvasIframe = styled(CanvasFrameForwardRef)`
 
 export const P5Canvas: FC = ({ ...rest }) => {
   const canvasRef = useRef<HTMLIFrameElement | null>(null);
-  const doc = canvasRef?.current?.contentWindow?.document;
+  const doc = canvasRef?.current;
   useScriptLoader(doc);
 
   return (

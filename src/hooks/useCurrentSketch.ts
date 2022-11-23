@@ -16,8 +16,8 @@ export const useCurrentSketch = () => {
   const [lastKeystrokeAt, setLastKeystrokeAt] = useState(new Date().getTime());
 
   useEffect(() => {
+    const currentTime = new Date().getTime();
     const interval = setInterval(() => {
-      const currentTime = new Date().getTime();
       if (
         currentTime - lastKeystrokeAt >
         compileAfterMs
@@ -27,7 +27,7 @@ export const useCurrentSketch = () => {
         setCodeToCompile(sketch.code);
         setLastCompiledAt(new Date().getTime());
       }
-    }, 10);
+    }, 500);
     return () => {
       clearInterval(interval);
     };
