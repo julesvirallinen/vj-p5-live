@@ -10,7 +10,6 @@ export const useSketchCodeManager = () => {
     ${SNIPPETS.windowResizer}
     ${SNIPPETS.customEase}
     ${SNIPPETS.processingLoggingCompatability}
-
     ${codeToCompile}
     
 

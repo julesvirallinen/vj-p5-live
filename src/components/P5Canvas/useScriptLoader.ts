@@ -5,14 +5,12 @@ import { useSettingsStateContext } from "../../Providers/SettingsProvider";
 import { useSketchCodeManager } from "./useSketchCodeManager";
 
 export type TInnerHTMLScript = {
-  type: "innerHTML";
   id: string;
-  content?: string;
+  content: string;
   shouldOverwrite?: boolean;
 };
 
 export type TSrcScript = {
-  type: "path";
   path: string;
   id: string;
   shouldOverwrite?: boolean;
@@ -20,23 +18,27 @@ export type TSrcScript = {
 
 const loadScriptTags = (
   doc: Document | undefined,
-  scriptProps: TSrcScript,
-  callback: () => void
+  scripts: TSrcScript[],
+  setScriptLoaded: (scriptId: string) => void
 ) => {
   if (R.isNil(doc)) return null;
-  const hasCallback = !R.isNil(callback);
-  const existingScript = doc.getElementById(scriptProps.id);
+  for (const scriptProperties of scripts) {
+    const existingScript = doc.getElementById(scriptProperties.id);
 
-  if (!existingScript) {
-    const script = doc.createElement("script");
-    script.id = scriptProps.id;
-    script.src = scriptProps.path;
-    doc.body.appendChild(script);
-    script.onload = () => {
-      if (hasCallback) callback();
-    };
+    if (!existingScript) {
+      const script = doc.createElement("script");
+      script.id = scriptProperties.id;
+      script.type = "application/javascript";
+      script.src = scriptProperties.path;
+      doc.body.appendChild(script);
+
+      script.onload = () => {
+        setScriptLoaded(scriptProperties.id);
+      };
+    } else {
+      setScriptLoaded(scriptProperties.id);
+    }
   }
-  if (existingScript && hasCallback) callback();
 };
 
 const loadProcessingScripts = (
@@ -47,12 +49,16 @@ const loadProcessingScripts = (
   if (R.isNil(doc)) return null;
   const hasCallback = !R.isNil(callback);
   const existingScript = doc.getElementById(scriptProps.id);
-  existingScript?.remove();
+  if (existingScript) {
+    existingScript.innerHTML = scriptProps.content;
+
+    return;
+  }
   const script = doc.createElement("script");
 
   script.id = scriptProps.id;
 
-  script.innerHTML = scriptProps.content ?? "";
+  script.innerHTML = `${scriptProps.content}\n new p5()` ?? "";
 
   doc.body.appendChild(script);
   script.onload = () => {
@@ -62,10 +68,58 @@ const loadProcessingScripts = (
   if (existingScript && hasCallback) callback();
 };
 
+const scriptsToLoad = [
+  { id: "p5js", path: "/public/js/p5.min.js" },
+  {
+    id: "ramda",
+    path: "/public/js/ramda.min.js",
+  },
+  {
+    id: "p5jssound",
+    path: "/public/js/p5.sound.min.js",
+  },
+  {
+    id: "beatdetection",
+    path: "/src/data/js/beatDetection.js",
+  },
+  {
+    id: "djbox",
+    path: "/src/data/js/djbox.js",
+  },
+  {
+    id: "webmidi",
+    path: "/public/js/webmidi.min.js",
+  },
+  {
+    id: "config",
+    path: "/src/data/js/config_helper.js",
+  },
+  {
+    id: "universal",
+    path: "/src/data/js/universal_update.js",
+  },
+  {
+    id: "setupMidi",
+    path: "/src/data/js/setupMidi.js",
+  },
+  {
+    id: "palette",
+    path: "/src/data/js/palette.js",
+  },
+  {
+    id: "helpers",
+    path: "/src/data/js/helpers.js",
+  },
+  {
+    id: "setupaudio",
+    path: "/src/data/js/setupaudio.js",
+  },
+];
+
 export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   const iframeContentWindow = iframeRef?.contentWindow;
   const iframeDocument = iframeContentWindow?.document;
-  const [p5loaded, setP5loaded] = useState(false);
+  const [scriptsLoaded, setScriptsLoaded] = useState<string[]>([]);
   const [userCodeLoaded, setUserCodeLoaded] = useState(false);
   const { id } = useCurrentSketch();
 
@@ -76,12 +130,13 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   const sketchCode = useSketchCodeManager();
 
   const loadUserCode = useCallback(() => {
+    console.log(iframeDocument);
+    if (scriptsLoaded.length !== scriptsToLoad.length) return;
     setUserCodeLoaded(false);
     loadProcessingScripts(
       iframeDocument,
       {
         id: "userCode",
-        type: "innerHTML",
         content: sketchCode,
         shouldOverwrite: true,
       },
@@ -90,56 +145,38 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
         setUserCodeLoaded(true);
       }
     );
-  }, [sketchCode, iframeDocument]);
+  }, [sketchCode, iframeDocument, scriptsLoaded]);
 
   const loadScripts = useCallback(() => {
+    // load in order
     loadScriptTags(
       iframeDocument,
-      {
-        id: "p5jssound",
-        path: "/public/js/p5sound.min.js",
-        type: "path",
-      },
-      () => {
-        loadUserCode();
-      }
+      [scriptsToLoad.find((s) => !scriptsLoaded.includes(s.id))].filter(
+        Boolean
+      ),
+      (scriptName) => setScriptsLoaded([...scriptsLoaded, scriptName])
     );
-  }, [iframeDocument, loadUserCode]);
-
-  const loadP5js = useCallback(() => {
-    loadScriptTags(
-      iframeDocument,
-      { id: "p5js", path: "/public/js/p5.min.js", type: "path" },
-      () => {
-        setP5loaded(true);
-        loadScripts();
-      }
-    );
-  }, [iframeDocument, loadScripts]);
+  }, [iframeDocument, scriptsLoaded]);
 
   useEffect(() => {
-    loadP5js();
-  }, [loadP5js]);
+    loadScripts();
+  }, [loadScripts]);
 
   useEffect(() => {
     loadUserCode();
-  }, [
-    sketchCode,
-    p5loaded,
-    loadP5js,
-    loadUserCode,
-    iframeDocument,
-    lastHardCompiledAt,
-    id,
-  ]);
+  }, [sketchCode, loadUserCode, iframeDocument, lastHardCompiledAt, id]);
 
   // implicitly run on lastHardCompiledAt or id change, not great :)
   useEffect(() => {
-    if (iframeContentWindow && userCodeLoaded) {
-      // @ts-ignore
-      iframeContentWindow.frameCount = 0;
-      // @ts-ignore
-      iframeContentWindow.setup();
+    try {
+      if (iframeContentWindow && userCodeLoaded) {
+        // @ts-ignore
+        iframeContentWindow.frameCount = 0;
+        // @ts-ignore
+        iframeContentWindow.setup();
+      }
+    } catch (error) {
+      console.error(error.message);
     }
   }, [lastHardCompiledAt, iframeContentWindow, id, userCodeLoaded]);
 
