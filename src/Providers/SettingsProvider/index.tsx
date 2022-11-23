@@ -16,7 +16,7 @@ export interface ISettings {
   showMenu: boolean;
   loadedSketchId?: string;
   compileAfterMs: number;
-  internal: { canvasRef: React.RefObject<HTMLDivElement> | null };
+  internal: { lastHardCompiledAt: number };
 }
 
 export type IAction =
@@ -25,7 +25,8 @@ export type IAction =
       payload: { name: string; id: string };
     }
   | { type: "toggleShowMenu" }
-  | { type: "setLoadedSketchId"; payload: { id: string } };
+  | { type: "setLoadedSketchId"; payload: { id: string } }
+  | { type: "resetCanvasKey" };
 
 const assocSettingsPath =
   (settings: ISettings) =>
@@ -37,7 +38,9 @@ const initialState: ISettings = {
   sketches: [],
   showMenu: true,
   compileAfterMs: 500,
-  compileAfterMs: 2000,
+  internal: {
+    lastHardCompiledAt: new Date().getTime(),
+  },
 };
 
 // context for using state
@@ -58,6 +61,8 @@ const reducer = (settings: ISettings, action: IAction): ISettings => {
       return assoc(["showMenu"])(!settings.showMenu);
     case "setLoadedSketchId":
       return assoc(["loadedSketchId"])(action.payload.id);
+    case "resetCanvasKey":
+      return assoc(["internal", "lastHardCompiledAt"])(new Date().getTime());
     default:
       throw new Error();
   }
@@ -67,7 +72,6 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { setItem, getItem } = useLocalStorage();
-  const canvasRef = useRef<HTMLDivElement | null>(null);
 
   const updateSettings = (settings: ISettings) =>
     setItem("settings", R.omit(NON_PERSISTED_KEYS, settings));

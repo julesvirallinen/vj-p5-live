@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { createPortal } from "react-dom";
 
-const CustomIframe = ({ children, ...props }) => {
+interface ICanvasIframeProps {
+  children: React.ReactNode;
+  content: string;
+}
+
+const CustomIframe: FC<ICanvasIframeProps> = ({ children, ...props }) => {
   const [contentRef, setContentRef] = useState<HTMLIFrameElement | null>(null);
 
   const mountNode = contentRef?.contentWindow?.document?.body;

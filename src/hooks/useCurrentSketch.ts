@@ -1,8 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  useSettingsDispatchContext,
-  useSettingsStateContext,
-} from "../Providers/SettingsProvider";
+import { useEffect, useState } from "react";
+import { useSettingsStateContext } from "../Providers/SettingsProvider";
 import {
   useCurrentSketchDispatchContext,
   useCurrentSketchStateContext,
@@ -12,9 +9,8 @@ export const useCurrentSketch = () => {
   const sketch = useCurrentSketchStateContext();
 
   const dispatchCurrentSketch = useCurrentSketchDispatchContext();
-  const dispatchSettings = useSettingsDispatchContext();
 
-  const { compileAfterMs, loadedSketchId } = useSettingsStateContext();
+  const { compileAfterMs } = useSettingsStateContext();
   const [codeToCompile, setCodeToCompile] = useState(sketch.code);
   const [lastCompiledAt, setLastCompiledAt] = useState(new Date().getTime());
 
@@ -40,5 +36,9 @@ export const useCurrentSketch = () => {
     dispatchCurrentSketch({ type: "updateCode", payload: { code: newCode } });
   };
 
-  return { updateSketch, ...sketch, codeToCompile };
+  return {
+    updateSketch,
+    ...sketch,
+    codeToCompile,
+  };
 };
