@@ -3,9 +3,12 @@ import styled from "styled-components";
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-java";
-import "ace-builds/src-noconflict/theme-iplastic";
+import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
+
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
+import { GlobalHotKeys } from "react-hotkeys";
+import { useSettingsDispatchContext } from "../../Providers/SettingsProvider";
 
 const StyledP5Editor = styled(AceEditor)`
   background-color: transparent;
@@ -30,20 +33,29 @@ const StyledP5Editor = styled(AceEditor)`
 
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
+  const dispatch = useSettingsDispatchContext();
   return (
     <StyledP5Editor
       {...restProps}
       height={"100vh"}
       width={"100vw"}
       highlightActiveLine={false}
+      commands={[
+        {
+          // commands is array of key bindings.
+          name: "commandName", //name for the key binding.
+          bindKey: { win: "Ctrl-Enter", mac: "ctrl+enter" }, //key combination used for the command.
+          exec: () => dispatch({ type: "resetCanvasKey" }),
+        },
+      ]}
       mode="java"
-      theme="iplastic"
+      theme="monokai"
       fontSize={15}
       onChange={updateSketch}
       showPrintMargin={false}
       value={code}
       name="UNIQUE_ID_OF_DIV"
       editorProps={{ $blockScrolling: true }}
-    ></StyledP5Editor>
+    />
   );
 };
