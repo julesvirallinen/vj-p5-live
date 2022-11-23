@@ -1,13 +1,8 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import InnerHTML from "dangerously-set-html-content";
-import * as SNIPPETS from "./snippets";
-import { useCurrentSketch } from "../../hooks/useCurrentSketch";
-import CustomIframe from "./components/CanvasIframe";
-import {
-  useSettingsDispatchContext,
-  useSettingsStateContext,
-} from "../../Providers/SettingsProvider";
+
+import { CanvasFrameForwardRef } from "./components/CanvasIframe";
+import { useScriptLoader } from "./useScriptLoader";
 
 const StyledCanvas = styled.div`
   width: 100vw;
@@ -25,7 +20,7 @@ const StyledLoading = styled.div`
   color-scheme: none;
 `;
 
-const CanvasIframe = styled(CustomIframe)`
+const CanvasIframe = styled(CanvasFrameForwardRef)`
   width: 100%;
   height: 100%;
   border: 0;
@@ -35,54 +30,13 @@ const CanvasIframe = styled(CustomIframe)`
 `;
 
 export const P5Canvas: FC = ({ ...rest }) => {
-  const { codeToCompile, id } = useCurrentSketch();
-  const [loading, setLoading] = useState(false);
-  const {
-    internal: { lastHardCompiledAt },
-  } = useSettingsStateContext();
-  const dispatch = useSettingsDispatchContext();
-
-  useEffect(() => {
-    // TODO: improve reset on sketch change
-    // This seems to work but takes a second...
-    // TODO: load scripts locally?
-    setLoading(true);
-    const timer = setTimeout(() => {
-      dispatch({
-        type: "resetCanvasKey",
-      });
-      setLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [id]);
-
-  const html = `
-  <script type="text/javascript"> ${codeToCompile}</script>
-  <script>
-    ${SNIPPETS.windowResizer}
-    ${SNIPPETS.customEase}
-    ${SNIPPETS.processingLoggingCompatability}
-
-
-    
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.min.js"></script>
-
-`;
-  if (loading) {
-    return <StyledLoading />;
-  }
+  const canvasRef = useRef<HTMLIFrameElement | null>(null);
+  const doc = canvasRef?.current?.contentWindow?.document;
+  useScriptLoader(doc);
 
   return (
-    <StyledCanvas
-      id={"p5canvas-container"}
-      {...rest}
-      key={`${lastHardCompiledAt}`}
-    >
-      <CanvasIframe>
-        <InnerHTML html={html} />
-      </CanvasIframe>
+    <StyledCanvas id={"p5canvas-container"} {...rest}>
+      <CanvasIframe ref={canvasRef}></CanvasIframe>
     </StyledCanvas>
   );
 };

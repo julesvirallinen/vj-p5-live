@@ -8,8 +8,8 @@ import { useSettingsDispatchContext } from "./SettingsProvider";
  */
 
 const keyMap = {
-  SHOW_MENU: "ctrl+option+shift+m",
-  COMPILE: "ctrl+option+enter",
+  SHOW_MENU: "ctrl+option+m",
+  COMPILE: "cmd+shift+enter",
 };
 
 interface IShortcutProviderProps {

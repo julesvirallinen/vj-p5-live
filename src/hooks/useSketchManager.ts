@@ -22,7 +22,11 @@ const getSketchKey = (sketch: Pick<ICurrentSketch, "id" | "name">) =>
 
 export const useSketchManager = () => {
   const dispatchSettings = useSettingsDispatchContext();
-  const { sketches, loadedSketchId } = useSettingsStateContext();
+  const {
+    sketches,
+    loadedSketchId,
+    internal: { recompileSketch },
+  } = useSettingsStateContext();
   const dispatchSketch = useCurrentSketchDispatchContext();
   const { setItem, getItem } = useLocalStorage();
 

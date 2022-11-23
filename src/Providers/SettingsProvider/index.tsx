@@ -37,7 +37,7 @@ const assocSettingsPath =
 const initialState: ISettings = {
   sketches: [],
   showMenu: true,
-  compileAfterMs: 500,
+  compileAfterMs: 1000,
   internal: {
     lastHardCompiledAt: new Date().getTime(),
   },

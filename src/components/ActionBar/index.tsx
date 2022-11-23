@@ -31,7 +31,7 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
         const sketchToLoad = sketches.find((sketch) =>
           sketch.name.includes(match[2])
         );
-        loadSketch(sketchToLoad);
+        sketchToLoad && loadSketch(sketchToLoad);
       }
     }
   };

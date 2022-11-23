@@ -3,7 +3,9 @@
   "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
-      "plugin:react/recommended"
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended"
+
     ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": { "project": ["./tsconfig.json"] },
@@ -12,15 +14,8 @@
       "react"
   ],
   "rules": {
+    
     "@typescript-eslint/no-empty-interface": [0],
-
-      "@typescript-eslint/strict-boolean-expressions": [
-          2,
-          {
-              "allowString" : false,
-              "allowNumber" : false
-          }
-      ]
   },
   "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
 }
