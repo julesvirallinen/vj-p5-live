@@ -49,16 +49,13 @@ const loadProcessingScripts = (
   if (R.isNil(doc)) return null;
   const hasCallback = !R.isNil(callback);
   const existingScript = doc.getElementById(scriptProps.id);
-  if (existingScript) {
-    existingScript.innerHTML = scriptProps.content;
-
-    return;
-  }
+  existingScript?.remove();
   const script = doc.createElement("script");
 
   script.id = scriptProps.id;
 
-  script.innerHTML = `${scriptProps.content}\n new p5()` ?? "";
+  script.innerHTML =
+    `${scriptProps.content}\n${existingScript ? "" : " new p5()"}` ?? "";
 
   doc.body.appendChild(script);
   script.onload = () => {
@@ -148,7 +145,13 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   }, [sketchCode, iframeDocument, scriptsLoaded]);
 
   const loadScripts = useCallback(() => {
-    // load in order
+    if (scriptsLoaded.length === 0) {
+      loadScriptTags(iframeDocument, [scriptsToLoad[0]], (scriptName) =>
+        setScriptsLoaded([...scriptsLoaded, scriptName])
+      );
+      return;
+    }
+
     loadScriptTags(
       iframeDocument,
       [scriptsToLoad.find((s) => !scriptsLoaded.includes(s.id))].filter(
@@ -174,6 +177,8 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
         iframeContentWindow.frameCount = 0;
         // @ts-ignore
         iframeContentWindow.setup();
+        // iframeDocument?.getElementById("userCode")?.remove;
+        // loadUserCode();
       }
     } catch (error) {
       console.error(error.message);
