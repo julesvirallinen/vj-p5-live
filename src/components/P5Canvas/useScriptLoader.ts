@@ -16,6 +16,12 @@ export type TSrcScript = {
   shouldOverwrite?: boolean;
 };
 
+type TSketchWindowProps = {
+  setup: () => void;
+  frameCount: number;
+  noLoop: () => void;
+};
+
 const loadScriptTags = (
   doc: Document | undefined,
   scripts: TSrcScript[],
@@ -114,11 +120,13 @@ const scriptsToLoad = [
 ];
 
 export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
-  const iframeContentWindow = iframeRef?.contentWindow;
+  const iframeContentWindow = iframeRef?.contentWindow as Window &
+    TSketchWindowProps;
   const iframeDocument = iframeContentWindow?.document;
   const [scriptsLoaded, setScriptsLoaded] = useState<string[]>([]);
   const [userCodeLoaded, setUserCodeLoaded] = useState(false);
   const { id } = useCurrentSketch();
+  const [idMemo, setIdMemo] = useState<string>(id);
 
   const {
     internal: { lastHardCompiledAt },
@@ -127,7 +135,6 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   const sketchCode = useSketchCodeManager();
 
   const loadUserCode = useCallback(() => {
-    console.log(iframeDocument);
     if (scriptsLoaded.length !== scriptsToLoad.length) return;
     setUserCodeLoaded(false);
     loadProcessingScripts(
@@ -144,20 +151,25 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     );
   }, [sketchCode, iframeDocument, scriptsLoaded]);
 
-  const loadScripts = useCallback(() => {
-    if (scriptsLoaded.length === 0) {
-      loadScriptTags(iframeDocument, [scriptsToLoad[0]], (scriptName) =>
-        setScriptsLoaded([...scriptsLoaded, scriptName])
-      );
-      return;
+  const resetSketch = useCallback(() => {
+    for (const item of iframeDocument?.body.getElementsByTagName("script") ??
+      []) {
+      item.remove;
     }
+    setScriptsLoaded([]);
+    setUserCodeLoaded(false);
+    loadUserCode();
+  }, [iframeDocument, loadUserCode]);
 
-    loadScriptTags(
-      iframeDocument,
-      [scriptsToLoad.find((s) => !scriptsLoaded.includes(s.id))].filter(
-        Boolean
-      ),
-      (scriptName) => setScriptsLoaded([...scriptsLoaded, scriptName])
+  const loadScripts = useCallback(() => {
+    const scriptToLoad = scriptsToLoad.find(
+      (s) => !scriptsLoaded.includes(s.id)
+    );
+
+    if (!scriptToLoad) return;
+
+    loadScriptTags(iframeDocument, [scriptToLoad], (scriptName) =>
+      setScriptsLoaded([...scriptsLoaded, scriptName])
     );
   }, [iframeDocument, scriptsLoaded]);
 
@@ -173,17 +185,20 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   useEffect(() => {
     try {
       if (iframeContentWindow && userCodeLoaded) {
-        // @ts-ignore
         iframeContentWindow.frameCount = 0;
-        // @ts-ignore
         iframeContentWindow.setup();
-        // iframeDocument?.getElementById("userCode")?.remove;
-        // loadUserCode();
+        iframeContentWindow;
       }
     } catch (error) {
-      console.error(error.message);
+      console.error((error as Error).message);
     }
   }, [lastHardCompiledAt, iframeContentWindow, id, userCodeLoaded]);
+  useEffect(() => {
+    if (idMemo !== id) {
+      setIdMemo(id);
+      resetSketch();
+    }
+  }, [id, idMemo, resetSketch]);
 
   return { userCodeLoaded };
 };

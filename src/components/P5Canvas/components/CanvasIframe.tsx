@@ -1,13 +1,14 @@
-import React, { FC, ForwardedRef, Ref, useEffect, useState } from "react";
+import React, { FC, MutableRefObject } from "react";
 import { createPortal } from "react-dom";
-import * as R from "ramda";
 
 interface ICanvasIframeProps {
   children?: React.ReactNode;
 }
 
 export const CanvasFrame: FC<
-  ICanvasIframeProps & { forwardedRef: ForwardedRef<HTMLIFrameElement> }
+  ICanvasIframeProps & {
+    forwardedRef: MutableRefObject<HTMLIFrameElement | null>;
+  }
 > = ({ children, forwardedRef, ...props }) => {
   const mountNode = forwardedRef?.current?.contentWindow?.document?.body;
 
@@ -27,7 +28,10 @@ export const CanvasFrameForwardRef = React.forwardRef<
   ICanvasIframeProps
 >((props, ref) => {
   return (
-    <CanvasFrame {...props} forwardedRef={ref}>
+    <CanvasFrame
+      {...props}
+      forwardedRef={ref as MutableRefObject<HTMLIFrameElement | null>}
+    >
       {props.children}
     </CanvasFrame>
   );

@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  FC,
-  useContext,
-  useReducer,
-  useRef,
-} from "react";
+import React, { createContext, FC, useContext, useReducer } from "react";
 import * as R from "ramda";
 import { Path } from "ramda";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
