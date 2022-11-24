@@ -26,6 +26,37 @@ const StyledInput = styled.input`
   }
 `;
 
+type THelpers = {
+  // TODO: import types
+  loadSketch: (sketch: { name: string; id: string }) => void;
+  sketches: { name: string; id: string }[];
+};
+
+type THandler = (helpers: THelpers) => (command: string) => void;
+
+type TCommand = {
+  name: string;
+  shortCommand: string;
+  fullCommand: string;
+  handler: THandler;
+};
+
+const COMMANDS: TCommand[] = [
+  {
+    name: "Toggle menu",
+    shortCommand: "s",
+    fullCommand: "sketch",
+    handler:
+      ({ sketches, loadSketch }) =>
+      (options: string) => {
+        const sketchToLoad = sketches.find((sketch) =>
+          sketch.name.includes(options)
+        );
+        sketchToLoad && loadSketch(sketchToLoad);
+      },
+  },
+];
+
 export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const [command, setCommand] = useState(">");
   const { sketches, showActionBar } = useSettingsStateContext();
