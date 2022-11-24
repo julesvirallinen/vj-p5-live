@@ -8,6 +8,7 @@ import "ace-builds/src-noconflict/ext-language_tools";
 
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 import { useSettingsDispatchContext } from "../../Providers/SettingsProvider";
+import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 
 const StyledP5Editor = styled(AceEditor)`
   background-color: transparent;
@@ -33,6 +34,7 @@ const StyledP5Editor = styled(AceEditor)`
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
   const dispatch = useSettingsDispatchContext();
+  const { recompileSketch } = useGlobalCommands();
 
   return (
     <StyledP5Editor
@@ -41,11 +43,14 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
       width={"100vw"}
       highlightActiveLine={false}
       commands={[
+        /**
+         * It seems these might be initialized on load and aren't updated, need investigation
+         */
         {
           // commands is array of key bindings.
           name: "recompile canvas", //name for the key binding.
           bindKey: { win: "Ctrl-Enter", mac: "ctrl+enter" }, //key combination used for the command.
-          exec: () => dispatch({ type: "resetCanvasKey" }),
+          exec: () => recompileSketch,
         },
         {
           name: "show action bar", //name for the key binding.

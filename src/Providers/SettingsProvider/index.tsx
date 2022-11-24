@@ -13,7 +13,10 @@ export interface IAppState {
     loadedSketchId?: string;
     compileAfterMs: number;
   };
-  internal: { lastHardCompiledAt: number };
+  globalCommands: {
+    recompileSketch?: () => void;
+    hardRecompileSketch?: () => void;
+  };
 }
 
 export type IAction =
@@ -26,7 +29,10 @@ export type IAction =
   | { type: "setLoadedSketchId"; payload: { id: string } }
   | { type: "setSettings"; payload: IAppState["settings"] }
   | { type: "patchSettings"; payload: Partial<IAppState["settings"]> }
-  | { type: "resetCanvasKey" };
+  | {
+      type: "patchGlobalCommands";
+      payload: Partial<IAppState["globalCommands"]>;
+    };
 
 const assocSettingsPath =
   (settings: IAppState) =>
@@ -41,9 +47,7 @@ const initialState: IAppState = {
     showActionBar: true,
     compileAfterMs: 1000,
   },
-  internal: {
-    lastHardCompiledAt: new Date().getTime(),
-  },
+  globalCommands: {},
 };
 
 // context for using state
@@ -75,10 +79,13 @@ const reducer = (state: IAppState, action: IAction): IAppState => {
         R.mergeDeepLeft(action.payload, state.settings)
       );
 
-    case "resetCanvasKey":
-      return assoc(["internal", "lastHardCompiledAt"])(new Date().getTime());
+    case "patchGlobalCommands": {
+      return assoc(["globalCommands"])(
+        R.mergeDeepLeft(action.payload, state.globalCommands)
+      );
+    }
     default:
-      throw new Error();
+      throw new Error(`${(action as any).type} not supported`);
   }
 };
 

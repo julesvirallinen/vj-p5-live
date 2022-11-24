@@ -1,7 +1,4 @@
-import {
-  useSettingsDispatchContext,
-  useSettingsStateContext,
-} from "../Providers/SettingsProvider";
+import { useSettingsDispatchContext } from "../Providers/SettingsProvider";
 import {
   defaultSketchCode,
   ICurrentSketch,
@@ -10,6 +7,7 @@ import {
 import { useLocalStorage } from "./useLocalStorage";
 import * as R from "ramda";
 import { useSettings } from "./useSettings";
+import { useGlobalCommands } from "./useGlobalCommands";
 const getNewSketchProps = (name: string) => {
   return {
     code: defaultSketchCode,
@@ -26,6 +24,7 @@ export const useSketchManager = () => {
   const { sketches, loadedSketchId } = useSettings();
   const dispatchSketch = useCurrentSketchDispatchContext();
   const { setItem, getItem } = useLocalStorage();
+  const { recompileSketch, hardRecompileSketch } = useGlobalCommands();
 
   const newSketch = (name: string) => {
     const newSketch = getNewSketchProps(name);
@@ -51,6 +50,7 @@ export const useSketchManager = () => {
         type: "setLoadedSketchId",
         payload: { id: loadedSketch.id },
       });
+      hardRecompileSketch();
     }
   };
 

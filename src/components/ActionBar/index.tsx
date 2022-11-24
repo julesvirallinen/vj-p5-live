@@ -1,5 +1,6 @@
 import React, { KeyboardEventHandler, useState } from "react";
 import styled from "styled-components";
+import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
 import { useSketchManager } from "../../hooks/useSketchManager";
 import { useSettingsDispatchContext } from "../../Providers/SettingsProvider";
@@ -60,6 +61,7 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const { sketches, showActionBar } = useSettings();
   const { loadSketch, newSketch } = useSketchManager();
   const dispatch = useSettingsDispatchContext();
+  const { hardRecompileSketch, recompileSketch } = useGlobalCommands();
   /**
    *
    * TODO:
@@ -72,10 +74,9 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === "Enter") {
       const commandRegex = /(s|sketch|new)\s(.+)$/;
-      const toggleRegex = /(m|(menu))\s*$/;
+      const toggleRegex = /(m|(menu|recompile|reset))\s*$/;
       const match = command.match(commandRegex);
       const toggleMatch = command.match(toggleRegex);
-
       if (match && match[1] == "s") {
         const sketchToLoad = sketches.find((sketch) =>
           sketch.name.includes(match[2])
@@ -84,6 +85,10 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
       } else if (match && match[1] == "new") {
         if (!match[2].length) return;
         newSketch(match[2]);
+      } else if (toggleMatch && toggleMatch[1] == "recompile") {
+        recompileSketch();
+      } else if (toggleMatch && toggleMatch[1] == "reset") {
+        hardRecompileSketch();
       } else if (toggleMatch && ["menu", "m"].includes(toggleMatch[1])) {
         dispatch({ type: "toggleShowMenu" });
       }

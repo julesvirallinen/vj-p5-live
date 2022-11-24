@@ -1,5 +1,6 @@
 import React from "react";
 import { GlobalHotKeys } from "react-hotkeys";
+import { useGlobalCommands } from "../hooks/useGlobalCommands";
 import { useSettingsDispatchContext } from "./SettingsProvider";
 
 /**
@@ -10,7 +11,7 @@ import { useSettingsDispatchContext } from "./SettingsProvider";
 const keyMap = {
   SHOW_MENU: "ctrl+m",
   SHOW_ACTION_BAR: "cmd+k",
-  COMPILE: "cmd+shift+enter",
+  COMPILE: "cmd+enter",
 };
 
 interface IShortcutProviderProps {
@@ -21,13 +22,11 @@ export const ShortcutProvider: React.FC<IShortcutProviderProps> = ({
   children,
 }) => {
   const dispatch = useSettingsDispatchContext();
+  const { recompileSketch } = useGlobalCommands();
 
   const handlers = {
     SHOW_MENU: () => dispatch({ type: "toggleShowMenu" }),
-    COMPILE: () =>
-      dispatch({
-        type: "resetCanvasKey",
-      }),
+    COMPILE: () => recompileSketch(),
     SHOW_ACTION_BAR: () => dispatch({ type: "toggleActionBar" }),
   };
 

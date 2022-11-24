@@ -1,7 +1,7 @@
 import * as R from "ramda";
 import { useCallback, useEffect, useState } from "react";
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
-import { useSettingsStateContext } from "../../Providers/SettingsProvider";
+import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSketchCodeManager } from "./useSketchCodeManager";
 
 export type TInnerHTMLScript = {
@@ -91,18 +91,15 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   const iframeContentWindow = iframeRef?.contentWindow as Window &
     TSketchWindowProps;
   const iframeDocument = iframeContentWindow?.document;
+  const { setHardRecompileSketch, setRecompileSketch } = useGlobalCommands();
   const [scriptsLoaded, setScriptsLoaded] = useState<string[]>([]);
   const [userCodeLoaded, setUserCodeLoaded] = useState(false);
   const { id } = useCurrentSketch();
-  const [idMemo, setIdMemo] = useState<string>(id);
-
-  const {
-    internal: { lastHardCompiledAt },
-  } = useSettingsStateContext();
 
   const sketchCode = useSketchCodeManager();
 
   const loadUserCode = useCallback(() => {
+    console.log(scriptsLoaded);
     if (scriptsLoaded.length !== scriptsToLoad.length) return;
     setUserCodeLoaded(false);
     loadProcessingScripts(
@@ -129,6 +126,18 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     loadUserCode();
   }, [iframeDocument, loadUserCode]);
 
+  const recompileSketch = useCallback(() => {
+    try {
+      if (iframeContentWindow && userCodeLoaded) {
+        iframeContentWindow.frameCount = 0;
+        iframeContentWindow.setup();
+        iframeContentWindow;
+      }
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  }, [iframeContentWindow, userCodeLoaded]);
+
   const loadScripts = useCallback(() => {
     const scriptToLoad = scriptsToLoad.find(
       (s) => !scriptsLoaded.includes(s.id)
@@ -147,26 +156,17 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
 
   useEffect(() => {
     loadUserCode();
-  }, [sketchCode, loadUserCode, iframeDocument, lastHardCompiledAt, id]);
+  }, [sketchCode, loadUserCode, iframeDocument, id]);
 
-  // implicitly run on lastHardCompiledAt or id change, not great :)
   useEffect(() => {
-    try {
-      if (iframeContentWindow && userCodeLoaded) {
-        iframeContentWindow.frameCount = 0;
-        iframeContentWindow.setup();
-        iframeContentWindow;
-      }
-    } catch (error) {
-      console.error((error as Error).message);
-    }
-  }, [lastHardCompiledAt, iframeContentWindow, id, userCodeLoaded]);
-  useEffect(() => {
-    if (idMemo !== id) {
-      setIdMemo(id);
-      resetSketch();
-    }
-  }, [id, idMemo, resetSketch]);
+    setHardRecompileSketch(resetSketch);
+    setRecompileSketch(recompileSketch);
+  }, [
+    recompileSketch,
+    resetSketch,
+    setHardRecompileSketch,
+    setRecompileSketch,
+  ]);
 
   return { userCodeLoaded };
 };
