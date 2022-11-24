@@ -9,6 +9,7 @@ import {
 } from "../Providers/SketchProvider";
 import { useLocalStorage } from "./useLocalStorage";
 import * as R from "ramda";
+import { useSettings } from "./useSettings";
 const getNewSketchProps = (name: string) => {
   return {
     code: defaultSketchCode,
@@ -22,7 +23,7 @@ const getSketchKey = (sketch: Pick<ICurrentSketch, "id" | "name">) =>
 
 export const useSketchManager = () => {
   const dispatchSettings = useSettingsDispatchContext();
-  const { sketches, loadedSketchId } = useSettingsStateContext();
+  const { sketches, loadedSketchId } = useSettings();
   const dispatchSketch = useCurrentSketchDispatchContext();
   const { setItem, getItem } = useLocalStorage();
 

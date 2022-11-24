@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useSettingsStateContext } from "../Providers/SettingsProvider";
 import {
   useCurrentSketchDispatchContext,
   useCurrentSketchStateContext,
 } from "../Providers/SketchProvider";
+import { useSettings } from "./useSettings";
 
 export const useCurrentSketch = () => {
   const sketch = useCurrentSketchStateContext();
 
   const dispatchCurrentSketch = useCurrentSketchDispatchContext();
 
-  const { compileAfterMs } = useSettingsStateContext();
+  const { compileAfterMs } = useSettings();
   const [codeToCompile, setCodeToCompile] = useState(sketch.code);
   const [lastCompiledAt, setLastCompiledAt] = useState(new Date().getTime());
   const [lastKeystrokeAt, setLastKeystrokeAt] = useState(new Date().getTime());

@@ -1,10 +1,8 @@
 import React, { KeyboardEventHandler, useState } from "react";
 import styled from "styled-components";
+import { useSettings } from "../../hooks/useSettings";
 import { useSketchManager } from "../../hooks/useSketchManager";
-import {
-  useSettingsDispatchContext,
-  useSettingsStateContext,
-} from "../../Providers/SettingsProvider";
+import { useSettingsDispatchContext } from "../../Providers/SettingsProvider";
 
 export interface IActionBarProps {}
 
@@ -59,7 +57,7 @@ const COMMANDS: TCommand[] = [
 
 export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const [command, setCommand] = useState(">");
-  const { sketches, showActionBar } = useSettingsStateContext();
+  const { sketches, showActionBar } = useSettings();
   const { loadSketch, newSketch } = useSketchManager();
   const dispatch = useSettingsDispatchContext();
   /**

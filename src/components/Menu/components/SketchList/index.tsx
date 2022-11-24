@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import { useSettings } from "../../../../hooks/useSettings";
 import { useSketchManager } from "../../../../hooks/useSketchManager";
-import { useSettingsStateContext } from "../../../../Providers/SettingsProvider";
 
 export interface ISketchListProps {}
 
 const StyledSketchList = styled.div``;
 
 export const SketchList: React.FC<ISketchListProps> = ({ ...restProps }) => {
-  const { sketches, loadedSketchId } = useSettingsStateContext();
+  const { sketches, loadedSketchId } = useSettings();
   const { loadSketch } = useSketchManager();
 
   return (
