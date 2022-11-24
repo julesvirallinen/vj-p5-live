@@ -2,17 +2,13 @@ import * as R from "ramda";
 import { useCallback, useEffect, useState } from "react";
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
+import { useSettings } from "../../hooks/useSettings";
+import { TSrcScript } from "../../models/script";
 import { useSketchCodeManager } from "./useSketchCodeManager";
 
 export type TInnerHTMLScript = {
   id: string;
   content: string;
-  shouldOverwrite?: boolean;
-};
-
-export type TSrcScript = {
-  path: string;
-  id: string;
   shouldOverwrite?: boolean;
 };
 
@@ -94,13 +90,17 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   const { setHardRecompileSketch, setRecompileSketch } = useGlobalCommands();
   const [scriptsLoaded, setScriptsLoaded] = useState<string[]>([]);
   const [userCodeLoaded, setUserCodeLoaded] = useState(false);
+  const { userLoadedScripts } = useSettings();
   const { id } = useCurrentSketch();
 
   const sketchCode = useSketchCodeManager();
 
   const loadUserCode = useCallback(() => {
     console.log(scriptsLoaded);
-    if (scriptsLoaded.length !== scriptsToLoad.length) return;
+    if (
+      scriptsLoaded.length !== [...scriptsToLoad, ...userLoadedScripts].length
+    )
+      return;
     setUserCodeLoaded(false);
     loadProcessingScripts(
       iframeDocument,
@@ -114,7 +114,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
         setUserCodeLoaded(true);
       }
     );
-  }, [sketchCode, iframeDocument, scriptsLoaded]);
+  }, [sketchCode, iframeDocument, scriptsLoaded, userLoadedScripts]);
 
   const resetSketch = useCallback(() => {
     for (const item of iframeDocument?.body.getElementsByTagName("script") ??
@@ -139,7 +139,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   }, [iframeContentWindow, userCodeLoaded]);
 
   const loadScripts = useCallback(() => {
-    const scriptToLoad = scriptsToLoad.find(
+    const scriptToLoad = [...scriptsToLoad, ...userLoadedScripts].find(
       (s) => !scriptsLoaded.includes(s.id)
     );
 
@@ -148,7 +148,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     loadScriptTags(iframeDocument, [scriptToLoad], (scriptName) =>
       setScriptsLoaded([...scriptsLoaded, scriptName])
     );
-  }, [iframeDocument, scriptsLoaded]);
+  }, [iframeDocument, scriptsLoaded, userLoadedScripts]);
 
   useEffect(() => {
     loadScripts();

@@ -6,6 +6,7 @@ import { useSettingsDispatchContext } from "./SettingsProvider";
 /**
  * TODO: override ace shortcuts
  * customize ace shortcuts
+ * TODO: figure out why shortcuts don't work in action bar
  */
 
 const keyMap = {

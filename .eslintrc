@@ -16,6 +16,9 @@
   "rules": {
     
     "@typescript-eslint/no-empty-interface": [0],
+    "padding-line-between-statements": [      "error",
+    { "blankLine": "always", "prev": ["block"], "next": ["block"] },
+]
   },
   "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
 }

@@ -22,7 +22,6 @@ export const useGlobalCommands = () => {
   const dispatch = useSettingsDispatchContext();
   const { globalCommands } = useSettingsStateContext();
   const run = runCommand(globalCommands);
-
   const setRecompileSketch = useCallback(
     (fn: () => void) => {
       dispatch({

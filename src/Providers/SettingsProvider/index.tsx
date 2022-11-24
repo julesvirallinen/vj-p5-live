@@ -2,16 +2,22 @@ import React, { createContext, FC, useContext, useReducer } from "react";
 import * as R from "ramda";
 import { Path } from "ramda";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { ISettingsSketch } from "../../models/sketch";
+import { TSrcScript } from "../../models/script";
 
 export const NON_PERSISTED_SETTINGS_KEYS = ["compileAfterMs"];
 
 export interface IAppState {
   settings: {
-    sketches: { name: string; id: string }[];
+    sketches: ISettingsSketch[];
     showMenu: boolean;
     showActionBar: boolean;
     loadedSketchId?: string;
     compileAfterMs: number;
+    /**
+     * Scripts that are always loaded for all sketches
+     */
+    userLoadedScripts: TSrcScript[];
   };
   globalCommands: {
     recompileSketch?: () => void;
@@ -22,13 +28,14 @@ export interface IAppState {
 export type IAction =
   | {
       type: "addSketch";
-      payload: { name: string; id: string };
+      payload: ISettingsSketch;
     }
   | { type: "toggleShowMenu" }
   | { type: "toggleActionBar" }
   | { type: "setLoadedSketchId"; payload: { id: string } }
   | { type: "setSettings"; payload: IAppState["settings"] }
   | { type: "patchSettings"; payload: Partial<IAppState["settings"]> }
+  | { type: "setUserLoadedScripts"; payload: TSrcScript[] }
   | {
       type: "patchGlobalCommands";
       payload: Partial<IAppState["globalCommands"]>;
@@ -46,6 +53,7 @@ const initialState: IAppState = {
     showMenu: true,
     showActionBar: true,
     compileAfterMs: 1000,
+    userLoadedScripts: [],
   },
   globalCommands: {},
 };
@@ -84,8 +92,11 @@ const reducer = (state: IAppState, action: IAction): IAppState => {
         R.mergeDeepLeft(action.payload, state.globalCommands)
       );
     }
+    case "setUserLoadedScripts": {
+      return assoc(["settings", "userLoadedScripts"])(action.payload);
+    }
     default:
-      throw new Error(`${(action as any).type} not supported`);
+      throw new Error(`${(action as IAction).type} not supported`);
   }
 };
 
