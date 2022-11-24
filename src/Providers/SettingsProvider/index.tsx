@@ -8,6 +8,7 @@ export const NON_PERSISTED_KEYS = ["internal", "compileAfterMs"];
 export interface ISettings {
   sketches: { name: string; id: string }[];
   showMenu: boolean;
+  showActionBar: boolean;
   loadedSketchId?: string;
   compileAfterMs: number;
   internal: { lastHardCompiledAt: number };
@@ -19,6 +20,7 @@ export type IAction =
       payload: { name: string; id: string };
     }
   | { type: "toggleShowMenu" }
+  | { type: "toggleActionBar" }
   | { type: "setLoadedSketchId"; payload: { id: string } }
   | { type: "resetCanvasKey" };
 
@@ -31,6 +33,7 @@ const assocSettingsPath =
 const initialState: ISettings = {
   sketches: [],
   showMenu: true,
+  showActionBar: true,
   compileAfterMs: 1000,
   internal: {
     lastHardCompiledAt: new Date().getTime(),
@@ -53,6 +56,8 @@ const reducer = (settings: ISettings, action: IAction): ISettings => {
       return assocSketches(R.union([action.payload], settings.sketches));
     case "toggleShowMenu":
       return assoc(["showMenu"])(!settings.showMenu);
+    case "toggleActionBar":
+      return assoc(["showActionBar"])(!settings.showActionBar);
     case "setLoadedSketchId":
       return assoc(["loadedSketchId"])(action.payload.id);
     case "resetCanvasKey":

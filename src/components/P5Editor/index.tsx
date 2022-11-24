@@ -17,7 +17,7 @@ const StyledP5Editor = styled(AceEditor)`
   }
 
   span {
-    background-color: #3a3a3a;
+    background-color: #00000085;
     color: #c2c1c1;
   }
 
@@ -43,9 +43,14 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
       commands={[
         {
           // commands is array of key bindings.
-          name: "commandName", //name for the key binding.
+          name: "recompile canvas", //name for the key binding.
           bindKey: { win: "Ctrl-Enter", mac: "ctrl+enter" }, //key combination used for the command.
           exec: () => dispatch({ type: "resetCanvasKey" }),
+        },
+        {
+          name: "show action bar", //name for the key binding.
+          bindKey: { win: "Ctrl-p", mac: "ctrl+p" }, //key combination used for the command.
+          exec: () => dispatch({ type: "toggleActionBar" }),
         },
       ]}
       mode="java"

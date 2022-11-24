@@ -8,7 +8,8 @@ import { useSettingsDispatchContext } from "./SettingsProvider";
  */
 
 const keyMap = {
-  SHOW_MENU: "ctrl+option+m",
+  SHOW_MENU: "ctrl+m",
+  SHOW_ACTION_BAR: "cmd+k",
   COMPILE: "cmd+shift+enter",
 };
 
@@ -27,6 +28,7 @@ export const ShortcutProvider: React.FC<IShortcutProviderProps> = ({
       dispatch({
         type: "resetCanvasKey",
       }),
+    SHOW_ACTION_BAR: () => dispatch({ type: "toggleActionBar" }),
   };
 
   return (

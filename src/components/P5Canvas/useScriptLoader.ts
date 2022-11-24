@@ -82,40 +82,8 @@ const scriptsToLoad = [
     path: "/public/js/p5.sound.min.js",
   },
   {
-    id: "beatdetection",
-    path: "/src/data/js/beatDetection.js",
-  },
-  {
-    id: "djbox",
-    path: "/src/data/js/djbox.js",
-  },
-  {
     id: "webmidi",
     path: "/public/js/webmidi.min.js",
-  },
-  {
-    id: "config",
-    path: "/src/data/js/config_helper.js",
-  },
-  {
-    id: "universal",
-    path: "/src/data/js/universal_update.js",
-  },
-  {
-    id: "setupMidi",
-    path: "/src/data/js/setupMidi.js",
-  },
-  {
-    id: "palette",
-    path: "/src/data/js/palette.js",
-  },
-  {
-    id: "helpers",
-    path: "/src/data/js/helpers.js",
-  },
-  {
-    id: "setupaudio",
-    path: "/src/data/js/setupaudio.js",
   },
 ];
 
