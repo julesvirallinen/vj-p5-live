@@ -13,7 +13,7 @@ Stack: Typescript / React.
 - easy development 
 - controls largely via written commands for easy live-performing
 
-![CleanShot 2022-11-24 at 09 53 08](https://user-images.githubusercontent.com/4622905/203725185-da3fd58c-f6bc-455c-b3d2-d0be717be320.gif)
+![CleanShot 2022-11-26 at 23 36 07](https://user-images.githubusercontent.com/4622905/204109914-fd24d10a-dec3-429e-b5fd-2cc659a28438.gif)
 
 
 # Is this for me? 
