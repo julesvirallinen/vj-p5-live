@@ -4,6 +4,10 @@ import { useCurrentSketch } from "../../../../hooks/useCurrentSketch";
 
 export interface ICurrentSketchSettingsProps {}
 
+const StyledSketchName = styled.div`
+  text-decoration: underline;
+`;
+
 const StyledCurrentSketchSettings = styled.div``;
 
 export const CurrentSketchSettings: React.FC<ICurrentSketchSettingsProps> = ({
@@ -13,8 +17,7 @@ export const CurrentSketchSettings: React.FC<ICurrentSketchSettingsProps> = ({
 
   return (
     <StyledCurrentSketchSettings {...restProps}>
-      Current sketch
-      <div>name: {name}</div>
+      <StyledSketchName>{name}</StyledSketchName>
     </StyledCurrentSketchSettings>
   );
 };

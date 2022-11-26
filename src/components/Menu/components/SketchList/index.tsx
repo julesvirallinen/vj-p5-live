@@ -5,7 +5,9 @@ import { useSketchManager } from "../../../../hooks/useSketchManager";
 
 export interface ISketchListProps {}
 
-const StyledSketchList = styled.div``;
+const StyledSketchList = styled.div`
+  list-style: none;
+`;
 
 export const SketchList: React.FC<ISketchListProps> = ({ ...restProps }) => {
   const { sketches, loadedSketchId } = useSettings();

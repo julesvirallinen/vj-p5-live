@@ -5,11 +5,14 @@ import { CurrentSketchSettings } from "./components/CurrentSketch";
 import { NewSketch } from "./components/NewSketch";
 import { SketchList } from "./components/SketchList";
 import { useSpring, animated } from "react-spring";
+import { FaCaretRight } from "react-icons/fa";
+
+const MENU_WIDTH = 12;
 
 export interface IMenuProps {}
 
 const StyledMenu = styled.div`
-  width: 10rem;
+  width: ${MENU_WIDTH}rem;
   background-color: #000;
   height: 100%;
 `;
@@ -24,7 +27,7 @@ const StyledMenuContainer = styled.div`
 const StyledMenuCaret = styled.div`
   position: fixed;
   top: 2rem;
-  right: 11rem;
+  right: ${MENU_WIDTH + 1}rem;
 `;
 
 const AnimatedMenu = animated(StyledMenuContainer);
@@ -33,7 +36,9 @@ const AnimatedCaret = animated(StyledMenuCaret);
 export const Menu: React.FC<IMenuProps> = ({ ...restProps }) => {
   const { showMenu, toggleShowMenu } = useSettings();
   const styles = useSpring({
-    transform: showMenu ? "translate(0rem, 0)" : `translate(10rem,0)`,
+    transform: showMenu
+      ? "translate(0rem, 0)"
+      : `translate(${MENU_WIDTH}rem,0)`,
   });
   const caretStyles = useSpring({
     transform: showMenu ? "rotate(0deg)" : `rotate(180deg)`,
@@ -42,7 +47,7 @@ export const Menu: React.FC<IMenuProps> = ({ ...restProps }) => {
   return (
     <AnimatedMenu style={styles}>
       <AnimatedCaret style={caretStyles} onClick={toggleShowMenu}>
-        {">>"}
+        <FaCaretRight size={30} color={"gray"} />
       </AnimatedCaret>
       <StyledMenu {...restProps}>
         <CurrentSketchSettings />

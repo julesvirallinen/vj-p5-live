@@ -17,8 +17,8 @@ const getNewSketchProps = (name: string) => {
   };
 };
 
-const getSketchKey = (sketch: Pick<ICurrentSketch, "id" | "name">) =>
-  `sketch_code_${sketch.name}_${sketch.id}`;
+const getSketchKey = (sketch: Pick<ICurrentSketch, "id">) =>
+  `sketch_code_${sketch.id}`;
 
 export const useSketchManager = () => {
   const dispatchSettings = useSettingsDispatchContext();
@@ -36,14 +36,33 @@ export const useSketchManager = () => {
     dispatchSketch({ type: "setSketch", payload: newSketch });
   };
 
+  const removeSketch = (id: string) => {
+    dispatchSettings({
+      type: "patchSettings",
+      payload: { sketches: sketches.filter((s) => s.id !== id) },
+    });
+  };
+
   const saveSketch = (sketch: ICurrentSketch) =>
     setItem(getSketchKey(sketch), sketch);
 
-  const fetchSketch = (sketch: Pick<ICurrentSketch, "id" | "name">) =>
+  const fetchSketch = (sketch: Pick<ICurrentSketch, "id">) =>
     getItem<ICurrentSketch>(getSketchKey(sketch));
 
-  const loadSketch = (sketch: Pick<ICurrentSketch, "id" | "name">) => {
+  const reloadSketch = () => {
+    // TODO: figure out how to remove, this prevents a race condition in sketch changing
+    setTimeout(() => {
+      setIframeKey(new Date().toString());
+      hardRecompileSketch();
+    }, 400);
+  };
+
+  const loadSketch = (sketch: Pick<ICurrentSketch, "id">) => {
     const loadedSketch = fetchSketch(sketch);
+
+    if (!loadedSketch) {
+      removeSketch(sketch.id);
+    }
 
     if (loadedSketch) {
       dispatchSketch({ type: "setSketch", payload: loadedSketch });
@@ -51,11 +70,7 @@ export const useSketchManager = () => {
         type: "setLoadedSketchId",
         payload: { id: loadedSketch.id },
       });
-      // TODO: figure out how to remove, this prevents a race condition in sketch changing
-      setTimeout(() => {
-        setIframeKey(new Date().toString());
-        hardRecompileSketch();
-      }, 400);
+      reloadSketch();
     }
   };
 
@@ -72,5 +87,5 @@ export const useSketchManager = () => {
     }
   };
 
-  return { newSketch, saveSketch, loadSketch, getInitialSketch };
+  return { newSketch, saveSketch, loadSketch, getInitialSketch, reloadSketch };
 };

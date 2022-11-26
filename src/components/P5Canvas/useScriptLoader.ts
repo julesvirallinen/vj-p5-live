@@ -94,6 +94,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     [...(iframeDocument?.body.getElementsByTagName("script") ?? [])].map((n) =>
       n.remove()
     );
+
     setScriptsLoaded([]);
     setScriptsLoading(true);
     // loadscripts dep needed for now, running it triggers a race condition
