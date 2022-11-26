@@ -16,6 +16,8 @@ type TSketchWindowProps = {
   setup: () => void;
   frameCount: number;
   noLoop: () => void;
+  loop: () => void;
+  clear: () => void;
 };
 
 const loadScriptTags = (
@@ -159,14 +161,27 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   }, [sketchCode, loadUserCode, iframeDocument, id]);
 
   useEffect(() => {
+    try {
+      iframeContentWindow.noLoop();
+      iframeContentWindow.clear();
+      setTimeout(() => {
+        iframeContentWindow.loop();
+      }, 600);
+    } catch (error) {}
     setHardRecompileSketch(resetSketch);
     setRecompileSketch(recompileSketch);
+    // iframeContentWindow.loop();
   }, [
     recompileSketch,
     resetSketch,
     setHardRecompileSketch,
     setRecompileSketch,
+    iframeContentWindow,
   ]);
+
+  if (!iframeContentWindow) {
+    return { userCodeLoaded: false };
+  }
 
   return { userCodeLoaded };
 };
