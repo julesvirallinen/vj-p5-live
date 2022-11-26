@@ -12,7 +12,7 @@ import { useSettingsDispatchContext } from "./SettingsProvider";
 
 const keyMap = {
   SHOW_MENU: "ctrl+m",
-  SHOW_ACTION_BAR: "cmd+k",
+  SHOW_ACTION_BAR: "cmd+p",
   COMPILE: "ctrl+enter",
   HARD_COMPILE: "ctrl+shift+enter",
 };
@@ -27,14 +27,18 @@ export const ShortcutProvider: React.FC<IShortcutProviderProps> = ({
   children,
 }) => {
   const dispatch = useSettingsDispatchContext();
-  const { recompileSketch, hardRecompileSketch } = useGlobalCommands();
+  const { recompileSketch } = useGlobalCommands();
   const { reloadSketch } = useSketchManager();
 
   const handlers = {
     SHOW_MENU: () => dispatch({ type: "toggleShowMenu" }),
     COMPILE: () => recompileSketch(),
     HARD_COMPILE: () => reloadSketch(),
-    SHOW_ACTION_BAR: () => dispatch({ type: "toggleActionBar" }),
+    SHOW_ACTION_BAR: (event: KeyboardEvent | undefined) => {
+      event?.preventDefault();
+
+      dispatch({ type: "toggleActionBar" });
+    },
   };
 
   return (

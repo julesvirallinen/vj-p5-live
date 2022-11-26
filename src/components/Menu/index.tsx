@@ -17,7 +17,6 @@ const StyledMenu = styled.div`
   width: ${MENU_WIDTH}rem;
   background-color: rgb(0 0 0 / 74%);
   background-opacity: 0.5;
-  height: 100%;
 
   gap: 2rem;
 
@@ -54,7 +53,7 @@ export const Menu: React.FC<IMenuProps> = ({ ...restProps }) => {
   return (
     <AnimatedMenu style={styles}>
       <AnimatedCaret style={caretStyles} onClick={toggleShowMenu}>
-        <FaCaretRight size={30} color={"gray"} />
+        <FaCaretRight size={30} />
       </AnimatedCaret>
       <StyledMenu {...restProps}>
         <CurrentSketchSettings />
