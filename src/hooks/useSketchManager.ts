@@ -34,6 +34,10 @@ export const useSketchManager = () => {
       payload: { name: newSketch.name, id: newSketch.id },
     });
     dispatchSketch({ type: "setSketch", payload: newSketch });
+    dispatchSettings({
+      type: "setLoadedSketchId",
+      payload: { id: newSketch.id },
+    });
   };
 
   const removeSketch = (id: string) => {

@@ -12,9 +12,16 @@ const MENU_WIDTH = 12;
 export interface IMenuProps {}
 
 const StyledMenu = styled.div`
+  display: flex;
+  flex-direction: column;
   width: ${MENU_WIDTH}rem;
-  background-color: #000;
+  background-color: rgb(0 0 0 / 74%);
+  background-opacity: 0.5;
   height: 100%;
+
+  gap: 2rem;
+
+  padding: 1rem;
 `;
 
 const StyledMenuContainer = styled.div`
@@ -51,8 +58,8 @@ export const Menu: React.FC<IMenuProps> = ({ ...restProps }) => {
       </AnimatedCaret>
       <StyledMenu {...restProps}>
         <CurrentSketchSettings />
-        <NewSketch />
         <SketchList />
+        <NewSketch />
       </StyledMenu>
     </AnimatedMenu>
   );

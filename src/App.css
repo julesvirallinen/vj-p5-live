@@ -1,4 +1,8 @@
-
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 .logo {
   height: 6em;
