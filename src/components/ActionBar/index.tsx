@@ -16,12 +16,14 @@ const StyledActionBar = styled.div`
 const StyledInput = styled.input`
   width: 100%;
   height: 100%;
-  background-color: #00000021;
   border-style: none;
+  background-color: rgb(0, 0, 0, 20%);
+
   color: #ffffffc7;
 
   :focus-visible {
     outline-color: #ff03036b;
+    background-color: rgb(0, 0, 0, 70%);
     color: #ffffffc7;
   }
 `;

@@ -5,6 +5,7 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/keybinding-vscode";
 
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 import { useSettingsDispatchContext } from "../../Providers/SettingsProvider";
@@ -42,22 +43,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
       height={"100vh"}
       width={"100vw"}
       highlightActiveLine={false}
-      commands={[
-        /**
-         * It seems these might be initialized on load and aren't updated, need investigation
-         */
-        {
-          // commands is array of key bindings.
-          name: "recompile canvas", //name for the key binding.
-          bindKey: { win: "Ctrl-Enter", mac: "ctrl+enter" }, //key combination used for the command.
-          exec: () => recompileSketch,
-        },
-        {
-          name: "show action bar", //name for the key binding.
-          bindKey: { win: "Ctrl-p", mac: "ctrl+p" }, //key combination used for the command.
-          exec: () => dispatch({ type: "toggleActionBar" }),
-        },
-      ]}
+      keyboardHandler={"vscode"}
       mode="java"
       theme="monokai"
       fontSize={15}

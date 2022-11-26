@@ -1,5 +1,5 @@
 import React from "react";
-import { GlobalHotKeys } from "react-hotkeys";
+import { GlobalHotKeys, configure } from "react-hotkeys";
 import { useGlobalCommands } from "../hooks/useGlobalCommands";
 import { useSketchManager } from "../hooks/useSketchManager";
 import { useSettingsDispatchContext } from "./SettingsProvider";
@@ -20,6 +20,8 @@ const keyMap = {
 interface IShortcutProviderProps {
   children: React.ReactNode;
 }
+
+configure({ ignoreTags: [] });
 
 export const ShortcutProvider: React.FC<IShortcutProviderProps> = ({
   children,
