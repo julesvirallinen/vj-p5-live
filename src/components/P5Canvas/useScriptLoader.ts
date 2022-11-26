@@ -1,9 +1,7 @@
-import * as R from "ramda";
-import { useCallback, useEffect, useState } from "react";
-import { useCurrentSketch } from "../../hooks/useCurrentSketch";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
-import { TSrcScript } from "../../models/script";
+import { loadProcessingScripts, loadScriptTags } from "./lib/loadScripts";
 import { useSketchCodeManager } from "./useSketchCodeManager";
 
 export type TInnerHTMLScript = {
@@ -18,55 +16,6 @@ type TSketchWindowProps = {
   noLoop: () => void;
   loop: () => void;
   clear: () => void;
-};
-
-const loadScriptTags = (
-  doc: Document | undefined,
-  scripts: TSrcScript[],
-  setScriptLoaded: (scriptId: string) => void
-) => {
-  if (R.isNil(doc)) return null;
-  for (const scriptProperties of scripts) {
-    const existingScript = doc.getElementById(scriptProperties.id);
-
-    if (!existingScript) {
-      const script = doc.createElement("script");
-      script.id = scriptProperties.id;
-      script.type = "application/javascript";
-      script.src = scriptProperties.path;
-      doc.body.appendChild(script);
-
-      script.onload = () => {
-        setScriptLoaded(scriptProperties.id);
-      };
-    } else {
-      setScriptLoaded(scriptProperties.id);
-    }
-  }
-};
-
-const loadProcessingScripts = (
-  doc: Document | undefined,
-  scriptProps: TInnerHTMLScript,
-  callback: () => void
-) => {
-  if (R.isNil(doc)) return null;
-  const hasCallback = !R.isNil(callback);
-  const existingScript = doc.getElementById(scriptProps.id);
-  existingScript?.remove();
-  const script = doc.createElement("script");
-
-  script.id = scriptProps.id;
-
-  script.innerHTML =
-    `${scriptProps.content}\n${existingScript ? "" : " new p5()"}` ?? "";
-
-  doc.body.appendChild(script);
-  script.onload = () => {
-    if (hasCallback) callback();
-  };
-
-  if (existingScript && hasCallback) callback();
 };
 
 const scriptsToLoad = [
@@ -86,24 +35,27 @@ const scriptsToLoad = [
 ];
 
 export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
-  const iframeContentWindow = iframeRef?.contentWindow as Window &
-    TSketchWindowProps;
+  const iframeContentWindow = useMemo(
+    () => iframeRef?.contentWindow as Window & TSketchWindowProps,
+    [iframeRef?.contentWindow]
+  );
   const iframeDocument = iframeContentWindow?.document;
-  const { setHardRecompileSketch, setRecompileSketch } = useGlobalCommands();
+  const { setHardRecompileSketch, setRecompileSketch, setIframeKey } =
+    useGlobalCommands();
   const [scriptsLoaded, setScriptsLoaded] = useState<string[]>([]);
-  const [userCodeLoaded, setUserCodeLoaded] = useState(false);
+  const [scriptsLoading, setScriptsLoading] = useState(true);
   const { userLoadedScripts } = useSettings();
-  const { id } = useCurrentSketch();
 
   const sketchCode = useSketchCodeManager();
 
   const loadUserCode = useCallback(() => {
-    console.log(scriptsLoaded);
     if (
-      scriptsLoaded.length !== [...scriptsToLoad, ...userLoadedScripts].length
+      scriptsLoaded.length !==
+        [...scriptsToLoad, ...userLoadedScripts].length ||
+      scriptsLoading
     )
       return;
-    setUserCodeLoaded(false);
+
     loadProcessingScripts(
       iframeDocument,
       {
@@ -113,75 +65,70 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
       },
       () => {
         console.log("loaded user code");
-        setUserCodeLoaded(true);
+        setScriptsLoading(false);
       }
     );
-  }, [sketchCode, iframeDocument, scriptsLoaded, userLoadedScripts]);
-
-  const resetSketch = useCallback(() => {
-    for (const item of iframeDocument?.body.getElementsByTagName("script") ??
-      []) {
-      item.remove;
-    }
-    setScriptsLoaded([]);
-    setUserCodeLoaded(false);
-    loadUserCode();
-  }, [iframeDocument, loadUserCode]);
-
-  const recompileSketch = useCallback(() => {
-    try {
-      if (iframeContentWindow && userCodeLoaded) {
-        iframeContentWindow.frameCount = 0;
-        iframeContentWindow.setup();
-        iframeContentWindow;
-      }
-    } catch (error) {
-      console.error((error as Error).message);
-    }
-  }, [iframeContentWindow, userCodeLoaded]);
+  }, [
+    sketchCode,
+    iframeDocument,
+    scriptsLoaded,
+    userLoadedScripts,
+    scriptsLoading,
+  ]);
 
   const loadScripts = useCallback(() => {
     const scriptToLoad = [...scriptsToLoad, ...userLoadedScripts].find(
       (s) => !scriptsLoaded.includes(s.id)
     );
 
-    if (!scriptToLoad) return;
+    if (!scriptToLoad) {
+      return setScriptsLoading(false);
+    }
 
     loadScriptTags(iframeDocument, [scriptToLoad], (scriptName) =>
       setScriptsLoaded([...scriptsLoaded, scriptName])
     );
   }, [iframeDocument, scriptsLoaded, userLoadedScripts]);
 
+  const hardCompileSketch = useCallback(() => {
+    [...(iframeDocument?.body.getElementsByTagName("script") ?? [])].map((n) =>
+      n.remove()
+    );
+    setScriptsLoaded([]);
+    setScriptsLoading(true);
+    // loadscripts dep needed for now, running it triggers a race condition
+  }, [iframeDocument, loadScripts]);
+
+  const recompileSketch = useCallback(() => {
+    try {
+      if (iframeContentWindow) {
+        iframeContentWindow.frameCount = 0;
+        iframeContentWindow.setup();
+      }
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  }, [iframeContentWindow]);
+
   useEffect(() => {
     loadScripts();
   }, [loadScripts]);
 
   useEffect(() => {
-    loadUserCode();
-  }, [sketchCode, loadUserCode, iframeDocument, id]);
+    if (!scriptsLoading) {
+      loadUserCode();
+    }
+  }, [sketchCode, scriptsLoading, loadUserCode, loadScripts]);
 
   useEffect(() => {
-    try {
-      iframeContentWindow.noLoop();
-      iframeContentWindow.clear();
-      setTimeout(() => {
-        iframeContentWindow.loop();
-      }, 600);
-    } catch (error) {}
-    setHardRecompileSketch(resetSketch);
+    setHardRecompileSketch(hardCompileSketch);
     setRecompileSketch(recompileSketch);
-    // iframeContentWindow.loop();
   }, [
     recompileSketch,
-    resetSketch,
+    hardCompileSketch,
     setHardRecompileSketch,
     setRecompileSketch,
-    iframeContentWindow,
   ]);
 
-  if (!iframeContentWindow) {
-    return { userCodeLoaded: false };
-  }
-
-  return { userCodeLoaded };
+  return { loading: scriptsLoading };
 };

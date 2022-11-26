@@ -1,5 +1,6 @@
 import React, { FC, MutableRefObject } from "react";
 import { createPortal } from "react-dom";
+import { useGlobalCommands } from "../../../hooks/useGlobalCommands";
 
 interface ICanvasIframeProps {
   children?: React.ReactNode;
@@ -11,9 +12,10 @@ export const CanvasFrame: FC<
   }
 > = ({ children, forwardedRef, ...props }) => {
   const mountNode = forwardedRef?.current?.contentWindow?.document?.body;
-
+  const { iframeKey } = useGlobalCommands();
   return (
     <iframe
+      key={iframeKey}
       {...props}
       ref={forwardedRef}
       sandbox="allow-same-origin allow-scripts allow-downloads allow-pointer-lock"

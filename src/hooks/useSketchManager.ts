@@ -25,7 +25,7 @@ export const useSketchManager = () => {
   const { sketches, loadedSketchId } = useSettings();
   const dispatchSketch = useCurrentSketchDispatchContext();
   const { setItem, getItem } = useLocalStorage();
-  const { hardRecompileSketch } = useGlobalCommands();
+  const { hardRecompileSketch, setIframeKey } = useGlobalCommands();
 
   const newSketch = (name: string) => {
     const newSketch = getNewSketchProps(name);
@@ -51,7 +51,11 @@ export const useSketchManager = () => {
         type: "setLoadedSketchId",
         payload: { id: loadedSketch.id },
       });
-      hardRecompileSketch();
+      // TODO: figure out how to remove, this prevents a race condition in sketch changing
+      setTimeout(() => {
+        setIframeKey(new Date().toString());
+        hardRecompileSketch();
+      }, 400);
     }
   };
 

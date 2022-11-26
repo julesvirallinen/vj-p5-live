@@ -19,6 +19,9 @@ export interface IAppState {
      */
     userLoadedScripts: TSrcScript[];
   };
+  sessionGlobals: {
+    iframeKey: string;
+  };
   globalCommands: {
     recompileSketch?: () => void;
     hardRecompileSketch?: () => void;
@@ -39,6 +42,10 @@ export type IAction =
   | {
       type: "patchGlobalCommands";
       payload: Partial<IAppState["globalCommands"]>;
+    }
+  | {
+      type: "patchSessionGlobals";
+      payload: Partial<IAppState["sessionGlobals"]>;
     };
 
 const assocSettingsPath =
@@ -56,6 +63,10 @@ const initialState: IAppState = {
     userLoadedScripts: [],
   },
   globalCommands: {},
+  sessionGlobals: {
+    // used to refresh iframe on change
+    iframeKey: "new",
+  },
 };
 
 // context for using state
@@ -90,6 +101,11 @@ const reducer = (state: IAppState, action: IAction): IAppState => {
     case "patchGlobalCommands": {
       return assoc(["globalCommands"])(
         R.mergeDeepLeft(action.payload, state.globalCommands)
+      );
+    }
+    case "patchSessionGlobals": {
+      return assoc(["sessionGlobals"])(
+        R.mergeDeepLeft(action.payload, state.sessionGlobals)
       );
     }
     case "setUserLoadedScripts": {

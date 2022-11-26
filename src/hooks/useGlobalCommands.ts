@@ -20,7 +20,7 @@ const runCommand =
 
 export const useGlobalCommands = () => {
   const dispatch = useSettingsDispatchContext();
-  const { globalCommands } = useSettingsStateContext();
+  const { globalCommands, sessionGlobals } = useSettingsStateContext();
   const run = runCommand(globalCommands);
   const setRecompileSketch = useCallback(
     (fn: () => void) => {
@@ -28,6 +28,13 @@ export const useGlobalCommands = () => {
         type: "patchGlobalCommands",
         payload: { recompileSketch: fn },
       });
+    },
+    [dispatch]
+  );
+
+  const setIframeKey = useCallback(
+    (key: string) => {
+      dispatch({ type: "patchSessionGlobals", payload: { iframeKey: key } });
     },
     [dispatch]
   );
@@ -50,5 +57,7 @@ export const useGlobalCommands = () => {
     setRecompileSketch,
     setHardRecompileSketch,
     hardRecompileSketch,
+    setIframeKey,
+    ...sessionGlobals,
   };
 };

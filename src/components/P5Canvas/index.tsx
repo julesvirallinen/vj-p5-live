@@ -20,13 +20,20 @@ const CanvasIframe = styled(CanvasFrameForwardRef)`
   color-scheme: none;
 `;
 
+const StyledLoading = styled.div`
+  background-color: black;
+  width: 100%;
+  height: 100%;
+`;
+
 export const P5Canvas: FC = ({ ...rest }) => {
   const canvasRef = useRef<HTMLIFrameElement | null>(null);
   const doc = canvasRef?.current;
-  useScriptLoader(doc);
+  const { loading } = useScriptLoader(doc);
 
   return (
     <StyledCanvas id={"p5canvas-container"} {...rest}>
+      {loading && <StyledLoading />}
       <CanvasIframe ref={canvasRef}></CanvasIframe>
     </StyledCanvas>
   );
