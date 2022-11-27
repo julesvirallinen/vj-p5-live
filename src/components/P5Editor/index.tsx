@@ -2,14 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import AceEditor from "react-ace";
 
-import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/keybinding-vscode";
 
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
-import { useSettingsDispatchContext } from "../../Providers/SettingsProvider";
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 
 const StyledP5Editor = styled(AceEditor)`
   background-color: transparent;
@@ -34,8 +32,6 @@ const StyledP5Editor = styled(AceEditor)`
 
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
-  const dispatch = useSettingsDispatchContext();
-  const { recompileSketch } = useGlobalCommands();
 
   return (
     <StyledP5Editor
@@ -44,7 +40,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
       width={"100vw"}
       highlightActiveLine={false}
       keyboardHandler={"vscode"}
-      mode="java"
+      mode="javascript"
       theme="monokai"
       fontSize={15}
       onChange={updateSketch}

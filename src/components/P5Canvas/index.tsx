@@ -1,5 +1,7 @@
 import React, { FC, useRef } from "react";
+import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
+import { useSettings } from "../../hooks/useSettings";
 
 import { CanvasFrameForwardRef } from "./components/CanvasIframe";
 import { useScriptLoader } from "./useScriptLoader";
@@ -26,13 +28,27 @@ const StyledLoading = styled.div`
   height: 100%;
 `;
 
+const CanvasOpacity = styled.div<{ $opacity: number }>`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0 0 0);
+`;
+
+const AnimatedOpacity = animated(CanvasOpacity);
+
 export const P5Canvas: FC = ({ ...rest }) => {
   const canvasRef = useRef<HTMLIFrameElement | null>(null);
   const doc = canvasRef?.current;
   const { loading } = useScriptLoader(doc);
+  const { canvasOpacity } = useSettings();
 
+  const settingsCaretStyles = useSpring({
+    opacity: canvasOpacity / 100,
+  });
   return (
     <StyledCanvas id={"p5canvas-container"} {...rest}>
+      <AnimatedOpacity style={settingsCaretStyles} />
       {loading && <StyledLoading />}
       <CanvasIframe ref={canvasRef}></CanvasIframe>
     </StyledCanvas>

@@ -7,10 +7,13 @@ import { TSrcScript } from "../../models/script";
 
 export const NON_PERSISTED_SETTINGS_KEYS = ["compileAfterMs"];
 
+export type TMenu = "sketches" | "settings";
+
 export interface IAppState {
   settings: {
     sketches: ISettingsSketch[];
     showMenu: boolean;
+    openMenu: TMenu;
     showActionBar: boolean;
     loadedSketchId?: string;
     compileAfterMs: number;
@@ -18,6 +21,7 @@ export interface IAppState {
      * Scripts that are always loaded for all sketches
      */
     userLoadedScripts: TSrcScript[];
+    canvasOpacity: number;
   };
   sessionGlobals: {
     iframeKey: string;
@@ -58,9 +62,11 @@ const initialState: IAppState = {
   settings: {
     sketches: [],
     showMenu: true,
+    openMenu: "sketches",
     showActionBar: true,
     compileAfterMs: 1000,
     userLoadedScripts: [],
+    canvasOpacity: 1,
   },
   globalCommands: {},
   sessionGlobals: {
