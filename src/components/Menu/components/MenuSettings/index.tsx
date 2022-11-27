@@ -50,6 +50,8 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
     canvas: { percentDimmed },
     setCanvasDimmedPercent,
     setEditorBackgroundColor,
+    setEditorTextColor,
+    setThemePrimaryColor,
   } = useSettings();
   const theme: TTheme = useTheme();
 
@@ -72,6 +74,28 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
             color={theme.editor.textBackground}
             onChange={(c) => {
               setEditorBackgroundColor(c);
+            }}
+          />
+        </ColorPickerWrapper>
+      </>
+      <>
+        code
+        <ColorPickerWrapper>
+          <ColorPicker
+            color={theme.editor.textColor}
+            onChange={(c) => {
+              setEditorTextColor(c);
+            }}
+          />
+        </ColorPickerWrapper>
+      </>
+      <>
+        Theme primary
+        <ColorPickerWrapper>
+          <ColorPicker
+            color={theme.colors.primary}
+            onChange={(c) => {
+              setThemePrimaryColor(c);
             }}
           />
         </ColorPickerWrapper>

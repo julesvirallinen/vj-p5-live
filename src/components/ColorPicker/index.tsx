@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HexAlphaColorPicker } from "react-colorful";
 import styled from "styled-components";
 
@@ -13,7 +13,7 @@ const StyledSwatch = styled.div`
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  border: 3px solid #f1f1f1;
+  border: 3px solid #6565657a;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 `;
@@ -24,6 +24,16 @@ const StyledPopOver = styled.div`
   left: -5rem;
   border-radius: 9px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+
+  .react-colorful {
+    width: 8rem;
+    height: 9rem;
+  }
+
+  .react-colorful__pointer {
+    background-color: #6565657a;
+    border-color: #6565657a;
+  }
 `;
 
 const Picker = styled(HexAlphaColorPicker)`
@@ -36,7 +46,7 @@ export const ColorPicker: React.FC<IColorPickerProps> = ({
   ...restProps
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const popover = useRef();
+  const popover = useRef<HTMLDivElement>();
 
   return (
     <StyledColorPicker {...restProps}>

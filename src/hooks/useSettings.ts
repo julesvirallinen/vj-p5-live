@@ -53,6 +53,24 @@ export const useSettings = () => {
     },
     [dispatch]
   );
+  const setEditorTextColor = useCallback(
+    (color: string) => {
+      dispatch({
+        type: "patchSettings",
+        payload: { themeOverrides: { editor: { textColor: color } } },
+      });
+    },
+    [dispatch]
+  );
+  const setThemePrimaryColor = useCallback(
+    (color: string) => {
+      dispatch({
+        type: "patchSettings",
+        payload: { themeOverrides: { colors: { primary: color } } },
+      });
+    },
+    [dispatch]
+  );
 
   return {
     ...settings,
@@ -61,5 +79,7 @@ export const useSettings = () => {
     setShowMenu,
     setCanvasDimmedPercent,
     setEditorBackgroundColor,
+    setEditorTextColor,
+    setThemePrimaryColor,
   };
 };

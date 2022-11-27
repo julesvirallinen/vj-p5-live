@@ -8,7 +8,8 @@ const theme = {
     opacity: 0.5,
   },
   editor: {
-    textBackground: "#FFFDF9",
+    textBackground: "#000",
+    textColor: "#ccc1c1",
   },
   colors: {
     powderWhite: "#FFFDF9",
@@ -16,6 +17,7 @@ const theme = {
     lightBlue: "#AFDBD2",
     onyx: "#36313D",
     darkPink: "#ccc1c1",
+    primary: "#ccc1c1",
   },
   fonts: ["sans-serif", "Roboto"],
   fontSizes: {

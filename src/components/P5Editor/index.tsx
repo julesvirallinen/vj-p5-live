@@ -12,7 +12,7 @@ import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 const StyledEditorWrapper = styled.div`
   span {
     background-color: ${(props) => `${props.theme.editor.textBackground}`};
-    //  color: #c2c1c1;
+    color: ${(props) => `${props.theme.editor.textColor}`};
   }
 `;
 

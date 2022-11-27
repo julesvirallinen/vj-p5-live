@@ -12,6 +12,11 @@ import Theme from "./Providers/ThemeProvider";
 const StyledApp = styled.div`
   margin: 0;
   padding: 0;
+
+  * > * {
+    color: ${(props) => props.theme.colors.primary};
+    /* font-family: 'Roboto', serif; */
+  }
 `;
 
 const StyledActionBar = styled(ActionBar)`
@@ -22,19 +27,19 @@ const StyledActionBar = styled(ActionBar)`
 
 const App: FC = () => {
   return (
-    <StyledApp>
-      <SettingsProvider>
-        <CurrentSketchProvider>
-          <ShortcutProvider>
-            <Theme>
+    <SettingsProvider>
+      <CurrentSketchProvider>
+        <ShortcutProvider>
+          <Theme>
+            <StyledApp>
               <CanvasWrapper />
               <Menu />
               <StyledActionBar />
-            </Theme>
-          </ShortcutProvider>
-        </CurrentSketchProvider>
-      </SettingsProvider>
-    </StyledApp>
+            </StyledApp>
+          </Theme>
+        </ShortcutProvider>
+      </CurrentSketchProvider>
+    </SettingsProvider>
   );
 };
 
