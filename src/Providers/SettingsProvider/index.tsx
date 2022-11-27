@@ -4,6 +4,8 @@ import { Path } from "ramda";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { ISettingsSketch } from "../../models/sketch";
 import { TSrcScript } from "../../models/script";
+import { PartialDeep } from "type-fest";
+import { TTheme } from "../ThemeProvider";
 
 export const NON_PERSISTED_SETTINGS_KEYS = ["compileAfterMs"];
 
@@ -11,6 +13,7 @@ export type TMenu = "sketches" | "settings";
 
 export interface IAppState {
   settings: {
+    themeOverrides: PartialDeep<TTheme>;
     sketches: ISettingsSketch[];
     showMenu: boolean;
     openMenu: TMenu;
@@ -21,7 +24,9 @@ export interface IAppState {
      * Scripts that are always loaded for all sketches
      */
     userLoadedScripts: TSrcScript[];
-    canvasOpacity: number;
+    canvas: {
+      percentDimmed: number;
+    };
   };
   sessionGlobals: {
     iframeKey: string;
@@ -60,13 +65,16 @@ const assocSettingsPath =
 
 const initialState: IAppState = {
   settings: {
+    themeOverrides: {},
     sketches: [],
     showMenu: true,
     openMenu: "sketches",
     showActionBar: true,
     compileAfterMs: 1000,
     userLoadedScripts: [],
-    canvasOpacity: 1,
+    canvas: {
+      percentDimmed: 1,
+    },
   },
   globalCommands: {},
   sessionGlobals: {

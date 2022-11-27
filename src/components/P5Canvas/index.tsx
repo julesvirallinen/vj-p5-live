@@ -41,11 +41,14 @@ export const P5Canvas: FC = ({ ...rest }) => {
   const canvasRef = useRef<HTMLIFrameElement | null>(null);
   const doc = canvasRef?.current;
   const { loading } = useScriptLoader(doc);
-  const { canvasOpacity } = useSettings();
+  const {
+    canvas: { percentDimmed },
+  } = useSettings();
 
   const settingsCaretStyles = useSpring({
-    opacity: canvasOpacity / 100,
+    opacity: percentDimmed / 100,
   });
+
   return (
     <StyledCanvas id={"p5canvas-container"} {...rest}>
       <AnimatedOpacity style={settingsCaretStyles} />

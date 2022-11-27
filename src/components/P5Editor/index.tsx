@@ -9,6 +9,13 @@ import "ace-builds/src-noconflict/keybinding-vscode";
 
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 
+const StyledEditorWrapper = styled.div`
+  span {
+    background-color: ${(props) => `${props.theme.editor.textBackground}`};
+    //  color: #c2c1c1;
+  }
+`;
+
 const StyledP5Editor = styled(AceEditor)`
   background-color: transparent;
   height: 100rem;
@@ -16,12 +23,11 @@ const StyledP5Editor = styled(AceEditor)`
     background-color: transparent;
   }
 
-  span {
-    background-color: #00000085;
-    color: #c2c1c1;
+  .ace_gutter-layer {
+    background-color: black;
   }
 
-  .ace_gutter-layer {
+  .ace_fold-widget {
     background-color: black;
   }
 
@@ -34,20 +40,22 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
 
   return (
-    <StyledP5Editor
-      {...restProps}
-      height={"100vh"}
-      width={"100vw"}
-      highlightActiveLine={false}
-      keyboardHandler={"vscode"}
-      mode="javascript"
-      theme="monokai"
-      fontSize={15}
-      onChange={updateSketch}
-      showPrintMargin={false}
-      value={code}
-      name="UNIQUE_ID_OF_DIV"
-      editorProps={{ $blockScrolling: true }}
-    />
+    <StyledEditorWrapper>
+      <StyledP5Editor
+        {...restProps}
+        height={"100vh"}
+        width={"100vw"}
+        highlightActiveLine={false}
+        keyboardHandler={"vscode"}
+        mode="javascript"
+        theme="monokai"
+        fontSize={15}
+        onChange={updateSketch}
+        showPrintMargin={false}
+        value={code}
+        name="UNIQUE_ID_OF_DIV"
+        editorProps={{ $blockScrolling: true }}
+      />
+    </StyledEditorWrapper>
   );
 };

@@ -7,6 +7,7 @@ import { ShortcutProvider } from "./Providers/ShortcutProvider";
 import { SettingsProvider } from "./Providers/SettingsProvider";
 import { CurrentSketchProvider } from "./Providers/SketchProvider";
 import { ActionBar } from "./components/ActionBar";
+import Theme from "./Providers/ThemeProvider";
 
 const StyledApp = styled.div`
   margin: 0;
@@ -25,9 +26,11 @@ const App: FC = () => {
       <SettingsProvider>
         <CurrentSketchProvider>
           <ShortcutProvider>
-            <CanvasWrapper />
-            <Menu />
-            <StyledActionBar />
+            <Theme>
+              <CanvasWrapper />
+              <Menu />
+              <StyledActionBar />
+            </Theme>
           </ShortcutProvider>
         </CurrentSketchProvider>
       </SettingsProvider>

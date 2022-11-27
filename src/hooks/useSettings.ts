@@ -34,11 +34,21 @@ export const useSettings = () => {
     [dispatch]
   );
 
-  const setCanvasOpacity = useCallback(
-    (opacity: number) => {
+  const setCanvasDimmedPercent = useCallback(
+    (percentDimmed: number) => {
       dispatch({
         type: "patchSettings",
-        payload: { canvasOpacity: R.clamp(0, 100, opacity) },
+        payload: { canvas: { percentDimmed: R.clamp(0, 100, percentDimmed) } },
+      });
+    },
+    [dispatch]
+  );
+
+  const setEditorBackgroundColor = useCallback(
+    (color: string) => {
+      dispatch({
+        type: "patchSettings",
+        payload: { themeOverrides: { editor: { textBackground: color } } },
       });
     },
     [dispatch]
@@ -49,6 +59,7 @@ export const useSettings = () => {
     toggleShowMenu,
     setOpenMenu,
     setShowMenu,
-    setCanvasOpacity,
+    setCanvasDimmedPercent,
+    setEditorBackgroundColor,
   };
 };
