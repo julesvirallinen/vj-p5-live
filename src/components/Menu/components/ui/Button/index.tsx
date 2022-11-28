@@ -2,8 +2,8 @@ import React, { ReactNode } from "react";
 import styled from "styled-components";
 
 export interface IButtonProps {
-  children: ReactNode;
-  onClick: () => void;
+  children?: ReactNode;
+  onClick?: () => void;
 }
 
 const StyledButton = styled.button`

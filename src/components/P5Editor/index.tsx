@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-javascript";
@@ -9,8 +9,16 @@ import "ace-builds/src-noconflict/keybinding-vscode";
 import Beautify from "ace-builds/src-noconflict/ext-beautify";
 
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
+import { useSettings } from "../../hooks/useSettings";
+import { Button } from "../Menu/components/ui/Button";
 
-const StyledEditorWrapper = styled.div`
+const StyledEditorWrapper = styled.div<{ $hidden: boolean }>`
+  ${(props) =>
+    props.$hidden &&
+    css`
+      display: none;
+    `}
+
   span {
     background-color: ${(props) => `${props.theme.editor.textBackground}`};
     color: ${(props) => `${props.theme.editor.textColor}`};
@@ -37,34 +45,47 @@ const StyledP5Editor = styled(AceEditor)`
   }
 `;
 
+const StyledShowEditorButton = styled(Button)`
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+`;
+
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
+  const { hideEditor, toggleHideEditor } = useSettings();
   const editorRef = useRef<any>();
 
   useEffect(() => {
     Beautify.beautify(editorRef.current.editor.session);
   }, []);
-  console.log(Beautify.commands);
 
   return (
-    <StyledEditorWrapper>
-      <StyledP5Editor
-        {...restProps}
-        height={"100vh"}
-        width={"100vw"}
-        highlightActiveLine={false}
-        keyboardHandler={"vscode"}
-        commands={Beautify.commands}
-        mode="javascript"
-        ref={editorRef}
-        theme="monokai"
-        fontSize={15}
-        onChange={updateSketch}
-        showPrintMargin={false}
-        value={code}
-        name="UNIQUE_ID_OF_DIV"
-        editorProps={{ $blockScrolling: true }}
-      />
-    </StyledEditorWrapper>
+    <>
+      {hideEditor && (
+        <StyledShowEditorButton onClick={toggleHideEditor}>
+          Show code
+        </StyledShowEditorButton>
+      )}
+      <StyledEditorWrapper $hidden={hideEditor}>
+        <StyledP5Editor
+          {...restProps}
+          height={"100vh"}
+          width={"100vw"}
+          highlightActiveLine={false}
+          keyboardHandler={"vscode"}
+          commands={Beautify.commands}
+          mode="javascript"
+          ref={editorRef}
+          theme="monokai"
+          fontSize={15}
+          onChange={updateSketch}
+          showPrintMargin={false}
+          value={code}
+          name="UNIQUE_ID_OF_DIV"
+          editorProps={{ $blockScrolling: true }}
+        />
+      </StyledEditorWrapper>
+    </>
   );
 };

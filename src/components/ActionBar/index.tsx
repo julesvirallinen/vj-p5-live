@@ -67,7 +67,7 @@ const AnimatedActionBar = animated(StyledActionBar);
 
 export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const [command, setCommand] = useState(">");
-  const { sketches, showActionBar } = useSettings();
+  const { sketches, showActionBar, toggleHideEditor } = useSettings();
   const { loadSketch, newSketch } = useSketchManager();
   const dispatch = useSettingsDispatchContext();
   const { hardRecompileSketch, recompileSketch, setActionBarRef } =
@@ -95,7 +95,7 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === "Enter") {
       const commandRegex = /(s|sketch|new)\s(.+)$/;
-      const toggleRegex = /(m|(menu|recompile|reset))\s*$/;
+      const toggleRegex = /(m|(menu|recompile|reset|hideeditor))\s*$/;
       const match = command.match(commandRegex);
       const toggleMatch = command.match(toggleRegex);
       if (match && match[1] == "s") {
@@ -112,6 +112,8 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
         hardRecompileSketch();
       } else if (toggleMatch && ["menu", "m"].includes(toggleMatch[1])) {
         dispatch({ type: "toggleShowMenu" });
+      } else if (toggleMatch && ["hideeditor"].includes(toggleMatch[1])) {
+        toggleHideEditor();
       }
     }
   };

@@ -20,6 +20,7 @@ export type TMenu = "sketches" | "settings" | "scripts";
 export interface IAppState {
   settings: {
     themeOverrides: PartialDeep<TTheme>;
+    hideEditor: boolean;
     sketches: ISettingsSketch[];
     showMenu: boolean;
     openMenu: TMenu;
@@ -72,6 +73,7 @@ const assocSettingsPath =
 
 const initialState: IAppState = {
   settings: {
+    hideEditor: false,
     themeOverrides: {},
     sketches: [],
     showMenu: true,

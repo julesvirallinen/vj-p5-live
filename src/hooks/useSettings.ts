@@ -41,6 +41,10 @@ export const useSettings = () => {
     setShowMenu(!settings.showMenu);
   }, [settings.showMenu, setShowMenu]);
 
+  const toggleHideEditor = useCallback(() => {
+    patchSettings(["hideEditor"], !settings.hideEditor);
+  }, [settings.hideEditor, patchSettings]);
+
   const setOpenMenu = useCallback(
     (menu: TMenu) => patchSettings(["openMenu"], menu),
     [patchSettings]
@@ -104,6 +108,7 @@ export const useSettings = () => {
     setThemePrimaryColor,
     setThemeSecondaryColor,
     toggleActionBar,
+    toggleHideEditor,
     setUserLoadedScripts,
   };
 };

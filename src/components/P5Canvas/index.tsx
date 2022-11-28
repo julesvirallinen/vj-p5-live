@@ -29,6 +29,7 @@ const StyledLoading = styled.div`
 `;
 
 const CanvasOpacity = styled.div<{ $opacity: number }>`
+  pointer-events: none;
   position: fixed;
   width: 100%;
   height: 100%;
