@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import AceEditor from "react-ace";
 
@@ -6,6 +6,7 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/keybinding-vscode";
+import Beautify from "ace-builds/src-noconflict/ext-beautify";
 
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 
@@ -38,6 +39,12 @@ const StyledP5Editor = styled(AceEditor)`
 
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
+  const editorRef = useRef<any>();
+
+  useEffect(() => {
+    Beautify.beautify(editorRef.current.editor.session);
+  }, []);
+  console.log(Beautify.commands);
 
   return (
     <StyledEditorWrapper>
@@ -47,7 +54,9 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
         width={"100vw"}
         highlightActiveLine={false}
         keyboardHandler={"vscode"}
+        commands={Beautify.commands}
         mode="javascript"
+        ref={editorRef}
         theme="monokai"
         fontSize={15}
         onChange={updateSketch}
