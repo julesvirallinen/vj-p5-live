@@ -1,12 +1,19 @@
-#### VJ-P5LIVE
+#### P5JS LIVE CODING FOR VJ
 
-Open source P5.js live-editor for live-code performances.
+Open source P5.js live-editor for live-coded VJ performances.
 
-Loosely based on the amazing https://github.com/ffd8/P5LIVE by https://github.com/ffd8.
+Loose port of the amazing https://github.com/ffd8/P5LIVE by https://github.com/ffd8.
 
 Stack: Typescript / React.
 
 ✨ Modular clean code for easier open source collaboration. ✨
+
+# Features
+
+- Live coding p5js
+- Add custom scripts to always be loaded
+- Powerful control of app theme
+- Slider for sketch global transparency to make sure you are not too bright
 
 # Design idea
 
@@ -38,8 +45,6 @@ yarn dev
 - Add electron wrapper for local file management.
 
 # Packages / projects used
-
-WebMidi.js, midi connection
 
 - [p5.js](https://p5js.org) <3
 - [WebMidi.js](https://github.com/djipco/webmidi), MIDI support for sketches

@@ -4,12 +4,19 @@ import styled from "styled-components";
 import { useSettings } from "../../../../../hooks/useSettings";
 import { AddScript } from "./components/AddScript";
 import * as R from "ramda";
+import { Button } from "../../ui/Button";
 export interface IScriptSettingsProps {}
 
 const StyledScriptSettings = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+`;
+
+const ConfirmationButtons = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 `;
 
 /**
@@ -43,11 +50,15 @@ export const ScriptSettings: React.FC<IScriptSettingsProps> = ({
   return (
     <StyledScriptSettings {...restProps}>
       {confirmRemove && (
-        <>
-          <b>Confirm removal of {confirmRemove}</b>
-          <button onClick={() => setConfirmRemove(null)}>cancel</button>
-          <button onClick={() => removeScript(confirmRemove)}>remove</button>
-        </>
+        <div>
+          <b>
+            Confirm removal of <code>{confirmRemove}</code>
+          </b>
+          <ConfirmationButtons>
+            <Button onClick={() => removeScript(confirmRemove)}>remove</Button>
+            <Button onClick={() => setConfirmRemove(null)}>cancel</Button>
+          </ConfirmationButtons>
+        </div>
       )}
       <b>Scripts loaded for every sketch</b>
       <div>

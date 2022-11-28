@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useSettings } from "../../../../../../hooks/useSettings";
+import { Button } from "../../../ui/Button";
+import { Input } from "../../../ui/Input";
 
 export interface IAddScriptProps {}
 
@@ -25,17 +27,14 @@ export const AddScript: React.FC<IAddScriptProps> = ({ ...restProps }) => {
   return (
     <StyledAddScript {...restProps}>
       id:
-      <input
-        onChange={(e) => setIdInput(sanitizeId(e.target.value))}
+      <Input
+        onChange={(e) => setIdInput(sanitizeId(e))}
         value={idInput}
-      ></input>
+      ></Input>
       src:
-      <input
-        value={srcInput}
-        onChange={(e) => setSrcInput(e.target.value)}
-      ></input>
+      <Input value={srcInput} onChange={setSrcInput}></Input>
       {srcInput.length > 0 && idInput.length > 0 && (
-        <button onClick={() => addScript()}>Add</button>
+        <Button onClick={() => addScript()}>Add</Button>
       )}
     </StyledAddScript>
   );

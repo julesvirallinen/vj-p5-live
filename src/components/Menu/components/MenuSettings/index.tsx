@@ -52,6 +52,7 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
     setEditorBackgroundColor,
     setEditorTextColor,
     setThemePrimaryColor,
+    setThemeSecondaryColor,
   } = useSettings();
   const theme: TTheme = useTheme();
 
@@ -96,6 +97,17 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
             color={theme.colors.primary}
             onChange={(c) => {
               setThemePrimaryColor(c);
+            }}
+          />
+        </ColorPickerWrapper>
+      </>
+      <>
+        Theme secondary
+        <ColorPickerWrapper>
+          <ColorPicker
+            color={theme.colors.secondary}
+            onChange={(c) => {
+              setThemeSecondaryColor(c);
             }}
           />
         </ColorPickerWrapper>

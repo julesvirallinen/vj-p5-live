@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useSketchManager } from "../../../hooks/useSketchManager";
 import { FaPlus } from "react-icons/fa";
+import { Button } from "./ui/Button";
+import { Input } from "./ui/Input";
 
 export interface INewSketchProps {}
 
@@ -10,20 +12,14 @@ const StyledNewSketch = styled.div`
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
+  flex: 1 1 auto;
+  margin-right: 2rem;
 `;
 
-const CreateButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-`;
+const CreateButton = styled(Button)``;
 
-const SketchInput = styled.input`
-  height: 1.5rem;
-  width: 80%;
+const SketchInput = styled(Input)`
+  width: 7rem;
 `;
 
 export const NewSketch: React.FC<INewSketchProps> = ({ ...restProps }) => {
@@ -31,10 +27,7 @@ export const NewSketch: React.FC<INewSketchProps> = ({ ...restProps }) => {
   const [name, setName] = useState("new sketch");
   return (
     <StyledNewSketch {...restProps}>
-      <SketchInput
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-      />
+      <SketchInput value={name} onChange={setName} />
       <CreateButton onClick={() => newSketch(name)}>
         <FaPlus />
       </CreateButton>

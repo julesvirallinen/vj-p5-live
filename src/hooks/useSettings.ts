@@ -73,6 +73,12 @@ export const useSettings = () => {
 
     [patchSettings]
   );
+  const setThemeSecondaryColor = useCallback(
+    (color: string) =>
+      patchSettings(["themeOverrides", "colors", "secondary"], color),
+
+    [patchSettings]
+  );
 
   const toggleActionBar = useCallback(() => {
     const setActionbarVisible = (value: boolean) =>
@@ -96,6 +102,7 @@ export const useSettings = () => {
     setEditorBackgroundColor,
     setEditorTextColor,
     setThemePrimaryColor,
+    setThemeSecondaryColor,
     toggleActionBar,
     setUserLoadedScripts,
   };

@@ -43,15 +43,9 @@ const StyledMenuCaret = styled.div`
   top: 2rem;
   right: ${MENU_WIDTH + 1}rem;
 `;
-const StyledSettingsCaret = styled.div`
-  position: fixed;
-  top: 5rem;
-  right: ${MENU_WIDTH + 1}rem;
-`;
 
 const AnimatedMenu = animated(StyledMenuContainer);
 const AnimatedCaret = animated(StyledMenuCaret);
-const SettingsCaret = animated(StyledSettingsCaret);
 
 const getCaretRotation = (isMenuOpen: boolean, isCurrentMenu: boolean) => {
   if (isMenuOpen && isCurrentMenu) {
