@@ -7,6 +7,7 @@ import {
 import * as R from "ramda";
 import { Path } from "ramda";
 import { useGlobalCommands } from "./useGlobalCommands";
+import { TSrcScript } from "../models/script";
 
 export const useSettings = () => {
   const dispatch = useSettingsDispatchContext();
@@ -26,6 +27,12 @@ export const useSettings = () => {
   const setShowMenu = useCallback(
     (showMenu: boolean) => {
       patchSettings(["showMenu"], showMenu);
+    },
+    [patchSettings]
+  );
+  const setUserLoadedScripts = useCallback(
+    (scripts: TSrcScript[]) => {
+      patchSettings(["userLoadedScripts"], scripts);
     },
     [patchSettings]
   );
@@ -71,12 +78,12 @@ export const useSettings = () => {
     const setActionbarVisible = (value: boolean) =>
       patchSettings(["showActionBar"], value);
 
-    if (document.activeElement === actionBarRef.current) {
+    if (document.activeElement === actionBarRef?.current) {
       actionBarRef.current?.blur();
       return setActionbarVisible(false);
     }
 
-    actionBarRef.current?.focus();
+    actionBarRef?.current?.focus();
     return setActionbarVisible(true);
   }, [actionBarRef, patchSettings]);
 
@@ -90,5 +97,6 @@ export const useSettings = () => {
     setEditorTextColor,
     setThemePrimaryColor,
     toggleActionBar,
+    setUserLoadedScripts,
   };
 };

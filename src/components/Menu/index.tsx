@@ -8,6 +8,7 @@ import { useSpring, animated } from "react-spring";
 import { FaCaretRight } from "react-icons/fa";
 import { TMenu } from "../../Providers/SettingsProvider";
 import { MenuSettings } from "./components/MenuSettings";
+import { ScriptSettings } from "./components/MenuSettings/views/ScriptSettings";
 
 const MENU_WIDTH = 12;
 
@@ -74,6 +75,11 @@ export const Menu: React.FC<IMenuProps> = () => {
     opacity: showMenu ? 1 : 0,
     top: showMenu ? "5rem" : "0rem",
   });
+  const scriptsCaretStyles = useSpring({
+    transform: getCaretRotation(showMenu, openMenu === "scripts"),
+    opacity: showMenu ? 1 : 0,
+    top: showMenu ? "8rem" : "0rem",
+  });
 
   const handleCaret = (menu: TMenu) => {
     if (!showMenu) {
@@ -97,12 +103,19 @@ export const Menu: React.FC<IMenuProps> = () => {
         >
           <FaCaretRight size={30} />
         </AnimatedCaret>
-        <SettingsCaret
+        {/* TODO: generalize these... */}
+        <AnimatedCaret
           style={settingsCaretStyles}
           onClick={() => handleCaret("settings")}
         >
           <FaCaretRight size={30} />
-        </SettingsCaret>
+        </AnimatedCaret>
+        <AnimatedCaret
+          style={scriptsCaretStyles}
+          onClick={() => handleCaret("scripts")}
+        >
+          <FaCaretRight size={30} />
+        </AnimatedCaret>
         {openMenu === "sketches" && (
           <StyledMenu>
             <CurrentSketchSettings />
@@ -113,6 +126,11 @@ export const Menu: React.FC<IMenuProps> = () => {
         {openMenu === "settings" && (
           <StyledSettingsMenu>
             <MenuSettings />
+          </StyledSettingsMenu>
+        )}
+        {openMenu === "scripts" && (
+          <StyledSettingsMenu>
+            <ScriptSettings />
           </StyledSettingsMenu>
         )}
       </AnimatedMenu>

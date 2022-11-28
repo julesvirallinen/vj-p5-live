@@ -15,7 +15,7 @@ import { TTheme } from "../ThemeProvider";
 
 export const NON_PERSISTED_SETTINGS_KEYS = ["compileAfterMs"];
 
-export type TMenu = "sketches" | "settings";
+export type TMenu = "sketches" | "settings" | "scripts";
 
 export interface IAppState {
   settings: {
@@ -36,7 +36,7 @@ export interface IAppState {
   };
   sessionGlobals: {
     iframeKey: string;
-    actionBarRef: RefObject<HTMLInputElement>;
+    actionBarRef?: RefObject<HTMLInputElement>;
   };
   globalCommands: {
     recompileSketch?: () => void;
