@@ -17,7 +17,8 @@ const theme = {
     lightBlue: "#AFDBD2",
     onyx: "#36313D",
     darkPink: "#ccc1c1",
-    primary: "#ccc1c1",
+    primary: "#06B49A",
+    secondary: "#AFDBD2",
   },
   fonts: ["sans-serif", "Roboto"],
   fontSizes: {

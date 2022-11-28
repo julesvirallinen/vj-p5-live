@@ -11,7 +11,6 @@ const runCommand =
     const fn = globalCommands[command];
 
     if (fn) {
-      console.log(`running ${command}`);
       fn();
     } else {
       console.error(`${command} sketch not set`);

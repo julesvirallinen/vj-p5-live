@@ -11,14 +11,14 @@ const StyledMenuSettings = styled.div`
 `;
 
 const StyledOpacitySlider = styled.input`
-  -webkit-appearance: none; /* Override default CSS styles */
+  -webkit-appearance: none;
   appearance: none;
   border-radius: 2rem;
   width: 100%;
   height: 25px;
   background: #000;
-  border: ${(props) => `1px solid ${props.theme.colors.darkPink}`};
-  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  border: 1px solid ${(props) => props.theme.colors.primary};
+  opacity: 0.7;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
 
@@ -28,7 +28,7 @@ const StyledOpacitySlider = styled.input`
     width: 1.5rem;
     opacity: 0.5;
     height: 1.5rem;
-    background-color: ${(props) => `${props.theme.colors.darkPink}`};
+    background-color: ${(props) => `${props.theme.colors.secondary}`};
     border-radius: 2rem;
     cursor: pointer;
   }

@@ -64,7 +64,6 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
         shouldOverwrite: true,
       },
       () => {
-        console.log("loaded user code");
         setScriptsLoading(false);
       }
     );

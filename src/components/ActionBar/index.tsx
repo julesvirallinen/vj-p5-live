@@ -22,7 +22,7 @@ const StyledInput = styled.input`
   color: #ffffffc7;
 
   :focus-visible {
-    outline-color: #ffc1c198;
+    outline-color: ${(props) => props.theme.colors.primary};
     background-color: rgb(0, 0, 0, 70%);
     color: #ffffffc7;
   }

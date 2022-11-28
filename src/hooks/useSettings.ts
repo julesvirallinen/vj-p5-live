@@ -5,19 +5,27 @@ import {
   useSettingsStateContext,
 } from "../Providers/SettingsProvider";
 import * as R from "ramda";
+import { Path } from "ramda";
 
 export const useSettings = () => {
   const dispatch = useSettingsDispatchContext();
   const { settings } = useSettingsStateContext();
 
-  const setShowMenu = useCallback(
-    (showMenu: boolean) => {
+  const patchSettings = useCallback(
+    (path: Path, value: unknown) => {
       dispatch({
         type: "patchSettings",
-        payload: { showMenu },
+        payload: R.assocPath(path, value, {}),
       });
     },
     [dispatch]
+  );
+
+  const setShowMenu = useCallback(
+    (showMenu: boolean) => {
+      patchSettings(["showMenu"], showMenu);
+    },
+    [patchSettings]
   );
 
   const toggleShowMenu = useCallback(() => {
@@ -25,51 +33,36 @@ export const useSettings = () => {
   }, [settings.showMenu, setShowMenu]);
 
   const setOpenMenu = useCallback(
-    (menu: TMenu) => {
-      dispatch({
-        type: "patchSettings",
-        payload: { openMenu: menu },
-      });
-    },
-    [dispatch]
+    (menu: TMenu) => patchSettings(["openMenu"], menu),
+    [patchSettings]
   );
 
   const setCanvasDimmedPercent = useCallback(
-    (percentDimmed: number) => {
-      dispatch({
-        type: "patchSettings",
-        payload: { canvas: { percentDimmed: R.clamp(0, 100, percentDimmed) } },
-      });
-    },
-    [dispatch]
+    (percentDimmed: number) =>
+      patchSettings(
+        ["canvas", "percentDimmed"],
+        R.clamp(0, 100, percentDimmed)
+      ),
+    [patchSettings]
   );
 
   const setEditorBackgroundColor = useCallback(
-    (color: string) => {
-      dispatch({
-        type: "patchSettings",
-        payload: { themeOverrides: { editor: { textBackground: color } } },
-      });
-    },
-    [dispatch]
+    (color: string) =>
+      patchSettings(["themeOverrides", "editor", "textBackground"], color),
+    [patchSettings]
   );
+
   const setEditorTextColor = useCallback(
-    (color: string) => {
-      dispatch({
-        type: "patchSettings",
-        payload: { themeOverrides: { editor: { textColor: color } } },
-      });
-    },
-    [dispatch]
+    (color: string) =>
+      patchSettings(["themeOverrides", "editor", "textColor"], color),
+
+    [patchSettings]
   );
   const setThemePrimaryColor = useCallback(
-    (color: string) => {
-      dispatch({
-        type: "patchSettings",
-        payload: { themeOverrides: { colors: { primary: color } } },
-      });
-    },
-    [dispatch]
+    (color: string) =>
+      patchSettings(["themeOverrides", "colors", "primary"], color),
+
+    [patchSettings]
   );
 
   return {
