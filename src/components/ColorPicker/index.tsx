@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
-import { HexAlphaColorPicker } from "react-colorful";
+import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import styled from "styled-components";
+import { useClickedOutside } from "../../hooks/useClickedOutside";
 
 export interface IColorPickerProps {
   color: string;
@@ -46,7 +47,8 @@ export const ColorPicker: React.FC<IColorPickerProps> = ({
   ...restProps
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const popover = useRef<HTMLDivElement>();
+  const popover = useRef<HTMLDivElement | null>(null);
+  useClickedOutside(popover, () => setIsOpen(false));
 
   return (
     <StyledColorPicker {...restProps}>
@@ -55,8 +57,9 @@ export const ColorPicker: React.FC<IColorPickerProps> = ({
         onClick={() => setIsOpen(!isOpen)}
       />
       {isOpen && (
-        <StyledPopOver ref={popover.current}>
+        <StyledPopOver ref={popover}>
           <Picker color={color} onChange={onChange} />
+          <HexColorInput color={color} onChange={onChange} />
         </StyledPopOver>
       )}
     </StyledColorPicker>

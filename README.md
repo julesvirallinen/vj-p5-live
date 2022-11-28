@@ -2,7 +2,7 @@
 
 Open source P5.js live-editor for live-code performances.
 
-Based on the amazing https://github.com/ffd8/P5LIVE by https://github.com/ffd8.
+Loosely based on the amazing https://github.com/ffd8/P5LIVE by https://github.com/ffd8.
 
 Stack: Typescript / React.
 
@@ -10,28 +10,40 @@ Stack: Typescript / React.
 
 # Design idea
 
-- easy development 
+- easy development with strong typing
 - controls largely via written commands for easy live-performing
 
 ![CleanShot 2022-11-26 at 23 36 07](https://user-images.githubusercontent.com/4622905/204109914-fd24d10a-dec3-429e-b5fd-2cc659a28438.gif)
 
+# Is this for me?
 
-# Is this for me? 
+If you:
 
-If you: 
 - want to develop a p5js live coding app
+- do live VJ coding and is looking for an interesting tool
 
 this is probably for you. If not, try P5LIVE!
 
-# Installation 
+# Installation
 
-Clone repository and run 
+Clone repository and run
 
 ```
-yarn 
+yarn
 yarn dev
 ```
 
 # Roadmap
 
 - Add electron wrapper for local file management.
+
+# Packages / projects used
+
+WebMidi.js, midi connection
+
+- [p5.js](https://p5js.org) <3
+- [WebMidi.js](https://github.com/djipco/webmidi), MIDI support for sketches
+- [p5.js sound](https://github.com/processing/p5.js-sound), sound support for sketches
+
+- [react-ace](https://www.npmjs.com/package/react-ace) Ace editor for react
+- [react-colorful](https://github.com/omgovich/react-colorful) color picker

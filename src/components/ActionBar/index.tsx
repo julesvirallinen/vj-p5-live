@@ -1,4 +1,10 @@
-import React, { KeyboardEventHandler, useState } from "react";
+import React, {
+  KeyboardEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
@@ -57,12 +63,22 @@ const COMMANDS: TCommand[] = [
   },
 ];
 
+const AnimatedActionBar = animated(StyledActionBar);
+
 export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const [command, setCommand] = useState(">");
   const { sketches, showActionBar } = useSettings();
   const { loadSketch, newSketch } = useSketchManager();
   const dispatch = useSettingsDispatchContext();
-  const { hardRecompileSketch, recompileSketch } = useGlobalCommands();
+  const { hardRecompileSketch, recompileSketch, setActionBarRef } =
+    useGlobalCommands();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const styles = useSpring({
+    transform: showActionBar
+      ? "translate(0rem, 0rem)"
+      : `translate(0rem, 2rem)`,
+  });
   /**
    *
    * TODO:
@@ -71,6 +87,10 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
    * - [ ] some sort of preview for sketch selection (show matching sketches on tab?)
    *
    */
+
+  useEffect(() => {
+    setActionBarRef(inputRef);
+  }, [inputRef, setActionBarRef]);
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === "Enter") {
@@ -96,18 +116,15 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
     }
   };
 
-  if (!showActionBar) {
-    return null;
-  }
-
   return (
-    <StyledActionBar {...restProps}>
+    <AnimatedActionBar {...restProps} style={styles}>
       <StyledInput
+        ref={inputRef}
         autoFocus
         value={command}
         onChange={(event) => setCommand(event.target.value)}
         onKeyDown={handleKeyDown}
       ></StyledInput>
-    </StyledActionBar>
+    </AnimatedActionBar>
   );
 };

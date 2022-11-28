@@ -6,10 +6,12 @@ import {
 } from "../Providers/SettingsProvider";
 import * as R from "ramda";
 import { Path } from "ramda";
+import { useGlobalCommands } from "./useGlobalCommands";
 
 export const useSettings = () => {
   const dispatch = useSettingsDispatchContext();
   const { settings } = useSettingsStateContext();
+  const { actionBarRef } = useGlobalCommands();
 
   const patchSettings = useCallback(
     (path: Path, value: unknown) => {
@@ -65,6 +67,19 @@ export const useSettings = () => {
     [patchSettings]
   );
 
+  const toggleActionBar = useCallback(() => {
+    const setActionbarVisible = (value: boolean) =>
+      patchSettings(["showActionBar"], value);
+
+    if (document.activeElement === actionBarRef.current) {
+      actionBarRef.current?.blur();
+      return setActionbarVisible(false);
+    }
+
+    actionBarRef.current?.focus();
+    return setActionbarVisible(true);
+  }, [actionBarRef, patchSettings]);
+
   return {
     ...settings,
     toggleShowMenu,
@@ -74,5 +89,6 @@ export const useSettings = () => {
     setEditorBackgroundColor,
     setEditorTextColor,
     setThemePrimaryColor,
+    toggleActionBar,
   };
 };

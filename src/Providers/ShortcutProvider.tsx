@@ -1,6 +1,7 @@
 import React from "react";
 import { GlobalHotKeys, configure } from "react-hotkeys";
 import { useGlobalCommands } from "../hooks/useGlobalCommands";
+import { useSettings } from "../hooks/useSettings";
 import { useSketchManager } from "../hooks/useSketchManager";
 import { useSettingsDispatchContext } from "./SettingsProvider";
 
@@ -28,16 +29,17 @@ export const ShortcutProvider: React.FC<IShortcutProviderProps> = ({
 }) => {
   const dispatch = useSettingsDispatchContext();
   const { recompileSketch } = useGlobalCommands();
+  const { toggleActionBar, toggleShowMenu } = useSettings();
   const { reloadSketch } = useSketchManager();
 
   const handlers = {
-    SHOW_MENU: () => dispatch({ type: "toggleShowMenu" }),
+    SHOW_MENU: () => toggleShowMenu(),
     COMPILE: () => recompileSketch(),
     HARD_COMPILE: () => reloadSketch(),
     SHOW_ACTION_BAR: (event: KeyboardEvent | undefined) => {
       event?.preventDefault();
 
-      dispatch({ type: "toggleActionBar" });
+      toggleActionBar();
     },
   };
 

@@ -71,12 +71,13 @@ export const Menu: React.FC<IMenuProps> = () => {
   });
   const settingsCaretStyles = useSpring({
     transform: getCaretRotation(showMenu, openMenu === "settings"),
+    opacity: showMenu ? 1 : 0,
+    top: showMenu ? "5rem" : "0rem",
   });
 
   const handleCaret = (menu: TMenu) => {
     if (!showMenu) {
       setShowMenu(true);
-      setOpenMenu(menu);
     }
     if (showMenu && menu === openMenu) {
       return setShowMenu(false);

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { RefObject, useCallback } from "react";
 import {
   IAppState,
   useSettingsDispatchContext,
@@ -37,6 +37,12 @@ export const useGlobalCommands = () => {
     },
     [dispatch]
   );
+  const setActionBarRef = useCallback(
+    (ref: RefObject<HTMLInputElement>) => {
+      dispatch({ type: "patchSessionGlobals", payload: { actionBarRef: ref } });
+    },
+    [dispatch]
+  );
 
   const setHardRecompileSketch = useCallback(
     (fn: () => void) => {
@@ -57,6 +63,7 @@ export const useGlobalCommands = () => {
     setHardRecompileSketch,
     hardRecompileSketch,
     setIframeKey,
+    setActionBarRef,
     ...sessionGlobals,
   };
 };
