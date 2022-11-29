@@ -28,7 +28,6 @@ function draw() {
 `;
 
 export const defaultSketch: ICurrentSketch = {
-  name: "new",
   code: defaultSketchCode,
   id: "defaultNew",
 };

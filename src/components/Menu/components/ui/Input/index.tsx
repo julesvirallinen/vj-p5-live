@@ -1,8 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
+// hacky, figure this out...
+type TDefaultProps = Omit<
+  React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >,
+  "ref" | "onChange" | "value"
+>;
+
 export interface IInputProps {
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   value: string;
 }
 
@@ -15,7 +24,7 @@ const StyledInput = styled.input`
   padding: 0.1rem 0.3rem; ;
 `;
 
-export const Input: React.FC<IInputProps> = ({
+export const Input: React.FC<IInputProps & TDefaultProps> = ({
   onChange,
   value,
   ...restProps
@@ -24,7 +33,7 @@ export const Input: React.FC<IInputProps> = ({
     <StyledInput
       {...restProps}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onChange && onChange(e.target.value)}
     />
   );
 };

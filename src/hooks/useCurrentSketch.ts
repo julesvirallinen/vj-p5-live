@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { ISettingsSketch } from "../models/sketch";
 import {
   useCurrentSketchDispatchContext,
   useCurrentSketchStateContext,
@@ -7,6 +8,16 @@ import { useSettings } from "./useSettings";
 
 export const useCurrentSketch = () => {
   const sketch = useCurrentSketchStateContext();
+  const { sketches } = useSettings();
+
+  const currentSketchData = useMemo(() => {
+    const sketchData = sketches.find((s) => s.id == sketch.id);
+
+    if (!sketchData) {
+      console.error("no sketch saved");
+    }
+    return sketchData;
+  }, [sketch.id, sketches]) as ISettingsSketch;
 
   const dispatchCurrentSketch = useCurrentSketchDispatchContext();
 
@@ -51,6 +62,7 @@ export const useCurrentSketch = () => {
   return {
     updateSketch,
     ...sketch,
+    ...currentSketchData,
     codeToCompile,
   };
 };

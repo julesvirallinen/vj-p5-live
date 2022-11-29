@@ -14,6 +14,7 @@ Stack: Typescript / React.
 - Add custom scripts to always be loaded
 - Powerful control of app theme
 - Slider for sketch global transparency to make sure you are not too bright
+- Hide / show the editor to interact with the canvas
 
 # Design idea
 

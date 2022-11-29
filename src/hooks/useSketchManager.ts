@@ -47,6 +47,15 @@ export const useSketchManager = () => {
     });
   };
 
+  const renameSketch = (id: string, name: string) => {
+    dispatchSettings({
+      type: "patchSettings",
+      payload: {
+        sketches: sketches.map((s) => (s.id === id ? { ...s, name } : s)),
+      },
+    });
+  };
+
   const saveSketch = (sketch: ICurrentSketch) =>
     setItem(getSketchKey(sketch), sketch);
 
@@ -91,5 +100,12 @@ export const useSketchManager = () => {
     }
   };
 
-  return { newSketch, saveSketch, loadSketch, getInitialSketch, reloadSketch };
+  return {
+    newSketch,
+    saveSketch,
+    loadSketch,
+    getInitialSketch,
+    reloadSketch,
+    renameSketch,
+  };
 };
