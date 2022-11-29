@@ -26,6 +26,7 @@ export const useCurrentSketch = () => {
   const [lastCompiledAt, setLastCompiledAt] = useState(new Date().getTime());
   const [lastKeystrokeAt, setLastKeystrokeAt] = useState(new Date().getTime());
 
+  // This logic doesn't quite work right yet, need to investigate!
   useEffect(() => {
     const currentTime = new Date().getTime();
     const interval = setInterval(() => {
