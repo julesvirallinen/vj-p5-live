@@ -40,8 +40,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     [iframeRef?.contentWindow]
   );
   const iframeDocument = iframeContentWindow?.document;
-  const { setHardRecompileSketch, setRecompileSketch, setIframeKey } =
-    useGlobalCommands();
+  const { setHardRecompileSketch, setRecompileSketch } = useGlobalCommands();
   const [scriptsLoaded, setScriptsLoaded] = useState<string[]>([]);
   const [scriptsLoading, setScriptsLoading] = useState(true);
   const { userLoadedScripts } = useSettings();
@@ -97,6 +96,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     setScriptsLoaded([]);
     setScriptsLoading(true);
     // loadscripts dep needed for now, running it triggers a race condition
+    // @eslint-disable @eslintreact-hooks/exhaustive-deps
   }, [iframeDocument, loadScripts]);
 
   const recompileSketch = useCallback(() => {

@@ -72,6 +72,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
           {...restProps}
           height={"100vh"}
           width={"100vw"}
+          setOptions={{ useWorker: false }}
           highlightActiveLine={false}
           keyboardHandler={"vscode"}
           commands={Beautify.commands}
