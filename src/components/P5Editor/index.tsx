@@ -11,6 +11,7 @@ import Beautify from "ace-builds/src-noconflict/ext-beautify";
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 import { useSettings } from "../../hooks/useSettings";
 import { Button } from "../Menu/components/ui/Button";
+import { FaCode } from "react-icons/fa";
 
 const StyledEditorWrapper = styled.div<{ $hidden: boolean }>`
   ${(props) =>
@@ -54,17 +55,17 @@ const StyledShowEditorButton = styled(Button)`
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
   const { hideEditor, toggleHideEditor } = useSettings();
-  const editorRef = useRef<any>();
+  const editorRef = useRef<AceEditor>(null);
 
   useEffect(() => {
-    Beautify.beautify(editorRef.current.editor.session);
+    Beautify.beautify(editorRef?.current?.editor.session);
   }, []);
 
   return (
     <>
       {hideEditor && (
         <StyledShowEditorButton onClick={toggleHideEditor}>
-          Show code
+          <FaCode />
         </StyledShowEditorButton>
       )}
       <StyledEditorWrapper $hidden={hideEditor}>

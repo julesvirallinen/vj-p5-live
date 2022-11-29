@@ -43,6 +43,24 @@ export const useGlobalCommands = () => {
     },
     [dispatch]
   );
+  const setCanvasMediaStream = useCallback(
+    (canvasMediaStream: MediaStream) => {
+      dispatch({
+        type: "patchSessionGlobals",
+        payload: { canvasMediaStream },
+      });
+    },
+    [dispatch]
+  );
+  const setCanvasPopupOpen = useCallback(
+    (canvasPopupOpen: boolean) => {
+      dispatch({
+        type: "patchSessionGlobals",
+        payload: { canvasPopupOpen },
+      });
+    },
+    [dispatch]
+  );
 
   const setHardRecompileSketch = useCallback(
     (fn: () => void) => {
@@ -64,6 +82,8 @@ export const useGlobalCommands = () => {
     hardRecompileSketch,
     setIframeKey,
     setActionBarRef,
+    setCanvasMediaStream,
+    setCanvasPopupOpen,
     ...sessionGlobals,
   };
 };

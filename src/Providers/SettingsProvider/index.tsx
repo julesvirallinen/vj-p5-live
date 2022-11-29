@@ -38,6 +38,8 @@ export interface IAppState {
   sessionGlobals: {
     iframeKey: string;
     actionBarRef?: RefObject<HTMLInputElement>;
+    canvasMediaStream?: MediaStream;
+    canvasPopupOpen: boolean;
   };
   globalCommands: {
     recompileSketch?: () => void;
@@ -89,6 +91,7 @@ const initialState: IAppState = {
   sessionGlobals: {
     // used to refresh iframe on change
     iframeKey: "new",
+    canvasPopupOpen: false,
   },
 };
 
