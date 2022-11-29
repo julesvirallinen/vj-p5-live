@@ -21,6 +21,10 @@ type TSketchWindowProps = {
 const scriptsToLoad = [
   { id: "p5js", path: "/public/js/p5.min.js" },
   {
+    id: "mapper",
+    path: "/public/js/p5.mapper.min.js",
+  },
+  {
     id: "ramda",
     path: "/public/js/ramda.min.js",
   },
