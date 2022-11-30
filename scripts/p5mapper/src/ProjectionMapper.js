@@ -11,9 +11,10 @@ class ProjectionMapper {
     this.lines = [];
     this.masks = [];
     this.dragged = null;
-    this.calibrate = false;
+    this.selected = null;
+    this.calibrationMode = false;
     this.pInst = null;
-    this.pMousePressed = false;
+    this.mousePressedState = false;
   }
 
   ////////////////////////////////////////
@@ -70,50 +71,30 @@ class ProjectionMapper {
   // INTERACTION
   ////////////////////////////////////////
   onClick() {
-    // ignore input events if the calibrate flag is not set
-    if (!this.calibrate) return;
+    if (!this.calibrationMode) return;
 
-    // first check masks
-    let top = null;
-    for (const mask of this.masks) {
-      this.dragged = mask.select();
-      if (this.dragged != null) {
-        top = mask;
-        return;
-      }
-    }
-    // Check Lines
-    // navigate the list backwards, as to select
-    for (let i = this.lines.length - 1; i >= 0; i--) {
-      let s = this.lines[i];
-      this.dragged = s.select();
-      if (this.dragged != null) {
-        top = s;
-        return;
-      }
+    const items = [
+      ...this.masks,
+      ...this.lines.reverse(),
+      ...this.surfaces.reverse(),
+    ];
+    const selectedItem = items.find((m) => !!m.select());
+
+    if (selectedItem) {
+      this.dragged = selectedItem.select();
+      this.selected = selectedItem.select();
+      return;
     }
 
-    // check mapping surfaces
-    for (let i = this.surfaces.length - 1; i >= 0; i--) {
-      let s = this.surfaces[i];
-      this.dragged = s.select();
-      if (this.dragged != null) {
-        top = s;
-        return;
-      }
-    }
-
-    if (top != null) {
-      // TODO
-      // moved the dragged surface to the beginning of the list
-      // this actually breaks the load/save order.
-      // in the new version, add IDs to surfaces so we can just
-      // re-load in the right order (or create a separate list
-      // for selection/rendering)
-      //let i = surfaces.indexOf(top);
-      //surfaces.remove(i);
-      //surfaces.add(0, top);
-    }
+    // TODO
+    // moved the dragged surface to the beginning of the list
+    // this actually breaks the load/save order.
+    // in the new version, add IDs to surfaces so we can just
+    // re-load in the right order (or create a separate list
+    // for selection/rendering)
+    //let i = surfaces.indexOf(top);
+    //surfaces.remove(i);
+    //surfaces.add(0, top);
   }
 
   onDrag() {
@@ -125,12 +106,31 @@ class ProjectionMapper {
   }
 
   isDragging(surface) {
-    // TODO - ??? why return true?
-    if (this.dragged === null) return true;
     return this.dragged === surface;
+  }
+  isSelected(surface) {
+    return this.selected === surface;
   }
 
   updateEvents() {
+    if (this.selected) {
+      if (keyIsDown(LEFT_ARROW)) {
+        this.selected.move(-1, 0);
+      }
+
+      if (keyIsDown(RIGHT_ARROW)) {
+        this.selected.move(1, 0);
+      }
+
+      if (keyIsDown(UP_ARROW)) {
+        this.selected.move(0, -1);
+      }
+
+      if (keyIsDown(DOWN_ARROW)) {
+        this.selected.move(0, 1);
+      }
+    }
+    // console.log(mouseIsPressed, this.mousePressedState, this.dragged);
     if (mouseIsPressed) {
       if (!this.pMousePressed) {
         this.onClick();
@@ -268,15 +268,20 @@ class ProjectionMapper {
   // CALIBRATING
   ////////////////////////////////////////
   startCalibration() {
-    this.calibrate = true;
+    this.calibrationMode = true;
   }
 
   stopCalibration() {
-    this.calibrate = false;
+    this.dragged = null;
+    this.calibrationMode = false;
   }
 
   toggleCalibration() {
-    this.calibrate = !this.calibrate;
+    if (this.calibrationMode) {
+      return this.stopCalibration();
+    }
+
+    return this.startCalibration();
   }
 
   ////////////////////////////////////////
@@ -307,7 +312,7 @@ class ProjectionMapper {
   }
 
   displayControlPoints() {
-    if (this.calibrate) {
+    if (this.calibrationMode) {
       for (const mask of this.masks) {
         mask.displayControlPoints();
       }
@@ -335,11 +340,14 @@ p5.prototype.createProjectionMapper = function (pInst) {
 };
 
 p5.prototype.isCalibratingMapper = function () {
-  return pMapper.calibrate;
+  return pMapper.calibrationMode;
 };
 
 p5.prototype.isDragging = function (surface) {
   return pMapper.isDragging(surface);
+};
+p5.prototype.isSelected = function (surface) {
+  return pMapper.isSelected(surface);
 };
 
 p5.prototype.registerMethod("pre", () => pMapper.beginSurfaces());

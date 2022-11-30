@@ -48,8 +48,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   const [scriptsLoaded, setScriptsLoaded] = useState<string[]>([]);
   const [scriptsLoading, setScriptsLoading] = useState(true);
   const { userLoadedScripts } = useSettings();
-  const { setCanvasMediaStream, canvasMediaStream, canvasPopupOpen } =
-    useGlobalCommands();
+  const { setCanvasMediaStream, canvasPopupOpen } = useGlobalCommands();
 
   const sketchCode = useSketchCodeManager();
 
@@ -66,7 +65,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
           createCanvasStream();
           clearInterval(retry);
         }
-        if (tries++ > 5) {
+        if (tries++ > 2) {
           clearInterval(retry);
         }
       }, 500);

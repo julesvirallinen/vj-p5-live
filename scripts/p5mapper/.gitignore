@@ -1,0 +1,12 @@
+docs
+node_modules
+examples/__test
+*.DS_Store
+.vscode
+*logo_maker
+*sketchpalette.js
+
+notes.md
+Notes.md
+
+Mask2D*
