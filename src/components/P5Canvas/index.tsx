@@ -9,14 +9,18 @@ import { VisualsPopup } from "../../views/VisualPopup";
 
 const StyledCanvas = styled.div`
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   position: fixed;
   top: 0;
 `;
 
+const InnerCanvas = styled.div`
+  margin: 0;
+`;
+
 const CanvasIframe = styled(CanvasFrameForwardRef)`
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   border: 0;
   color: black;
   background-color: black;
@@ -55,7 +59,9 @@ export const P5Canvas: FC = ({ ...rest }) => {
       {canvasRef && <VisualsPopup></VisualsPopup>}
       <AnimatedOpacity style={settingsCaretStyles} />
       {loading && <StyledLoading />}
-      <CanvasIframe ref={canvasRef}></CanvasIframe>
+      <CanvasIframe ref={canvasRef}>
+        <InnerCanvas></InnerCanvas>
+      </CanvasIframe>
     </StyledCanvas>
   );
 };

@@ -84,7 +84,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
           onChange={updateSketch}
           showPrintMargin={false}
           value={code}
-          name="UNIQUE_ID_OF_DIV"
+          name="p5_editor"
           editorProps={{ $blockScrolling: true }}
         />
       </StyledEditorWrapper>
