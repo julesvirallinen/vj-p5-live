@@ -15,6 +15,7 @@ class ProjectionMapper {
     this.calibrationMode = false;
     this.pInst = null;
     this.mousePressedState = false;
+    this.keyPressedForFrames = 0;
   }
 
   ////////////////////////////////////////
@@ -86,6 +87,8 @@ class ProjectionMapper {
       return;
     }
 
+    this.selected = null;
+
     // TODO
     // moved the dragged surface to the beginning of the list
     // this actually breaks the load/save order.
@@ -114,20 +117,19 @@ class ProjectionMapper {
 
   updateEvents() {
     if (this.selected) {
+      this.keyPressedForFrames++;
+      const amount =
+        this.keyPressedForFrames < 10 && this.keyPressedForFrames > 1 ? 0 : 1;
       if (keyIsDown(LEFT_ARROW)) {
-        this.selected.move(-1, 0);
-      }
-
-      if (keyIsDown(RIGHT_ARROW)) {
-        this.selected.move(1, 0);
-      }
-
-      if (keyIsDown(UP_ARROW)) {
-        this.selected.move(0, -1);
-      }
-
-      if (keyIsDown(DOWN_ARROW)) {
-        this.selected.move(0, 1);
+        this.selected.move(-amount, 0);
+      } else if (keyIsDown(RIGHT_ARROW)) {
+        this.selected.move(amount, 0);
+      } else if (keyIsDown(UP_ARROW)) {
+        this.selected.move(0, -amount);
+      } else if (keyIsDown(DOWN_ARROW)) {
+        this.selected.move(0, amount);
+      } else {
+        this.keyPressedForFrames = 0;
       }
     }
     // console.log(mouseIsPressed, this.mousePressedState, this.dragged);
@@ -272,7 +274,7 @@ class ProjectionMapper {
   }
 
   stopCalibration() {
-    this.dragged = null;
+    this.selected = null;
     this.calibrationMode = false;
   }
 
