@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { ReactNewWindowStyles as NewWindow } from "react-new-window-styles";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
@@ -28,7 +28,7 @@ export const VisualsPopup: React.FC<IVisualsPopupProps> = ({
 }) => {
   const { canvasMediaStream, canvasPopupOpen, setCanvasPopupOpen } =
     useGlobalCommands();
-  console.log(canvasMediaStream);
+
   return (
     <>
       {canvasPopupOpen && canvasMediaStream && (
@@ -49,7 +49,7 @@ export const VisualsPopup: React.FC<IVisualsPopupProps> = ({
         >
           <GlobalStyle />
 
-          {canvasMediaStream && <CanvasVideo srcObject={canvasMediaStream} />}
+          <CanvasVideo srcObject={canvasMediaStream} />
         </NewWindow>
       )}
     </>

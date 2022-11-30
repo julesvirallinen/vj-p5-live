@@ -1,16 +1,16 @@
-import React, { useCallback, VideoHTMLAttributes } from "react";
+import React, { VideoHTMLAttributes, useEffect, useRef } from "react";
 
-type VideoProps = VideoHTMLAttributes<HTMLVideoElement> & {
+type PropsType = VideoHTMLAttributes<HTMLVideoElement> & {
   srcObject: MediaStream;
 };
 
-export const Video = ({ srcObject, ...props }: VideoProps) => {
-  const refVideo = useCallback(
-    (node: HTMLVideoElement) => {
-      if (node) node.srcObject = srcObject;
-    },
-    [srcObject]
-  );
+export const Video = ({ srcObject, ...props }: PropsType) => {
+  const refVideo = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!refVideo.current || !srcObject) return;
+    refVideo.current.srcObject = srcObject;
+  }, [srcObject, refVideo]);
 
   return <video autoPlay muted ref={refVideo} {...props} />;
 };

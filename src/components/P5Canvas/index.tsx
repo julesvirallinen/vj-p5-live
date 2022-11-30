@@ -1,13 +1,11 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import React, { FC, useRef } from "react";
 import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
 import { useSettings } from "../../hooks/useSettings";
 
 import { CanvasFrameForwardRef } from "./components/CanvasIframe";
 import { useScriptLoader } from "./useScriptLoader";
-import { useSketchCodeManager } from "./useSketchCodeManager";
 import { VisualsPopup } from "../../views/VisualPopup";
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 
 const StyledCanvas = styled.div`
   width: 100vw;
@@ -44,30 +42,10 @@ const AnimatedOpacity = animated(CanvasOpacity);
 export const P5Canvas: FC = ({ ...rest }) => {
   const canvasRef = useRef<HTMLIFrameElement | null>(null);
   const doc = canvasRef?.current;
-  const { setCanvasMediaStream, canvasMediaStream, canvasPopupOpen } =
-    useGlobalCommands();
   const { loading } = useScriptLoader(doc);
   const {
     canvas: { percentDimmed },
   } = useSettings();
-  const sketchCode = useSketchCodeManager();
-
-  const createCanvasStream = useCallback(() => {
-    if (!doc?.contentWindow || canvasMediaStream || !canvasPopupOpen) {
-      return;
-    }
-
-    const stream = doc.contentWindow?.document
-      ?.querySelector("canvas")
-      ?.captureStream();
-
-    stream && setCanvasMediaStream(stream);
-  }, [doc, canvasMediaStream, setCanvasMediaStream, canvasPopupOpen]);
-
-  useEffect(() => {
-    canvasPopupOpen && createCanvasStream();
-  }, [createCanvasStream, sketchCode, doc?.contentWindow, canvasPopupOpen]);
-
   const settingsCaretStyles = useSpring({
     opacity: percentDimmed / 100,
   });

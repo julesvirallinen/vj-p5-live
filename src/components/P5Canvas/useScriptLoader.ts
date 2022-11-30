@@ -48,8 +48,32 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   const [scriptsLoaded, setScriptsLoaded] = useState<string[]>([]);
   const [scriptsLoading, setScriptsLoading] = useState(true);
   const { userLoadedScripts } = useSettings();
+  const { setCanvasMediaStream, canvasMediaStream, canvasPopupOpen } =
+    useGlobalCommands();
 
   const sketchCode = useSketchCodeManager();
+
+  const createCanvasStream = useCallback(() => {
+    // console.log(iframeDocument, canvasPopupOpen);
+    if (!canvasPopupOpen) return;
+
+    const stream = iframeDocument?.querySelector("canvas")?.captureStream();
+    // there has to be a better way
+    if (!stream) {
+      const retry = setInterval(function () {
+        let tries = 0;
+        if (iframeDocument) {
+          createCanvasStream();
+          clearInterval(retry);
+        }
+        if (tries++ > 5) {
+          clearInterval(retry);
+        }
+      }, 500);
+    }
+
+    stream && setCanvasMediaStream(stream);
+  }, [iframeDocument, setCanvasMediaStream, canvasPopupOpen]);
 
   const loadUserCode = useCallback(() => {
     if (
@@ -58,7 +82,6 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
       scriptsLoading
     )
       return;
-
     loadProcessingScripts(
       iframeDocument,
       {
@@ -68,6 +91,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
       },
       () => {
         setScriptsLoading(false);
+        createCanvasStream();
       }
     );
   }, [
@@ -76,6 +100,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     scriptsLoaded,
     userLoadedScripts,
     scriptsLoading,
+    createCanvasStream,
   ]);
 
   const loadScripts = useCallback(() => {
@@ -100,7 +125,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     setScriptsLoaded([]);
     setScriptsLoading(true);
     // loadscripts dep needed for now, running it triggers a race condition
-    // @eslint-disable @eslintreact-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [iframeDocument, loadScripts]);
 
   const recompileSketch = useCallback(() => {
@@ -108,11 +133,12 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
       if (iframeContentWindow) {
         iframeContentWindow.frameCount = 0;
         iframeContentWindow.setup();
+        createCanvasStream();
       }
     } catch (error) {
       console.error((error as Error).message);
     }
-  }, [iframeContentWindow]);
+  }, [iframeContentWindow, createCanvasStream]);
 
   useEffect(() => {
     loadScripts();
@@ -121,8 +147,15 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   useEffect(() => {
     if (!scriptsLoading) {
       loadUserCode();
+      createCanvasStream();
     }
-  }, [sketchCode, scriptsLoading, loadUserCode, loadScripts]);
+  }, [
+    sketchCode,
+    scriptsLoading,
+    loadUserCode,
+    loadScripts,
+    createCanvasStream,
+  ]);
 
   useEffect(() => {
     setHardRecompileSketch(hardCompileSketch);

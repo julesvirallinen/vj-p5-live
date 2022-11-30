@@ -10,8 +10,8 @@ import Beautify from "ace-builds/src-noconflict/ext-beautify";
 
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 import { useSettings } from "../../hooks/useSettings";
-import { Button } from "../Menu/components/ui/Button";
-import { FaCode } from "react-icons/fa";
+import { Button } from "../ui/Button";
+import { FaRegEye } from "react-icons/fa";
 
 const StyledEditorWrapper = styled.div<{ $hidden: boolean }>`
   ${(props) =>
@@ -65,7 +65,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
     <>
       {hideEditor && (
         <StyledShowEditorButton onClick={toggleHideEditor}>
-          <FaCode />
+          <FaRegEye />
         </StyledShowEditorButton>
       )}
       <StyledEditorWrapper $hidden={hideEditor}>

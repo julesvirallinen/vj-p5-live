@@ -2,6 +2,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  cursor: crosshair
 }
 
 
@@ -9,11 +10,3 @@
 
 
 
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
