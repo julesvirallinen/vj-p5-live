@@ -59,7 +59,7 @@ export const P5Canvas: FC = ({ ...rest }) => {
 
   useEffect(() => {
     if (canvasRef) {
-      setMap(new Maptastic("map-me-bebe"));
+      setMap(new Maptastic("map-me"));
     }
   }, [canvasRef]);
 
@@ -68,7 +68,7 @@ export const P5Canvas: FC = ({ ...rest }) => {
       {canvasRef && <VisualsPopup></VisualsPopup>}
       <AnimatedOpacity style={settingsCaretStyles} />
       {loading && <StyledLoading />}
-      <div id={"map-me-bebe"} ref={canvasContainerRef}>
+      <div id={"map-me"} ref={canvasContainerRef}>
         <CanvasIframe ref={canvasRef}>
           <InnerCanvas></InnerCanvas>
         </CanvasIframe>
