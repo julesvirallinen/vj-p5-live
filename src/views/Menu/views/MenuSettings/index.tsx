@@ -1,11 +1,7 @@
 import React from "react";
 import styled, { useTheme } from "styled-components";
 import { useSettings } from "../../../../hooks/useSettings";
-import { TTheme } from "../../../../providers/ThemeProvider";
 import { ColorPicker } from "../../../../components/ColorPicker";
-import { XYSelector } from "../../../../components/XYSelector";
-import { Button } from "../../../../components/ui/Button";
-import { FaBullseye } from "react-icons/fa";
 
 export interface IMenuSettingsProps {}
 
@@ -50,17 +46,14 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
   ...restProps
 }) => {
   const {
-    canvas: { percentDimmed, width, height, offset = [0, 0] },
+    canvas: { percentDimmed },
     setCanvasDimmedPercent,
     setEditorBackgroundColor,
     setEditorTextColor,
     setThemePrimaryColor,
     setThemeSecondaryColor,
-    setCanvasWidth,
-    setCanvasHeight,
-    setOffset,
   } = useSettings();
-  const theme: TTheme = useTheme();
+  const theme: any = useTheme();
 
   return (
     <StyledMenuSettings {...restProps}>
@@ -74,37 +67,7 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
           }
         />
       </>
-      <>
-        Canvas width
-        <StyledOpacitySlider
-          type={"range"}
-          value={width}
-          onChange={(event) =>
-            setCanvasWidth(Number.parseInt(event.target.value))
-          }
-        />
-      </>
-      <>
-        Canvas height
-        <StyledOpacitySlider
-          type={"range"}
-          value={height}
-          onChange={(event) =>
-            setCanvasHeight(Number.parseInt(event.target.value))
-          }
-        />
-      </>
-      <>
-        Canvas position
-        <XYSelector
-          xValue={offset[0]}
-          yValue={offset[1]}
-          onChange={(x, y) => setOffset([x, y])}
-        />
-        <Button onClick={() => setOffset([50, 50])}>
-          <FaBullseye />
-        </Button>
-      </>
+
       <>
         Editor bg-color
         <ColorPickerWrapper>
