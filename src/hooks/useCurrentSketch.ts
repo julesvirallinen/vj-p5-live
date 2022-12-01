@@ -3,7 +3,7 @@ import { ISettingsSketch } from "../models/sketch";
 import {
   useCurrentSketchDispatchContext,
   useCurrentSketchStateContext,
-} from "../Providers/SketchProvider";
+} from "../providers/SketchProvider";
 import { useSettings } from "./useSettings";
 
 export const useCurrentSketch = () => {

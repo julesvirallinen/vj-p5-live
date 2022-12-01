@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
 import { useSettings } from "../../hooks/useSettings";
@@ -6,12 +6,14 @@ import { useSettings } from "../../hooks/useSettings";
 import { CanvasFrameForwardRef } from "./components/CanvasIframe";
 import { useScriptLoader } from "./useScriptLoader";
 import { VisualsPopup } from "../../views/VisualPopup";
+import { Maptastic } from "maptastic";
 
 const StyledCanvas = styled.div`
   width: 100vw;
   height: 100vh;
   position: fixed;
   top: 0;
+  background-color: black;
 `;
 
 const InnerCanvas = styled.div`
@@ -22,7 +24,6 @@ const CanvasIframe = styled(CanvasFrameForwardRef)`
   width: 100vw;
   height: 100vh;
   border: 0;
-  color: black;
   background-color: black;
   color-scheme: none;
 `;
@@ -44,7 +45,9 @@ const CanvasOpacity = styled.div<{ $opacity: number }>`
 const AnimatedOpacity = animated(CanvasOpacity);
 
 export const P5Canvas: FC = ({ ...rest }) => {
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLIFrameElement | null>(null);
+  const [map, setMap] = useState<any>();
   const doc = canvasRef?.current;
   const { loading } = useScriptLoader(doc);
   const {
@@ -54,14 +57,22 @@ export const P5Canvas: FC = ({ ...rest }) => {
     opacity: percentDimmed / 100,
   });
 
+  useEffect(() => {
+    if (canvasRef) {
+      setMap(new Maptastic("map-me"));
+    }
+  }, [canvasRef]);
+
   return (
-    <StyledCanvas id={"p5canvas-container"} {...rest}>
+    <StyledCanvas id={"p5-canvas-container"} {...rest}>
       {canvasRef && <VisualsPopup></VisualsPopup>}
       <AnimatedOpacity style={settingsCaretStyles} />
       {loading && <StyledLoading />}
-      <CanvasIframe ref={canvasRef}>
-        <InnerCanvas></InnerCanvas>
-      </CanvasIframe>
+      <div id={"map-me"} ref={canvasContainerRef}>
+        <CanvasIframe ref={canvasRef}>
+          <InnerCanvas></InnerCanvas>
+        </CanvasIframe>
+      </div>
     </StyledCanvas>
   );
 };

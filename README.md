@@ -49,8 +49,10 @@ yarn dev
 
 - [p5.js](https://p5js.org) <3
 - [p5.mapper](https://github.com/jdeboi/p5.mapper) Mapping support
-- [WebMidi.js](https://github.com/djipco/webmidi), MIDI support for sketches
-- [p5.js sound](https://github.com/processing/p5.js-sound), sound support for sketches
+- [WebMidi.js](https://github.com/djipco/webmidi) MIDI support for sketches
+- [p5.js sound](https://github.com/processing/p5.js-sound) sound support for sketches
+
+- [maptastic](https://github.com/glowbox/maptasticjs) canvas mapping!
 
 - [react-ace](https://www.npmjs.com/package/react-ace) Ace editor for react
 - [react-colorful](https://github.com/omgovich/react-colorful) color picker
