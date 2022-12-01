@@ -1,8 +1,8 @@
-import { useSettingsDispatchContext } from "../Providers/SettingsProvider";
+import { useSettingsDispatchContext } from "../providers/SettingsProvider";
 import {
   defaultSketchCode,
   useCurrentSketchDispatchContext,
-} from "../Providers/SketchProvider";
+} from "../providers/SketchProvider";
 import { useLocalStorage } from "./useLocalStorage";
 import * as R from "ramda";
 import { useSettings } from "./useSettings";

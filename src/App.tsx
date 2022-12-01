@@ -3,11 +3,11 @@ import "./App.css";
 import { CanvasWrapper } from "./components/CanvasWrapper";
 import styled from "styled-components";
 import { Menu } from "./components/Menu";
-import { ShortcutProvider } from "./Providers/ShortcutProvider";
-import { SettingsProvider } from "./Providers/SettingsProvider";
-import { CurrentSketchProvider } from "./Providers/SketchProvider";
+import { ShortcutProvider } from "./providers/ShortcutProvider";
+import { SettingsProvider } from "./providers/SettingsProvider";
+import { CurrentSketchProvider } from "./providers/SketchProvider";
 import { ActionBar } from "./components/ActionBar";
-import Theme from "./Providers/ThemeProvider";
+import Theme from "./providers/ThemeProvider";
 
 const StyledApp = styled.div`
   margin: 0;

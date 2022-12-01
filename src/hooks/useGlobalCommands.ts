@@ -3,7 +3,7 @@ import {
   IAppState,
   useSettingsDispatchContext,
   useSettingsStateContext,
-} from "../Providers/SettingsProvider";
+} from "../providers/SettingsProvider";
 
 const runCommand =
   (globalCommands: IAppState["globalCommands"]) =>

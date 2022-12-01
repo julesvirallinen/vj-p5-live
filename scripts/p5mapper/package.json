@@ -2,14 +2,16 @@
   "name": "p5.mapper",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/p5.mapper.min.js",  
+  "main": "dist/p5.mapper.min.js",
   "scripts": {
     "build": "webpack"
   },
   "keywords": [],
   "author": "Jenna deBoisblanc",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "maptastic": "^3.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",

@@ -3,7 +3,7 @@ import {
   TMenu,
   useSettingsDispatchContext,
   useSettingsStateContext,
-} from "../Providers/SettingsProvider";
+} from "../providers/SettingsProvider";
 import * as R from "ramda";
 import { Path } from "ramda";
 import { useGlobalCommands } from "./useGlobalCommands";

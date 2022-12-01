@@ -10,7 +10,7 @@ import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
 import { useSketchManager } from "../../hooks/useSketchManager";
 import { ISettingsSketch } from "../../models/sketch";
-import { useSettingsDispatchContext } from "../../Providers/SettingsProvider";
+import { useSettingsDispatchContext } from "../../providers/SettingsProvider";
 
 export interface IActionBarProps {}
 
