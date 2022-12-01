@@ -42,6 +42,13 @@ const CanvasOpacity = styled.div<{ $opacity: number }>`
   background-color: rgb(0 0 0);
 `;
 
+const CanvasMapContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+`;
+
 const AnimatedOpacity = animated(CanvasOpacity);
 
 export const P5Canvas: FC = ({ ...rest }) => {
@@ -68,11 +75,11 @@ export const P5Canvas: FC = ({ ...rest }) => {
       {canvasRef && <VisualsPopup></VisualsPopup>}
       <AnimatedOpacity style={settingsCaretStyles} />
       {loading && <StyledLoading />}
-      <div id={"map-me"} ref={canvasContainerRef}>
+      <CanvasMapContainer id={"map-me"} ref={canvasContainerRef}>
         <CanvasIframe ref={canvasRef}>
           <InnerCanvas></InnerCanvas>
         </CanvasIframe>
-      </div>
+      </CanvasMapContainer>
     </StyledCanvas>
   );
 };
