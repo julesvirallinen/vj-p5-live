@@ -6,7 +6,7 @@ import { NewSketch } from "./components/NewSketch";
 import { SketchList } from "./components/SketchList";
 import { useSpring, animated } from "react-spring";
 import { FaCaretRight } from "react-icons/fa";
-import { TMenu } from "../../Providers/SettingsProvider";
+import { TMenu } from "../../providers/SettingsProvider";
 import { MenuSettings } from "./components/MenuSettings";
 import { ScriptSettings } from "./components/MenuSettings/views/ScriptSettings";
 
