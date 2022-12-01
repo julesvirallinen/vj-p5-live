@@ -33,6 +33,9 @@ export interface IAppState {
     userLoadedScripts: TSrcScript[];
     canvas: {
       percentDimmed: number;
+      width: 50;
+      height: 50;
+      offset: [0, 0];
     };
   };
   sessionGlobals: {
@@ -85,6 +88,8 @@ const initialState: IAppState = {
     userLoadedScripts: [],
     canvas: {
       percentDimmed: 1,
+      width: 100,
+      height: 100,
     },
   },
   globalCommands: {},

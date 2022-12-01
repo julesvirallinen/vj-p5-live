@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaSkullCrossbones } from "react-icons/fa";
 import styled from "styled-components";
-import { useSettings } from "../../../../../hooks/useSettings";
-import { AddScript } from "./components/AddScript";
+import { useSettings } from "../../../hooks/useSettings";
+import { AddScript } from "../components/AddScript";
 import * as R from "ramda";
-import { Button } from "../../../../ui/Button";
+import { Button } from "../../../components/ui/Button";
 export interface IScriptSettingsProps {}
 
 const StyledScriptSettings = styled.div`

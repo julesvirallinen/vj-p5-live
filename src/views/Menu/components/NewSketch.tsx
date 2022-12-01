@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useSketchManager } from "../../../hooks/useSketchManager";
 import { FaPlus } from "react-icons/fa";
-import { Button } from "../../ui/Button";
-import { Input } from "../../ui/Input";
+import { Button } from "../../../components/ui/Button";
+import { Input } from "../../../components/ui/Input";
 
 export interface INewSketchProps {}
 

@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { useSettings } from "../../hooks/useSettings";
-import { CurrentSketchSettings } from "./components/CurrentSketch";
+import { CurrentSketchSettings } from "./views/CurrentSketch";
 import { NewSketch } from "./components/NewSketch";
-import { SketchList } from "./components/SketchList";
+import { SketchList } from "./views/SketchList";
 import { useSpring, animated } from "react-spring";
 import { FaCaretRight } from "react-icons/fa";
 import { TMenu } from "../../Providers/SettingsProvider";
-import { MenuSettings } from "./components/MenuSettings";
-import { ScriptSettings } from "./components/MenuSettings/views/ScriptSettings";
+import { MenuSettings } from "./views/MenuSettings";
+import { ScriptSettings } from "./views/ScriptSettings";
 
 const MENU_WIDTH = 12;
 

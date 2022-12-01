@@ -12,13 +12,16 @@ const StyledCanvas = styled.div`
   height: 100vh;
   position: fixed;
   top: 0;
+  background: black;
 `;
 
 const InnerCanvas = styled.div`
   margin: 0;
+  background: black;
 `;
 
 const CanvasIframe = styled(CanvasFrameForwardRef)`
+  position: fixed;
   width: 100vw;
   height: 100vh;
   border: 0;
@@ -33,7 +36,7 @@ const StyledLoading = styled.div`
   height: 100%;
 `;
 
-const CanvasOpacity = styled.div<{ $opacity: number }>`
+const CanvasOpacity = styled.div`
   pointer-events: none;
   position: fixed;
   width: 100%;
@@ -42,26 +45,55 @@ const CanvasOpacity = styled.div<{ $opacity: number }>`
 `;
 
 const AnimatedOpacity = animated(CanvasOpacity);
+const AnimatedCanvas = animated(CanvasIframe);
 
 export const P5Canvas: FC = ({ ...rest }) => {
   const canvasRef = useRef<HTMLIFrameElement | null>(null);
   const doc = canvasRef?.current;
   const { loading } = useScriptLoader(doc);
   const {
-    canvas: { percentDimmed },
+    canvas: {
+      percentDimmed,
+      width,
+      height,
+      offset: [xValue, yValue],
+    },
   } = useSettings();
-  const settingsCaretStyles = useSpring({
+  const canvasOpacityStyles = useSpring({
     opacity: percentDimmed / 100,
   });
+  const canvasSizingStyles = useSpring({
+    width: `${width}%`,
+    height: `${height}%`,
+    top: `${yValue - height / 2}%`,
+    left: `${xValue - width / 2}%`,
+    config: { velocity: 0.00001 },
+  });
+
+  /**
+   * x: 50%
+   * y: 50%
+   *
+   * width: 100%
+   * height: 100%
+   * top 0%
+   * left 0%
+   *
+   * width: 50%
+   * height: 50%
+   *
+   *
+   *
+   */
 
   return (
     <StyledCanvas id={"p5canvas-container"} {...rest}>
       {canvasRef && <VisualsPopup></VisualsPopup>}
-      <AnimatedOpacity style={settingsCaretStyles} />
       {loading && <StyledLoading />}
-      <CanvasIframe ref={canvasRef}>
+      <AnimatedCanvas ref={canvasRef} style={canvasSizingStyles}>
         <InnerCanvas></InnerCanvas>
-      </CanvasIframe>
+        <AnimatedOpacity style={canvasOpacityStyles} />
+      </AnimatedCanvas>
     </StyledCanvas>
   );
 };

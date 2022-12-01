@@ -97,6 +97,15 @@ export const useSettings = () => {
     return setActionbarVisible(true);
   }, [actionBarRef, patchSettings]);
 
+  const setCanvasHeight = (height: number) =>
+    patchSettings(["canvas", "height"], height);
+
+  const setCanvasWidth = (width: number) =>
+    patchSettings(["canvas", "width"], width);
+
+  const setOffset = (offset: [number, number]) =>
+    patchSettings(["canvas", "offset"], offset);
+
   return {
     ...settings,
     toggleShowMenu,
@@ -110,5 +119,8 @@ export const useSettings = () => {
     toggleActionBar,
     toggleHideEditor,
     setUserLoadedScripts,
+    setCanvasWidth,
+    setCanvasHeight,
+    setOffset,
   };
 };
