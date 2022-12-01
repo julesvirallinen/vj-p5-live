@@ -19,22 +19,22 @@ type TSketchWindowProps = {
 };
 
 const scriptsToLoad = [
-  { id: "p5js", path: "/public/js/p5.min.js" },
+  { id: "p5js", path: "/js/p5.min.js" },
   {
     id: "mapper",
-    path: "/public/js/p5.mapper.min.js",
+    path: "/js/p5.mapper.min.js",
   },
   {
     id: "ramda",
-    path: "/public/js/ramda.min.js",
+    path: "/js/ramda.min.js",
   },
   {
     id: "p5jssound",
-    path: "/public/js/p5.sound.min.js",
+    path: "/js/p5.sound.min.js",
   },
   {
     id: "webmidi",
-    path: "/public/js/webmidi.min.js",
+    path: "/js/webmidi.min.js",
   },
 ];
 
