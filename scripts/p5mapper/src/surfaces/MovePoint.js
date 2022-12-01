@@ -68,12 +68,11 @@ class MovePoint {
 
   display(col = this.col) {
     let innerColor = col;
-    let outerColor = col;
 
     if (isSelected(this)) {
-      innerColor = color(255, 0, 0);
+      innerColor = color("red");
     } else if (this.isMouseOver()) {
-      innerColor = color(255);
+      innerColor = "white";
     }
     // c = color(255);
     push();
@@ -85,6 +84,11 @@ class MovePoint {
     ellipse(this.x, this.y, this.r);
     fill(innerColor);
     ellipse(this.x, this.y, this.r / 2);
+
+    if (isSelected(this)) {
+      fill("white");
+      ellipse(this.x, this.y, 2);
+    }
     pop();
   }
 }
