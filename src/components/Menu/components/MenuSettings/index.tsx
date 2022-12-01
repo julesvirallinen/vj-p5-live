@@ -54,6 +54,8 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
     setThemePrimaryColor,
     setThemeSecondaryColor,
   } = useSettings();
+  // eslint-disable-next-line
+  // @ts-ignore
   const theme: TTheme = useTheme();
 
   return (
