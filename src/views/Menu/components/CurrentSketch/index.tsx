@@ -5,8 +5,8 @@ import { useCurrentSketch } from "../../../../hooks/useCurrentSketch";
 import { useGlobalCommands } from "../../../../hooks/useGlobalCommands";
 import { useSettings } from "../../../../hooks/useSettings";
 import { useSketchManager } from "../../../../hooks/useSketchManager";
-import { Button } from "../../../ui/Button";
-import { Input } from "../../../ui/Input";
+import { Button } from "../../../../components/ui/Button";
+import { Input } from "../../../../components/ui/Input";
 
 export interface ICurrentSketchSettingsProps {}
 

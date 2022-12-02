@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import "./App.css";
 import { CanvasWrapper } from "./components/CanvasWrapper";
 import styled from "styled-components";
-import { Menu } from "./components/Menu";
+import { Menu } from "./views/Menu";
 import { ShortcutProvider } from "./providers/ShortcutProvider";
 import { SettingsProvider } from "./providers/SettingsProvider";
 import { CurrentSketchProvider } from "./providers/SketchProvider";

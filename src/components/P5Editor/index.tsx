@@ -54,7 +54,7 @@ const StyledShowEditorButton = styled(Button)`
 
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
-  const { hideEditor, toggleHideEditor } = useSettings();
+  const { hideEditor, toggleHideEditor, compileAfterMs } = useSettings();
   const editorRef = useRef<AceEditor>(null);
 
   useEffect(() => {
@@ -82,6 +82,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
           theme="monokai"
           fontSize={15}
           onChange={updateSketch}
+          debounceChangePeriod={compileAfterMs}
           showPrintMargin={false}
           value={code}
           name="p5_editor"

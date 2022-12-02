@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { useTheme } from "styled-components";
 import { useSettings } from "../../../../hooks/useSettings";
+import { TTheme } from "../../../../providers/ThemeProvider";
 import { ColorPicker } from "../../../../components/ColorPicker";
 
 export interface IMenuSettingsProps {}
@@ -53,7 +54,9 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
     setThemePrimaryColor,
     setThemeSecondaryColor,
   } = useSettings();
-  const theme: any = useTheme();
+  // eslint-disable-next-line
+  // @ts-ignore
+  const theme: TTheme = useTheme();
 
   return (
     <StyledMenuSettings {...restProps}>
@@ -67,7 +70,6 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
           }
         />
       </>
-
       <>
         Editor bg-color
         <ColorPickerWrapper>

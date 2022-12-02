@@ -84,6 +84,9 @@ export const useSettings = () => {
     [patchSettings]
   );
 
+  const setCompileAfterMs = (ms: number) =>
+    patchSettings(["compileAfterMs"], ms);
+
   const toggleActionBar = useCallback(() => {
     const setActionbarVisible = (value: boolean) =>
       patchSettings(["showActionBar"], value);
@@ -110,5 +113,6 @@ export const useSettings = () => {
     toggleActionBar,
     toggleHideEditor,
     setUserLoadedScripts,
+    setCompileAfterMs,
   };
 };
