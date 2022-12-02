@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useSettings } from "../../../../../../hooks/useSettings";
-import { Button } from "../../../../../ui/Button";
-import { Input } from "../../../../../ui/Input";
+import { Button } from "../../../../../../components/ui/Button";
+import { Input } from "../../../../../../components/ui/Input";
 
 export interface IAddScriptProps {}
 

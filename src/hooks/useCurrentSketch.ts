@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { ISettingsSketch } from "../models/sketch";
 import {
   useCurrentSketchDispatchContext,
@@ -9,6 +9,13 @@ import { useSettings } from "./useSettings";
 export const useCurrentSketch = () => {
   const sketch = useCurrentSketchStateContext();
   const { sketches } = useSettings();
+  const dispatchCurrentSketch = useCurrentSketchDispatchContext();
+
+  const saveSketch = useCallback(
+    (code: string) =>
+      dispatchCurrentSketch({ type: "updateCode", payload: { code } }),
+    [dispatchCurrentSketch]
+  );
 
   const currentSketchData = useMemo(() => {
     const sketchData = sketches.find((s) => s.id == sketch.id);
@@ -19,51 +26,17 @@ export const useCurrentSketch = () => {
     return sketchData;
   }, [sketch.id, sketches]) as ISettingsSketch;
 
-  const dispatchCurrentSketch = useCurrentSketchDispatchContext();
+  const updateSketch = useCallback(
+    (newCode: string) => {
+      saveSketch(newCode);
+    },
 
-  const { compileAfterMs } = useSettings();
-  const [codeToCompile, setCodeToCompile] = useState(sketch.code);
-  const [lastCompiledAt, setLastCompiledAt] = useState(new Date().getTime());
-  const [lastKeystrokeAt, setLastKeystrokeAt] = useState(new Date().getTime());
-
-  // This logic doesn't quite work right yet, need to investigate!
-  useEffect(() => {
-    const currentTime = new Date().getTime();
-    const interval = setInterval(() => {
-      if (
-        currentTime - lastKeystrokeAt >
-        compileAfterMs
-        // make smarter (see P5LIVE)
-        // && sketch.code.length != codeToCompile.length
-      ) {
-        setCodeToCompile(sketch.code);
-        setLastCompiledAt(new Date().getTime());
-      }
-    }, 500);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [
-    sketch.code,
-    codeToCompile,
-    lastCompiledAt,
-    compileAfterMs,
-    lastKeystrokeAt,
-  ]);
-
-  useEffect(() => {
-    setLastCompiledAt(0);
-  }, [sketch.id]);
-
-  const updateSketch = (newCode: string) => {
-    dispatchCurrentSketch({ type: "updateCode", payload: { code: newCode } });
-    setLastKeystrokeAt(new Date().getTime());
-  };
+    [saveSketch]
+  );
 
   return {
     updateSketch,
     ...sketch,
     ...currentSketchData,
-    codeToCompile,
   };
 };

@@ -10,9 +10,11 @@ type TDefaultProps = Omit<
   "ref" | "onChange" | "value"
 >;
 
-export interface IInputProps {
+export interface IInputProps<
+  T extends string | number | readonly string[] | undefined = string
+> {
   onChange?: (value: string) => void;
-  value: string;
+  value: T;
 }
 
 const StyledInput = styled.input`
@@ -24,11 +26,13 @@ const StyledInput = styled.input`
   padding: 0.1rem 0.3rem; ;
 `;
 
-export const Input: React.FC<IInputProps & TDefaultProps> = ({
+export const Input = <
+  T extends string | number | readonly string[] | undefined = string
+>({
   onChange,
   value,
   ...restProps
-}) => {
+}: IInputProps<T> & TDefaultProps): JSX.Element => {
   return (
     <StyledInput
       {...restProps}

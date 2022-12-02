@@ -1,7 +1,9 @@
 import React from "react";
 import styled, { useTheme } from "styled-components";
 import { useSettings } from "../../../../hooks/useSettings";
+import { TTheme } from "../../../../providers/ThemeProvider";
 import { ColorPicker } from "../../../../components/ColorPicker";
+import { Input } from "../../../../components/ui/Input";
 
 export interface IMenuSettingsProps {}
 
@@ -52,8 +54,12 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
     setEditorTextColor,
     setThemePrimaryColor,
     setThemeSecondaryColor,
+    compileAfterMs,
+    setCompileAfterMs,
   } = useSettings();
-  const theme: any = useTheme();
+  // eslint-disable-next-line
+  // @ts-ignore
+  const theme: TTheme = useTheme();
 
   return (
     <StyledMenuSettings {...restProps}>
@@ -67,7 +73,13 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
           }
         />
       </>
-
+      <>
+        Wait ms after last keystroke to compile
+        <Input<number>
+          value={compileAfterMs}
+          onChange={(value) => setCompileAfterMs(parseInt(value))}
+        />
+      </>
       <>
         Editor bg-color
         <ColorPickerWrapper>

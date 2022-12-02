@@ -54,7 +54,7 @@ const StyledShowEditorButton = styled(Button)`
 
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
-  const { hideEditor, toggleHideEditor } = useSettings();
+  const { hideEditor, toggleHideEditor, compileAfterMs } = useSettings();
   const editorRef = useRef<AceEditor>(null);
 
   useEffect(() => {
