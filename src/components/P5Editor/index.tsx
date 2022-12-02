@@ -82,7 +82,6 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
           theme="monokai"
           fontSize={15}
           onChange={updateSketch}
-          debounceChangePeriod={compileAfterMs}
           showPrintMargin={false}
           value={code}
           name="p5_editor"

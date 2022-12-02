@@ -13,7 +13,7 @@ type TDefaultProps = Omit<
 export interface IInputProps<
   T extends string | number | readonly string[] | undefined = string
 > {
-  onChange?: (value: T) => void;
+  onChange?: (value: string) => void;
   value: T;
 }
 
@@ -37,7 +37,7 @@ export const Input = <
     <StyledInput
       {...restProps}
       value={value}
-      onChange={(e) => onChange && onChange(e.target.value as T)}
+      onChange={(e) => onChange && onChange(e.target.value)}
     />
   );
 };

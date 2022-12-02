@@ -3,6 +3,7 @@ import styled, { useTheme } from "styled-components";
 import { useSettings } from "../../../../hooks/useSettings";
 import { TTheme } from "../../../../providers/ThemeProvider";
 import { ColorPicker } from "../../../../components/ColorPicker";
+import { Input } from "../../../../components/ui/Input";
 
 export interface IMenuSettingsProps {}
 
@@ -53,6 +54,8 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
     setEditorTextColor,
     setThemePrimaryColor,
     setThemeSecondaryColor,
+    compileAfterMs,
+    setCompileAfterMs,
   } = useSettings();
   // eslint-disable-next-line
   // @ts-ignore
@@ -68,6 +71,13 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
           onChange={(event) =>
             setCanvasDimmedPercent(Number.parseInt(event.target.value))
           }
+        />
+      </>
+      <>
+        Wait ms after last keystroke to compile
+        <Input<number>
+          value={compileAfterMs}
+          onChange={(value) => setCompileAfterMs(parseInt(value))}
         />
       </>
       <>
