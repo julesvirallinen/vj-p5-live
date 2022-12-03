@@ -56,6 +56,8 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
     setThemeSecondaryColor,
     compileAfterMs,
     setCompileAfterMs,
+    setMaptasticEnabled,
+    maptasticEnabled,
   } = useSettings();
   // eslint-disable-next-line
   // @ts-ignore
@@ -123,6 +125,14 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
             }}
           />
         </ColorPickerWrapper>
+      </>
+      <>
+        Maptastic enabled (press shift-space to map)
+        <input
+          type={"checkbox"}
+          checked={maptasticEnabled}
+          onChange={() => setMaptasticEnabled(!maptasticEnabled)}
+        />
       </>
     </StyledMenuSettings>
   );

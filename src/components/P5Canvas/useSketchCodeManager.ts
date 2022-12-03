@@ -31,12 +31,11 @@ export const useSketchCodeManager = () => {
 
   const html = `
 
-
     ${SNIPPETS.windowResizer}
     ${SNIPPETS.customEase}
     ${SNIPPETS.processingLoggingCompatability}
     ${modifiedCode}
-    
+
 
 `;
 

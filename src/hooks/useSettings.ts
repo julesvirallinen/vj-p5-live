@@ -100,6 +100,9 @@ export const useSettings = () => {
     return setActionbarVisible(true);
   }, [actionBarRef, patchSettings]);
 
+  const setMaptasticEnabled = (enabled: boolean) =>
+    patchSettings(["maptasticEnabled"], enabled);
+
   return {
     ...settings,
     toggleShowMenu,
@@ -114,5 +117,6 @@ export const useSettings = () => {
     toggleHideEditor,
     setUserLoadedScripts,
     setCompileAfterMs,
+    setMaptasticEnabled,
   };
 };

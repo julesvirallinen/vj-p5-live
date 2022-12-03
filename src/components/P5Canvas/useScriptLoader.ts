@@ -16,6 +16,7 @@ type TSketchWindowProps = {
   noLoop: () => void;
   loop: () => void;
   clear: () => void;
+  getSession: () => any;
 };
 
 const scriptsToLoad = [

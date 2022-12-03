@@ -13,3 +13,16 @@ export const processingLoggingCompatability = `
 function println(msg){
   print(msg);
 }`;
+
+export const defaultSketchCode = `
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+
+}
+
+function draw() {
+  
+}
+
+`;
