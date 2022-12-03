@@ -57,6 +57,7 @@ export const P5Canvas: FC = ({ ...rest }) => {
   const [map, setMap] = useState<any>();
   const doc = canvasRef?.current;
   const { loading } = useScriptLoader(doc);
+  const { maptasticEnabled } = useSettings();
   const {
     canvas: { percentDimmed },
   } = useSettings();
@@ -66,9 +67,10 @@ export const P5Canvas: FC = ({ ...rest }) => {
 
   useEffect(() => {
     if (canvasRef) {
-      setMap(new Maptastic("map-me"));
+      console.log(maptasticEnabled);
+      maptasticEnabled && setMap(new Maptastic("map-me"));
     }
-  }, [canvasRef]);
+  }, [canvasRef, maptasticEnabled]);
 
   return (
     <StyledCanvas id={"p5-canvas-container"} {...rest}>

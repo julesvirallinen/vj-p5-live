@@ -31,6 +31,7 @@ export interface IAppState {
      * Scripts that are always loaded for all sketches
      */
     userLoadedScripts: TSrcScript[];
+    maptasticEnabled: boolean;
     canvas: {
       percentDimmed: number;
     };
@@ -86,6 +87,7 @@ const initialState: IAppState = {
     canvas: {
       percentDimmed: 1,
     },
+    maptasticEnabled: false,
   },
   globalCommands: {},
   sessionGlobals: {

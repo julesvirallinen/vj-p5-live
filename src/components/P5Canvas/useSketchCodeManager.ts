@@ -30,29 +30,12 @@ export const useSketchCodeManager = () => {
   );
 
   const html = `
-    var console = {
-			log: function(m){
-				
-        console.log(m, 'background: #222; color: #bada55');
-
-			},
-      error: function(m){
-				
-        console.log(m, 'background: #222; color: #bada55');
-
-			}
-		};
 
     ${SNIPPETS.windowResizer}
     ${SNIPPETS.customEase}
     ${SNIPPETS.processingLoggingCompatability}
-  try{
     ${modifiedCode}
 
-  } catch(e) {
-    console.log(e.message, 'background: #222; color: #bada55');
-
-  }   
 
 `;
 
