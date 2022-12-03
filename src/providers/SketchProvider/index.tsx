@@ -14,24 +14,6 @@ export type IAction =
       payload: ICurrentSketch;
     };
 
-export const defaultSketchCode = `
-
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background(200, 100, 100)
-}
-
-function draw() {
-  
-}
-
-`;
-
-export const defaultSketch: ICurrentSketch = {
-  code: defaultSketchCode,
-  id: "defaultNew",
-};
-
 // context for using state
 const CurrentSketchStateContext = createContext<ICurrentSketch>(
   {} as ICurrentSketch
@@ -65,9 +47,9 @@ export const CurrentSketchProvider: FC<{ children: React.ReactNode }> = ({
   const { saveSketch, getInitialSketch } = useSketchManager();
   const [state, dispatch] = useReducer(
     R.pipe(reducer, R.tap(saveSketch)),
-    defaultSketch,
-    (initialSketch) => {
-      return getInitialSketch() ?? initialSketch;
+    {},
+    () => {
+      return getInitialSketch();
     }
   );
 

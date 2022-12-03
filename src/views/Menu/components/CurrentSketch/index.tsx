@@ -1,4 +1,4 @@
-import React, { KeyboardEventHandler, useState } from "react";
+import React, { KeyboardEventHandler, useEffect, useState } from "react";
 import { FaRegEye, FaRegEyeSlash, FaShareSquare } from "react-icons/fa";
 import styled from "styled-components";
 import { useCurrentSketch } from "../../../../hooks/useCurrentSketch";
@@ -7,6 +7,7 @@ import { useSettings } from "../../../../hooks/useSettings";
 import { useSketchManager } from "../../../../hooks/useSketchManager";
 import { Button } from "../../../../components/ui/Button";
 import { Input } from "../../../../components/ui/Input";
+import { SKETCH_TEMPLATE_ID } from "../../../../models/sketch";
 
 export interface ICurrentSketchSettingsProps {}
 
@@ -31,6 +32,10 @@ export const CurrentSketchSettings: React.FC<ICurrentSketchSettingsProps> = ({
   const { hideEditor, toggleHideEditor } = useSettings();
   const { setCanvasPopupOpen } = useGlobalCommands();
 
+  useEffect(() => {
+    setNewname(name);
+  }, [id, name]);
+
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === "Enter") {
       renameSketch(id, newName);
@@ -40,6 +45,10 @@ export const CurrentSketchSettings: React.FC<ICurrentSketchSettingsProps> = ({
       setNewname(name);
     }
   };
+
+  if (id === SKETCH_TEMPLATE_ID) {
+    return <>Editing global sketch template</>;
+  }
 
   return (
     <StyledCurrentSketchSettings {...restProps}>

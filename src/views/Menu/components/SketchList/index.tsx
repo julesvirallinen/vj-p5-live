@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { FaRegFileCode } from "react-icons/fa";
 import styled from "styled-components";
 import { useSettings } from "../../../../hooks/useSettings";
 import { useSketchManager } from "../../../../hooks/useSketchManager";
+import { SKETCH_TEMPLATE_ID } from "../../../../models/sketch";
 
 export interface ISketchListProps {}
 
@@ -30,11 +31,16 @@ export const SketchList: React.FC<ISketchListProps> = ({ ...restProps }) => {
   const { sketches, loadedSketchId } = useSettings();
   const { loadSketch } = useSketchManager();
 
+  const sketchesToShow = useMemo(
+    () => sketches.filter((s) => s.id !== SKETCH_TEMPLATE_ID),
+    [sketches]
+  );
+
   return (
     <StyledSketchList {...restProps}>
       <h4>Sketches</h4>
       <Sketches>
-        {sketches.map((sketch) => (
+        {sketchesToShow.map((sketch) => (
           <ListItem key={sketch.id} onClick={() => loadSketch(sketch)}>
             <FaRegFileCode />
             {loadedSketchId === sketch.id ? <b>{sketch.name}</b> : sketch.name}

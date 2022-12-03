@@ -8,6 +8,7 @@ import * as R from "ramda";
 import { Path } from "ramda";
 import { useGlobalCommands } from "./useGlobalCommands";
 import { TSrcScript } from "../models/script";
+import { SKETCH_TEMPLATE_ID } from "../models/sketch";
 
 export const useSettings = () => {
   const dispatch = useSettingsDispatchContext();

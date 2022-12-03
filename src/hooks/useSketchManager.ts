@@ -1,21 +1,15 @@
 import { useSettingsDispatchContext } from "../providers/SettingsProvider";
-import {
-  defaultSketchCode,
-  useCurrentSketchDispatchContext,
-} from "../providers/SketchProvider";
+import { useCurrentSketchDispatchContext } from "../providers/SketchProvider";
 import { useLocalStorage } from "./useLocalStorage";
 import * as R from "ramda";
 import { useSettings } from "./useSettings";
 import { useGlobalCommands } from "./useGlobalCommands";
-import { ICurrentSketch } from "../models/sketch";
-
-const getNewSketchProps = (name: string) => {
-  return {
-    code: defaultSketchCode,
-    id: new Date().getTime().toString(),
-    name,
-  };
-};
+import {
+  ICurrentSketch,
+  SKETCH_TEMPLATE_ID,
+  SKETCH_TEMPLATE_NAME,
+} from "../models/sketch";
+import { defaultSketchCode } from "../components/P5Canvas/snippets";
 
 const getSketchKey = (sketch: Pick<ICurrentSketch, "id">) =>
   `sketch_code_${sketch.id}`;
@@ -27,17 +21,40 @@ export const useSketchManager = () => {
   const { setItem, getItem } = useLocalStorage();
   const { hardRecompileSketch, setIframeKey } = useGlobalCommands();
 
-  const newSketch = (name: string) => {
-    const newSketch = getNewSketchProps(name);
+  const getNewSketchProps = (name: string) => {
+    const userTemplate = fetchSketch({ id: SKETCH_TEMPLATE_ID });
+
+    return {
+      code: userTemplate?.code ?? defaultSketchCode,
+      id: new Date().getTime().toString(),
+      name,
+    };
+  };
+
+  const createAndLoadSketch = ({
+    name,
+    id,
+    code,
+  }: {
+    name: string;
+    id: string;
+    code: string;
+  }) => {
     dispatchSettings({
       type: "addSketch",
-      payload: { name: newSketch.name, id: newSketch.id },
+      payload: { name, id },
     });
-    dispatchSketch({ type: "setSketch", payload: newSketch });
+    dispatchSketch({ type: "setSketch", payload: { code, id } });
     dispatchSettings({
       type: "setLoadedSketchId",
-      payload: { id: newSketch.id },
+      payload: { id },
     });
+  };
+
+  const newSketch = (name: string) => {
+    const newSketch = getNewSketchProps(name);
+    createAndLoadSketch(newSketch);
+    return newSketch;
   };
 
   const removeSketch = (id: string) => {
@@ -87,6 +104,19 @@ export const useSketchManager = () => {
     }
   };
 
+  const loadDefaultSketchTemplate = () => {
+    const userTemplate = fetchSketch({ id: SKETCH_TEMPLATE_ID });
+
+    if (userTemplate) {
+      return loadSketch(userTemplate);
+    }
+    return createAndLoadSketch({
+      code: defaultSketchCode,
+      id: SKETCH_TEMPLATE_ID,
+      name: SKETCH_TEMPLATE_NAME,
+    });
+  };
+
   const getInitialSketch = () => {
     const loadedSketch = sketches.find(
       (sketch) => sketch.id === loadedSketchId
@@ -98,6 +128,8 @@ export const useSketchManager = () => {
         return sketch;
       }
     }
+
+    return newSketch("new sketch");
   };
 
   return {
@@ -107,5 +139,6 @@ export const useSketchManager = () => {
     getInitialSketch,
     reloadSketch,
     renameSketch,
+    loadDefaultSketchTemplate,
   };
 };
