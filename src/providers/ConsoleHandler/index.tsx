@@ -12,7 +12,7 @@ const StyledConsoleHandler = styled.div`
   right: 0;
   bottom: 0;
   width: 20rem;
-  height: 8rem;
+  height: 20rem;
   background-color: black !important;
 `;
 

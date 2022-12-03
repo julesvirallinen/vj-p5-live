@@ -26,6 +26,7 @@ import { useCurrentSketch } from "../../hooks/useCurrentSketch";
 import { useSettings } from "../../hooks/useSettings";
 import { Button } from "../ui/Button";
 import { FaRegEye } from "react-icons/fa";
+import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 
 const StyledEditorWrapper = styled.div<{ $hidden: boolean }>`
   ${(props) =>
@@ -70,8 +71,8 @@ const StyledShowEditorButton = styled(Button)`
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
   const { hideEditor, toggleHideEditor, compileAfterMs } = useSettings();
+  const { setCodeHasSyntaxErrors } = useGlobalCommands();
   const editorRef = useRef<AceEditor>(null);
-  const editor = useMemo(() => editorRef?.current?.editor, []);
 
   useEffect(() => {
     Beautify.beautify(editorRef?.current?.editor.session);
@@ -91,7 +92,6 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
           width={"100vw"}
           setOptions={{
             useWorker: true,
-            behavioursEnabled: true,
             highlightSelectedWord: true,
           }}
           highlightActiveLine={false}
@@ -106,6 +106,13 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
             // @ts-ignore bug in ace
             editor.session.$worker.send("changeOptions", [{ asi: true }]);
           }}
+          onValidate={(annotations) =>
+            setCodeHasSyntaxErrors(
+              annotations.findIndex(
+                (annotation) => annotation.type === "error"
+              ) >= 0
+            )
+          }
           fontSize={15}
           onChange={updateSketch}
           showPrintMargin={false}

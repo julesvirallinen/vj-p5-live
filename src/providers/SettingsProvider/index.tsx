@@ -42,6 +42,7 @@ export interface IAppState {
     canvasMediaStream?: MediaStream;
     canvasPopupOpen: boolean;
     canvasIframeRef?: RefObject<HTMLIFrameElement>;
+    codeHasSyntaxErrors?: boolean;
   };
   globalCommands: {
     recompileSketch?: () => void;

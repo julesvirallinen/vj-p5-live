@@ -4,6 +4,7 @@ import * as R from "ramda";
 import { useEffect, useMemo, useState } from "react";
 import { debounce } from "lodash";
 import { useSettings } from "../../hooks/useSettings";
+import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 
 // create 3 capture groups, first is any whitespace, second is let or const and third is a space after.
 //Replace only let/const with var and keep whitespace
@@ -13,28 +14,32 @@ const replaceLetConstWithVar = (code: string) =>
 export const useSketchCodeManager = () => {
   const { code } = useCurrentSketch();
   const { compileAfterMs } = useSettings();
-  const [codeToCompile, setCodeToCompile] = useState(code);
+  const { codeHasSyntaxErrors } = useGlobalCommands();
+  const [userCode, setUserCode] = useState(code);
+  const [fullCodeToCompile, setFullCodeToCompile] = useState(userCode);
 
+  // 2. debounce sets the user code
   const memoedDebounce = useMemo(
-    () => debounce((code: string) => setCodeToCompile(code), compileAfterMs),
+    () => debounce((code: string) => setUserCode(code), compileAfterMs),
     [compileAfterMs]
   );
-
+  // 1. useEffect gets change from saved code and debounces update
   useEffect(() => {
     memoedDebounce(code);
   }, [memoedDebounce, code]);
 
-  const modifiedCode = useMemo(
-    () => R.pipe(replaceLetConstWithVar)(codeToCompile),
-    [codeToCompile]
-  );
+  // 3. the user code is modified and run if the editor has not noticed syntax problems (takes a second, debounce helps)
+  useEffect(() => {
+    if (codeHasSyntaxErrors) return;
+    R.pipe(replaceLetConstWithVar, setFullCodeToCompile)(userCode);
+  }, [userCode, setFullCodeToCompile, codeHasSyntaxErrors]);
 
   const html = `
 
     ${SNIPPETS.windowResizer}
     ${SNIPPETS.customEase}
     ${SNIPPETS.processingLoggingCompatability}
-    ${modifiedCode}
+    ${fullCodeToCompile}
 
 
 `;
