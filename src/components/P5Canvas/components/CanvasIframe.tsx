@@ -1,7 +1,6 @@
 import React, { FC, MutableRefObject, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useGlobalCommands } from "../../../hooks/useGlobalCommands";
-import { ErrorBoundary } from "../../ErrorBoundary";
 
 interface ICanvasIframeProps {
   children?: React.ReactNode;
@@ -27,9 +26,7 @@ export const CanvasFrame: FC<
       sandbox="allow-same-origin allow-scripts allow-downloads allow-pointer-lock"
       {...props}
     >
-      <ErrorBoundary>
-        {mountNode && createPortal(children, mountNode)}
-      </ErrorBoundary>
+      {mountNode && createPortal(children, mountNode)}
     </iframe>
   );
 };

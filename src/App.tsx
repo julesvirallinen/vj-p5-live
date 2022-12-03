@@ -9,7 +9,6 @@ import { CurrentSketchProvider } from "./providers/SketchProvider";
 import { ActionBar } from "./components/ActionBar";
 import Theme from "./providers/ThemeProvider";
 import { ConsoleHandler } from "./providers/ConsoleHandler";
-import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const StyledApp = styled.div`
   position: absolute;
@@ -35,12 +34,10 @@ const App: FC = () => {
         <ShortcutProvider>
           <Theme>
             <StyledApp>
-              <ErrorBoundary>
-                <CanvasWrapper />
-                <Menu />
-                <StyledActionBar />
-                <ConsoleHandler />
-              </ErrorBoundary>
+              <CanvasWrapper />
+              <Menu />
+              <StyledActionBar />
+              <ConsoleHandler />
             </StyledApp>
           </Theme>
         </ShortcutProvider>
