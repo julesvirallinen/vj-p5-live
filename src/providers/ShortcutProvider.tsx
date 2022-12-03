@@ -3,17 +3,14 @@ import { GlobalHotKeys, configure } from "react-hotkeys";
 import { useGlobalCommands } from "../hooks/useGlobalCommands";
 import { useSettings } from "../hooks/useSettings";
 import { useSketchManager } from "../hooks/useSketchManager";
-import { useSettingsDispatchContext } from "./SettingsProvider";
 
 /**
  * TODO: override ace shortcuts
- * customize ace shortcuts
- * TODO: figure out why shortcuts don't work in action bar
  */
 
 const keyMap = {
   SHOW_MENU: "ctrl+m",
-  SHOW_ACTION_BAR: "ctrl+p",
+  SHOW_ACTION_BAR: "cmd+p",
   COMPILE: "ctrl+enter",
   HARD_COMPILE: "ctrl+shift+enter",
   TOGGLE_CODE_VISIBLE: "ctrl+h",

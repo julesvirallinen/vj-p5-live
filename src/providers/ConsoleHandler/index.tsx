@@ -5,17 +5,20 @@ import { Message } from "console-feed/lib/definitions/Console";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import * as R from "ramda";
 
-const MESSAGES_TO_SHOW = 2;
+const MESSAGES_TO_SHOW = 20;
 
 export interface IConsoleHandlerProps {}
 
 const StyledConsoleHandler = styled.div`
   position: fixed;
   right: 0;
-  bottom: 0;
+  bottom: 4rem;
   width: 20rem;
-  height: 5rem;
+  max-height: 6rem;
+  overflow: scroll;
   background-color: black !important;
+  display: flex;
+  flex-direction: column-reverse;
 `;
 
 const StyledConsole = styled(Console)`
