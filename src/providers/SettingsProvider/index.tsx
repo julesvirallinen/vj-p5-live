@@ -23,6 +23,7 @@ export interface IAppState {
     hideEditor: boolean;
     sketches: ISettingsSketch[];
     showMenu: boolean;
+    showConsoleFeed: boolean;
     openMenu: TMenu;
     showActionBar: boolean;
     loadedSketchId?: string;
@@ -83,6 +84,7 @@ const initialState: IAppState = {
     sketches: [],
     showMenu: true,
     openMenu: "sketches",
+    showConsoleFeed: true,
     showActionBar: true,
     compileAfterMs: 1000,
     userLoadedScripts: [],

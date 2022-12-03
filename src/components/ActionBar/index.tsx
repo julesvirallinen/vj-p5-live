@@ -52,8 +52,13 @@ const AnimatedActionBar = animated(StyledActionBar);
 
 export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const [command, setCommand] = useState("");
-  const { sketches, showActionBar, toggleHideEditor, toggleShowMenu } =
-    useSettings();
+  const {
+    sketches,
+    showActionBar,
+    toggleHideEditor,
+    toggleShowMenu,
+    toggleShowConsoleFeed,
+  } = useSettings();
   const { loadSketch, newSketch, loadDefaultSketchTemplate } =
     useSketchManager();
   const { setActionBarRef } = useGlobalCommands();
@@ -89,6 +94,12 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
       shortCommand: "ed",
       fullCommand: "edittemplate",
       handler: () => loadDefaultSketchTemplate(),
+    },
+    {
+      name: "Toggle show console feed",
+      shortCommand: "cf",
+      fullCommand: "toggleconsole",
+      handler: () => toggleShowConsoleFeed(),
     },
     {
       name: "Load sketch",
