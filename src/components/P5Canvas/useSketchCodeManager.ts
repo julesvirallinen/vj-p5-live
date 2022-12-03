@@ -30,7 +30,6 @@ export const useSketchCodeManager = () => {
 
   // 3. the user code is modified and run if the editor has not noticed syntax problems (takes a second, debounce helps)
   useEffect(() => {
-    console.log(codeHasSyntaxErrors);
     if (codeHasSyntaxErrors) return;
     R.pipe(replaceLetConstWithVar, setFullCodeToCompile)(userCode);
   }, [userCode, setFullCodeToCompile, codeHasSyntaxErrors]);
