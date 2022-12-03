@@ -1,6 +1,5 @@
 import React, { FC, MutableRefObject, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { ErrorBoundary } from "react-error-boundary";
 import { useGlobalCommands } from "../../../hooks/useGlobalCommands";
 
 interface ICanvasIframeProps {
@@ -27,14 +26,7 @@ export const CanvasFrame: FC<
       sandbox="allow-same-origin allow-scripts allow-downloads allow-pointer-lock"
       {...props}
     >
-      <ErrorBoundary
-        fallbackRender={(asdf) => <>{asdf.resetErrorBoundary}</>}
-        onError={(error) =>
-          console.log(error, "background: #222; color: #bada55")
-        }
-      >
-        {mountNode && createPortal(children, mountNode)}
-      </ErrorBoundary>
+      {mountNode && createPortal(children, mountNode)}
     </iframe>
   );
 };

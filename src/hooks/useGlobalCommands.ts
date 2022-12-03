@@ -30,7 +30,6 @@ export const useGlobalCommands = () => {
     },
     [dispatch]
   );
-
   const setIframeKey = useCallback(
     (key: string) => {
       dispatch({ type: "patchSessionGlobals", payload: { iframeKey: key } });
@@ -40,6 +39,15 @@ export const useGlobalCommands = () => {
   const setActionBarRef = useCallback(
     (ref: RefObject<HTMLInputElement>) => {
       dispatch({ type: "patchSessionGlobals", payload: { actionBarRef: ref } });
+    },
+    [dispatch]
+  );
+  const setIframeRef = useCallback(
+    (ref: RefObject<HTMLIFrameElement>) => {
+      dispatch({
+        type: "patchSessionGlobals",
+        payload: { canvasIframeRef: ref },
+      });
     },
     [dispatch]
   );
@@ -72,6 +80,12 @@ export const useGlobalCommands = () => {
     [dispatch]
   );
 
+  const setCodeHasSyntaxErrors = (hasErrors: boolean) =>
+    dispatch({
+      type: "patchSessionGlobals",
+      payload: { codeHasSyntaxErrors: hasErrors },
+    });
+
   const recompileSketch = () => run("recompileSketch");
   const hardRecompileSketch = () => run("hardRecompileSketch");
 
@@ -83,6 +97,8 @@ export const useGlobalCommands = () => {
     setIframeKey,
     setActionBarRef,
     setCanvasMediaStream,
+    setIframeRef,
+    setCodeHasSyntaxErrors,
     setCanvasPopupOpen,
     ...sessionGlobals,
   };
