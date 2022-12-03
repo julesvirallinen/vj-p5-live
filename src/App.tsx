@@ -8,8 +8,10 @@ import { SettingsProvider } from "./providers/SettingsProvider";
 import { CurrentSketchProvider } from "./providers/SketchProvider";
 import { ActionBar } from "./components/ActionBar";
 import Theme from "./providers/ThemeProvider";
+import { ConsoleHandler } from "./providers/ConsoleHandler";
 
 const StyledApp = styled.div`
+  position: absolute;
   margin: 0;
   padding: 0;
 
@@ -34,6 +36,7 @@ const App: FC = () => {
             <StyledApp>
               <CanvasWrapper />
               <Menu />
+              <ConsoleHandler />
               <StyledActionBar />
             </StyledApp>
           </Theme>

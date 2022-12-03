@@ -41,6 +41,7 @@ export interface IAppState {
     actionBarRef?: RefObject<HTMLInputElement>;
     canvasMediaStream?: MediaStream;
     canvasPopupOpen: boolean;
+    canvasIframeRef?: RefObject<HTMLIFrameElement>;
   };
   globalCommands: {
     recompileSketch?: () => void;

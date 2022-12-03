@@ -7,6 +7,7 @@ import { CanvasFrameForwardRef } from "./components/CanvasIframe";
 import { useScriptLoader } from "./useScriptLoader";
 import { VisualsPopup } from "../../views/VisualPopup";
 import { Maptastic } from "maptastic";
+import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 
 const StyledCanvas = styled.div`
   width: 100vw;
@@ -64,13 +65,14 @@ export const P5Canvas: FC = ({ ...rest }) => {
   const settingsCaretStyles = useSpring({
     opacity: percentDimmed / 100,
   });
+  const { setIframeRef } = useGlobalCommands();
 
   useEffect(() => {
-    if (canvasRef) {
-      console.log(maptasticEnabled);
+    if (canvasRef?.current?.contentWindow) {
+      setIframeRef(canvasRef);
       maptasticEnabled && setMap(new Maptastic("map-me"));
     }
-  }, [canvasRef, maptasticEnabled]);
+  }, [canvasRef?.current?.contentWindow, maptasticEnabled, setIframeRef]);
 
   return (
     <StyledCanvas id={"p5-canvas-container"} {...rest}>

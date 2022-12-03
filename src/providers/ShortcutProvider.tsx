@@ -13,9 +13,10 @@ import { useSettingsDispatchContext } from "./SettingsProvider";
 
 const keyMap = {
   SHOW_MENU: "ctrl+m",
-  SHOW_ACTION_BAR: "cmd+p",
+  SHOW_ACTION_BAR: "ctrl+p",
   COMPILE: "ctrl+enter",
   HARD_COMPILE: "ctrl+shift+enter",
+  TOGGLE_CODE_VISIBLE: "ctrl+h",
 };
 
 interface IShortcutProviderProps {
@@ -27,13 +28,13 @@ configure({ ignoreTags: [] });
 export const ShortcutProvider: React.FC<IShortcutProviderProps> = ({
   children,
 }) => {
-  const dispatch = useSettingsDispatchContext();
   const { recompileSketch } = useGlobalCommands();
-  const { toggleActionBar, toggleShowMenu } = useSettings();
+  const { toggleActionBar, toggleShowMenu, toggleHideEditor } = useSettings();
   const { reloadSketch } = useSketchManager();
 
   const handlers = {
     SHOW_MENU: () => toggleShowMenu(),
+    TOGGLE_CODE_VISIBLE: () => toggleHideEditor(),
     COMPILE: () => recompileSketch(),
     HARD_COMPILE: () => reloadSketch(),
     SHOW_ACTION_BAR: (event: KeyboardEvent | undefined) => {

@@ -43,6 +43,15 @@ export const useGlobalCommands = () => {
     },
     [dispatch]
   );
+  const setIframeRef = useCallback(
+    (ref: RefObject<HTMLIFrameElement>) => {
+      dispatch({
+        type: "patchSessionGlobals",
+        payload: { canvasIframeRef: ref },
+      });
+    },
+    [dispatch]
+  );
   const setCanvasMediaStream = useCallback(
     (canvasMediaStream: MediaStream) => {
       dispatch({
@@ -83,6 +92,7 @@ export const useGlobalCommands = () => {
     setIframeKey,
     setActionBarRef,
     setCanvasMediaStream,
+    setIframeRef,
     setCanvasPopupOpen,
     ...sessionGlobals,
   };
