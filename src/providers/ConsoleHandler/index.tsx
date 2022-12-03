@@ -16,7 +16,10 @@ const StyledConsoleHandler = styled.div`
   background-color: black !important;
 `;
 
-const StyledConsole = styled(Console)``;
+const StyledConsole = styled(Console)`
+  background-color: black !important;
+  color: white ! !important; ;
+`;
 
 export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
   ...restProps
@@ -24,20 +27,19 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
   const [logs, setLogs] = useState<Message[]>([]);
   const [lastMessage, setLastMessage] = useState<string | undefined>(undefined);
   const { canvasIframeRef } = useGlobalCommands();
-  const canvasConsole = useMemo(() => {
-    console.log(canvasIframeRef);
-    return canvasIframeRef?.current?.contentWindow?.window?.console;
+  const canvasWindow = useMemo(() => {
+    return canvasIframeRef?.current?.contentWindow?.window;
   }, [canvasIframeRef]);
 
   useEffect(() => {
-    if (!canvasConsole) return;
-    Hook(canvasConsole, (log) => {
+    if (!canvasWindow) return;
+    Hook(canvasWindow.console, (log) => {
       const thisMessage = R.path<string>([0, "data", 0], log);
       if (lastMessage === thisMessage) return;
       thisMessage && setLastMessage(thisMessage);
       setLogs([...R.takeLast(3, logs), Decode(log)]);
     });
-  }, [canvasConsole, logs, lastMessage]);
+  }, [canvasWindow, logs, lastMessage]);
 
   useEffect(() => {
     Hook(window.console, (log) => {
@@ -46,7 +48,7 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
       thisMessage && setLastMessage(thisMessage);
       setLogs([...R.takeLast(3, logs), Decode(log)]);
     });
-  }, [canvasConsole, logs, lastMessage]);
+  }, [logs, lastMessage]);
 
   return (
     <StyledConsoleHandler {...restProps}>
