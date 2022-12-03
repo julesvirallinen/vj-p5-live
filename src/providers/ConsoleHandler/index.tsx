@@ -5,6 +5,8 @@ import { Message } from "console-feed/lib/definitions/Console";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import * as R from "ramda";
 
+const MESSAGES_TO_SHOW = 2;
+
 export interface IConsoleHandlerProps {}
 
 const StyledConsoleHandler = styled.div`
@@ -12,7 +14,7 @@ const StyledConsoleHandler = styled.div`
   right: 0;
   bottom: 0;
   width: 20rem;
-  height: 20rem;
+  height: 5rem;
   background-color: black !important;
 `;
 
@@ -37,7 +39,7 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
       const thisMessage = R.path<string>([0, "data", 0], log);
       if (lastMessage === thisMessage) return;
       thisMessage && setLastMessage(thisMessage);
-      setLogs([...R.takeLast(3, logs), Decode(log)]);
+      setLogs([...R.takeLast(MESSAGES_TO_SHOW, logs), Decode(log)]);
     });
   }, [canvasWindow, logs, lastMessage]);
 
@@ -46,7 +48,7 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
       const thisMessage = R.path<string>([0, "data", 0], log);
       if (lastMessage === thisMessage) return;
       thisMessage && setLastMessage(thisMessage);
-      setLogs([...R.takeLast(3, logs), Decode(log)]);
+      setLogs([...R.takeLast(MESSAGES_TO_SHOW, logs), Decode(log)]);
     });
   }, [logs, lastMessage]);
 

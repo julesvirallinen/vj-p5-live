@@ -27,6 +27,7 @@ import { useSettings } from "../../hooks/useSettings";
 import { Button } from "../ui/Button";
 import { FaRegEye } from "react-icons/fa";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
+import { debounce } from "lodash";
 
 const StyledEditorWrapper = styled.div<{ $hidden: boolean }>`
   ${(props) =>
@@ -106,13 +107,19 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
             // @ts-ignore bug in ace
             editor.session.$worker.send("changeOptions", [{ asi: true }]);
           }}
-          onValidate={(annotations) =>
-            setCodeHasSyntaxErrors(
+          onValidate={(annotations) => {
+            const hasErrors =
               annotations.findIndex(
                 (annotation) => annotation.type === "error"
-              ) >= 0
-            )
-          }
+              ) >= 0;
+            console.log("hasErrors", hasErrors);
+            if (hasErrors) {
+              return setCodeHasSyntaxErrors(true);
+            }
+            // humble attempt to stop code from running the second error is fixed, something with the debouncing is off
+            // this is prone to cause insane bugs and needs to be addressed
+            setTimeout(() => setCodeHasSyntaxErrors(false), 500);
+          }}
           fontSize={15}
           onChange={updateSketch}
           showPrintMargin={false}
