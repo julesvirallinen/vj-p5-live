@@ -45,7 +45,13 @@ yarn dev
 
 ## Scripts
 
-You can add any scripts to be loaded sketches from the sketch menu. The load order is set with the arrow buttons. Importing scripts to single sketches to be added.
+To load a script to a sketch, use the same syntax as P5live:
+
+`let libs = ["https://cdn.com/script.js"]`
+
+If you are running this locally, the script can be referenced in relation to the project root.
+
+You can add any scripts to be loaded sketches from the sketch menu. The load order is set with the arrow buttons.
 
 ## Maptastic
 
