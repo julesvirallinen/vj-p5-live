@@ -29,6 +29,8 @@ const extractUserScripts = (code: string) => {
     R.map(R.replace(/['"]+/g, ""))
   )(match);
 
+  if (scripts.length === 1 && scripts[0] == "") return [];
+
   return scripts;
 };
 

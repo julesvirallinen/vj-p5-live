@@ -53,14 +53,14 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
 
   const { html: sketchCode, userScripts } = useSketchCodeManager();
 
-  const scripts = useMemo(
-    () => [
+  const scripts = useMemo(() => {
+    console.log(userScripts, userPersistedScripts);
+    return [
       ...scriptsToLoad,
       ...userPersistedScripts,
       ...userScripts.map((url, i) => ({ id: `${i}${url}`, path: url })),
-    ],
-    [userPersistedScripts, userScripts]
-  );
+    ];
+  }, [userPersistedScripts, userScripts]);
 
   const createCanvasStream = useCallback(() => {
     if (!canvasPopupOpen) return;
@@ -101,12 +101,13 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     sketchCode,
     iframeDocument,
     scriptsLoaded,
-    userPersistedScripts,
     scriptsLoading,
     createCanvasStream,
+    scripts.length,
   ]);
 
   const loadScripts = useCallback(() => {
+    console.log(scripts);
     const scriptToLoad = scripts.find((s) => !scriptsLoaded.includes(s.id));
 
     if (!scriptToLoad) {
