@@ -56,6 +56,7 @@ export const CurrentSketchSettings: React.FC<ICurrentSketchSettingsProps> = ({
         value={newName}
         onKeyDown={handleKeyDown}
         onChange={setNewname}
+        label="Rename"
       ></Input>
       <MenuButtons>
         <Button onClick={toggleHideEditor}>

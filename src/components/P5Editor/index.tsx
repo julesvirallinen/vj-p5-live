@@ -5,7 +5,7 @@ import { config } from "ace-builds";
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-javascript";
-import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/theme-twilight";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/ext-error_marker";
 import "ace-builds/src-noconflict/ext-searchbox";
@@ -72,7 +72,7 @@ const StyledShowEditorButton = styled(Button)`
 
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
-  const { hideEditor, toggleHideEditor, compileAfterMs } = useSettings();
+  const { hideEditor, toggleHideEditor } = useSettings();
   const { setCodeHasSyntaxErrors } = useGlobalCommands();
   const editorRef = useRef<AceEditor>(null);
 
@@ -101,7 +101,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
           commands={Beautify.commands}
           mode="javascript"
           ref={editorRef}
-          theme="monokai"
+          theme="twilight"
           onLoad={(editor) => {
             // asi = disable semicolon linting in editor
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment

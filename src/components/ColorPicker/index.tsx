@@ -2,13 +2,18 @@ import React, { useRef, useState } from "react";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import styled from "styled-components";
 import { useClickedOutside } from "../../hooks/useClickedOutside";
+import { LabelText } from "../ui/Label";
 
 export interface IColorPickerProps {
   color: string;
   onChange: (color: string) => void;
+  label?: string;
 }
 
-const StyledColorPicker = styled.div``;
+const StyledColorPicker = styled.div`
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+`;
 
 const StyledSwatch = styled.div`
   width: 28px;
@@ -44,6 +49,7 @@ const Picker = styled(HexAlphaColorPicker)`
 export const ColorPicker: React.FC<IColorPickerProps> = ({
   color,
   onChange,
+  label,
   ...restProps
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,17 +57,20 @@ export const ColorPicker: React.FC<IColorPickerProps> = ({
   useClickedOutside(popover, () => setIsOpen(false));
 
   return (
-    <StyledColorPicker {...restProps}>
-      <StyledSwatch
-        style={{ backgroundColor: color }}
-        onClick={() => setIsOpen(!isOpen)}
-      />
+    <>
+      <StyledColorPicker {...restProps}>
+        {label && <LabelText>{label}</LabelText>}
+        <StyledSwatch
+          style={{ backgroundColor: color }}
+          onClick={() => setIsOpen(!isOpen)}
+        />
+      </StyledColorPicker>
       {isOpen && (
         <StyledPopOver ref={popover}>
           <Picker color={color} onChange={onChange} />
           <HexColorInput color={color} onChange={onChange} />
         </StyledPopOver>
       )}
-    </StyledColorPicker>
+    </>
   );
 };

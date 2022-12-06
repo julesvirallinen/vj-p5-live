@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
+import { LabelText } from "../Label";
 
 export interface IButtonProps {
   children?: ReactNode;
@@ -28,5 +29,9 @@ const StyledButton = styled.button`
 `;
 
 export const Button: React.FC<IButtonProps> = ({ children, ...restProps }) => {
-  return <StyledButton {...restProps}>{children}</StyledButton>;
+  return (
+    <StyledButton {...restProps}>
+      <LabelText>{children}</LabelText>
+    </StyledButton>
+  );
 };

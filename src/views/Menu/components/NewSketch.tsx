@@ -11,9 +11,9 @@ const StyledNewSketch = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
-  align-items: center;
   flex: 1 1 auto;
   margin-right: 2rem;
+  align-items: end;
 `;
 
 const CreateButton = styled(Button)``;
@@ -27,7 +27,7 @@ export const NewSketch: React.FC<INewSketchProps> = ({ ...restProps }) => {
   const [name, setName] = useState("new sketch");
   return (
     <StyledNewSketch {...restProps}>
-      <SketchInput value={name} onChange={setName} />
+      <SketchInput value={name} onChange={setName} label={"new sketch"} />
       <CreateButton onClick={() => newSketch(name)}>
         <FaPlus />
       </CreateButton>

@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { FaRegFileCode } from "react-icons/fa";
 import styled from "styled-components";
+import { LabelText } from "../../../../components/ui/Label";
 import { useSettings } from "../../../../hooks/useSettings";
 import { useSketchManager } from "../../../../hooks/useSketchManager";
 import { SKETCH_TEMPLATE_ID } from "../../../../models/sketch";
@@ -14,6 +15,9 @@ const StyledSketchList = styled.div`
 const Sketches = styled.div`
   max-height: 10rem;
   overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 const ListItem = styled.div`
@@ -25,6 +29,11 @@ const ListItem = styled.div`
   > svg > * {
     color: #ccc1c1;
   }
+`;
+
+const SketchName = styled(LabelText)`
+  text-weight: 100;
+  font-family: "Fredoka One", cursive;
 `;
 
 export const SketchList: React.FC<ISketchListProps> = ({ ...restProps }) => {
@@ -43,7 +52,13 @@ export const SketchList: React.FC<ISketchListProps> = ({ ...restProps }) => {
         {sketchesToShow.map((sketch) => (
           <ListItem key={sketch.id} onClick={() => loadSketch(sketch)}>
             <FaRegFileCode />
-            {loadedSketchId === sketch.id ? <b>{sketch.name}</b> : sketch.name}
+            <SketchName>
+              {loadedSketchId === sketch.id ? (
+                <b>{sketch.name}</b>
+              ) : (
+                sketch.name
+              )}
+            </SketchName>
           </ListItem>
         ))}
       </Sketches>

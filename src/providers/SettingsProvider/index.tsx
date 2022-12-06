@@ -13,7 +13,8 @@ import { TSrcScript } from "../../models/script";
 import { PartialDeep } from "type-fest";
 import { TTheme } from "../ThemeProvider";
 
-export const NON_PERSISTED_SETTINGS_KEYS = ["compileAfterMs"];
+/** Omit settings from being saved to localstorage (IAppState["settings"]) */
+export const NON_PERSISTED_SETTINGS_KEYS = [];
 
 export type TMenu = "sketches" | "settings" | "scripts";
 
