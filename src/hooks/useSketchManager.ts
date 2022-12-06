@@ -9,7 +9,10 @@ import {
   SKETCH_TEMPLATE_ID,
   SKETCH_TEMPLATE_NAME,
 } from "../models/sketch";
-import { defaultSketchCode } from "../components/P5Canvas/snippets";
+import { defaultSketchCode } from "../components/Canvas/libs/snippets";
+import JSLogger from "js-logger";
+
+const Logger = JSLogger.get("canvasLogger");
 
 const getSketchKey = (sketch: Pick<ICurrentSketch, "id">) =>
   `sketch_code_${sketch.id}`;
@@ -88,13 +91,16 @@ export const useSketchManager = () => {
   };
 
   const loadSketch = (sketch: Pick<ICurrentSketch, "id">) => {
+    Logger.info("Loading sketchId: ", sketch.id);
     const loadedSketch = fetchSketch(sketch);
 
     if (!loadedSketch) {
+      Logger.warn("Sketch code missing, removing from list");
       removeSketch(sketch.id);
     }
 
     if (loadedSketch) {
+      Logger.info(`Loaded sketch ${sketch.id}`);
       dispatchSketch({ type: "setSketch", payload: loadedSketch });
       dispatchSettings({
         type: "setLoadedSketchId",

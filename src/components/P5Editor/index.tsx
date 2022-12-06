@@ -27,15 +27,16 @@ import { useSettings } from "../../hooks/useSettings";
 import { Button } from "../ui/Button";
 import { FaRegEye } from "react-icons/fa";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
-import { debounce } from "lodash";
 
 const StyledEditorWrapper = styled.div<{ $hidden: boolean }>`
+  width: 100rem;
+  height: 100%;
+
   ${(props) =>
     props.$hidden &&
     css`
       display: none;
     `}
-
   span {
     background-color: ${(props) => `${props.theme.editor.textBackground}`};
     color: ${(props) => `${props.theme.editor.textColor}`};
