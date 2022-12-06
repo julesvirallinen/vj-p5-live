@@ -2,9 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
-import { useSketchCodeManager } from "../P5Canvas/useSketchCodeManager";
+import { useSketchCodeManager } from "../../hooks/useSketchCodeManager";
 import SketchCanvas from "./SketchCanvas";
-import Logger from "js-logger";
 
 export interface ICanvasContainerProps {}
 
@@ -28,6 +27,7 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
     setCanvasMediaStream,
     canvasPopupOpen,
   } = useGlobalCommands();
+
   const [iframeKey, setIframeKey] = useState(new Date().getTime());
   const [sketchLoaded, setSketchLoaded] = useState(false);
   const [recompileSketch, setRecompileSketch] =
@@ -35,16 +35,13 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
 
   const remountCanvas = useCallback(() => {
     const canvasKey = new Date().getTime();
-
-    Logger.debug("Set new canvaskey ", canvasKey);
     setIframeKey(canvasKey);
     setSketchLoaded(false);
   }, []);
 
   const compileSketch = useCallback(() => {
-    console.log(recompileSketch);
     forceLoadCode();
-  }, [forceLoadCode, recompileSketch]);
+  }, [forceLoadCode]);
 
   useEffect(() => {
     setHardRecompileSketch(remountCanvas);

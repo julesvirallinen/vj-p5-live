@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { CanvasContainer } from "./CanvasIFrameAsync/CanvasContainer";
-import { P5Canvas } from "./P5Canvas";
-import { P5Editor } from "./P5Editor";
+import { Canvas } from "../../components/Canvas";
+import { P5Editor } from "../../components/P5Editor";
 
 export interface ICanvasWrapperProps {}
 
@@ -21,13 +20,12 @@ const StyledEditor = styled(P5Editor)`
   height: 100%;
 `;
 
-export const CanvasWrapper: React.FC<ICanvasWrapperProps> = ({
+export const EditorAndCanvasView: React.FC<ICanvasWrapperProps> = ({
   ...restProps
 }) => {
   return (
     <StyledCanvasWrapper {...restProps}>
-      {/* <P5Canvas /> */}
-      <CanvasContainer />
+      <Canvas />
       <StyledEditor />
     </StyledCanvasWrapper>
   );

@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import "./App.css";
-import { CanvasWrapper } from "./components/CanvasWrapper";
 import styled from "styled-components";
 import { Menu } from "./views/Menu";
 import { ShortcutProvider } from "./providers/ShortcutProvider";
@@ -11,6 +10,7 @@ import Theme from "./providers/ThemeProvider";
 import { ConsoleHandler } from "./providers/ConsoleHandler";
 import Logger from "js-logger";
 import { VisualsPopup } from "./views/VisualPopup";
+import { EditorAndCanvasView } from "./views/EditorAndCanvasView";
 
 const StyledApp = styled.div`
   position: absolute;
@@ -42,7 +42,7 @@ const App: FC = () => {
         <ShortcutProvider>
           <Theme>
             <StyledApp>
-              <CanvasWrapper />
+              <EditorAndCanvasView />
               <Menu />
               <StyledActionBar />
               <ConsoleHandler />

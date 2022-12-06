@@ -9,7 +9,7 @@ import {
   SKETCH_TEMPLATE_ID,
   SKETCH_TEMPLATE_NAME,
 } from "../models/sketch";
-import { defaultSketchCode } from "../components/CanvasIFrameAsync/libs/snippets";
+import { defaultSketchCode } from "../components/Canvas/libs/snippets";
 import JSLogger from "js-logger";
 
 const Logger = JSLogger.get("canvasLogger");
