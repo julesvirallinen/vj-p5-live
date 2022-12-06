@@ -103,6 +103,9 @@ export const useSettings = () => {
   const setMaptasticEnabled = (enabled: boolean) =>
     patchSettings(["maptasticEnabled"], enabled);
 
+  const toggleShowConsoleFeed = () =>
+    patchSettings(["showConsoleFeed"], !settings.showConsoleFeed);
+
   return {
     ...settings,
     toggleShowMenu,
@@ -118,5 +121,6 @@ export const useSettings = () => {
     setUserLoadedScripts,
     setCompileAfterMs,
     setMaptasticEnabled,
+    toggleShowConsoleFeed,
   };
 };

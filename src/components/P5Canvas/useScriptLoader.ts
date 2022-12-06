@@ -48,13 +48,21 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   const { setHardRecompileSketch, setRecompileSketch } = useGlobalCommands();
   const [scriptsLoaded, setScriptsLoaded] = useState<string[]>([]);
   const [scriptsLoading, setScriptsLoading] = useState(true);
-  const { userLoadedScripts } = useSettings();
+  const { userLoadedScripts: userPersistedScripts } = useSettings();
   const { setCanvasMediaStream, canvasPopupOpen } = useGlobalCommands();
 
-  const sketchCode = useSketchCodeManager();
+  const { html: sketchCode, userScripts } = useSketchCodeManager();
+
+  const scripts = useMemo(() => {
+    console.log(userScripts, userPersistedScripts);
+    return [
+      ...scriptsToLoad,
+      ...userPersistedScripts,
+      ...userScripts.map((url, i) => ({ id: `${i}${url}`, path: url })),
+    ];
+  }, [userPersistedScripts, userScripts]);
 
   const createCanvasStream = useCallback(() => {
-    // console.log(iframeDocument, canvasPopupOpen);
     if (!canvasPopupOpen) return;
 
     const stream = iframeDocument?.querySelector("canvas")?.captureStream();
@@ -76,12 +84,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   }, [iframeDocument, setCanvasMediaStream, canvasPopupOpen]);
 
   const loadUserCode = useCallback(() => {
-    if (
-      scriptsLoaded.length !==
-        [...scriptsToLoad, ...userLoadedScripts].length ||
-      scriptsLoading
-    )
-      return;
+    if (scriptsLoaded.length !== scripts.length || scriptsLoading) return;
     loadProcessingScripts(
       iframeDocument,
       {
@@ -98,15 +101,14 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     sketchCode,
     iframeDocument,
     scriptsLoaded,
-    userLoadedScripts,
     scriptsLoading,
     createCanvasStream,
+    scripts.length,
   ]);
 
   const loadScripts = useCallback(() => {
-    const scriptToLoad = [...scriptsToLoad, ...userLoadedScripts].find(
-      (s) => !scriptsLoaded.includes(s.id)
-    );
+    console.log(scripts);
+    const scriptToLoad = scripts.find((s) => !scriptsLoaded.includes(s.id));
 
     if (!scriptToLoad) {
       return setScriptsLoading(false);
@@ -115,7 +117,7 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
     loadScriptTags(iframeDocument, [scriptToLoad], (scriptName) =>
       setScriptsLoaded([...scriptsLoaded, scriptName])
     );
-  }, [iframeDocument, scriptsLoaded, userLoadedScripts]);
+  }, [iframeDocument, scriptsLoaded, scripts]);
 
   const hardCompileSketch = useCallback(() => {
     [...(iframeDocument?.body.getElementsByTagName("script") ?? [])].map((n) =>

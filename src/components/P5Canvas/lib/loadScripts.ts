@@ -44,7 +44,6 @@ export const loadProcessingScripts = (
     `${scriptProps.content}\n${existingScript ? "" : " new p5()"}` ?? "";
 
   doc.body.appendChild(script);
-
   script.onload = () => {
     if (hasCallback) callback();
   };

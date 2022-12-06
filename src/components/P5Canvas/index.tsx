@@ -53,7 +53,6 @@ const CanvasMapContainer = styled.div`
 const AnimatedOpacity = animated(CanvasOpacity);
 
 export const P5Canvas: FC = ({ ...rest }) => {
-  const canvasContainerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLIFrameElement | null>(null);
   const [map, setMap] = useState<any>();
   const doc = canvasRef?.current;
@@ -79,7 +78,7 @@ export const P5Canvas: FC = ({ ...rest }) => {
       {canvasRef && <VisualsPopup></VisualsPopup>}
       <AnimatedOpacity style={settingsCaretStyles} />
       {loading && <StyledLoading />}
-      <CanvasMapContainer id={"map-me"} ref={canvasContainerRef}>
+      <CanvasMapContainer id={"map-me"}>
         <CanvasIframe ref={canvasRef}>
           <InnerCanvas></InnerCanvas>
         </CanvasIframe>
