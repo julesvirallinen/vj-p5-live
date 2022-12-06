@@ -16,6 +16,7 @@
     "console-feed": "^3.4.1",
     "dangerously-set-html-content": "^1.0.12",
     "eslint": "^8.28.0",
+    "js-logger": "^1.6.1",
     "lodash": "^4.17.21",
     "maptastic": "^3.0.0",
     "prettier": "^2.7.1",

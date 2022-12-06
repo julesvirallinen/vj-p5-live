@@ -9,6 +9,7 @@ import { CurrentSketchProvider } from "./providers/SketchProvider";
 import { ActionBar } from "./components/ActionBar";
 import Theme from "./providers/ThemeProvider";
 import { ConsoleHandler } from "./providers/ConsoleHandler";
+import Logger from "js-logger";
 
 const StyledApp = styled.div`
   position: absolute;
@@ -28,6 +29,12 @@ const StyledActionBar = styled(ActionBar)`
 `;
 
 const App: FC = () => {
+  Logger.useDefaults({
+    defaultLevel: Logger.DEBUG,
+    formatter: function (messages, context) {
+      messages.unshift(new Date().toUTCString());
+    },
+  });
   return (
     <SettingsProvider>
       <CurrentSketchProvider>

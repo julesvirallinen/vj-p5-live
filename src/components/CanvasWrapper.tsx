@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { CanvasContainer } from "./CanvasIFrameAsync/CanvasContainer";
 import { P5Canvas } from "./P5Canvas";
 import { P5Editor } from "./P5Editor";
 
@@ -25,7 +26,8 @@ export const CanvasWrapper: React.FC<ICanvasWrapperProps> = ({
 }) => {
   return (
     <StyledCanvasWrapper {...restProps}>
-      <P5Canvas />
+      {/* <P5Canvas /> */}
+      <CanvasContainer />
       <StyledEditor />
     </StyledCanvasWrapper>
   );

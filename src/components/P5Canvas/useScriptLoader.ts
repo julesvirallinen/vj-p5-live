@@ -10,15 +10,6 @@ export type TInnerHTMLScript = {
   shouldOverwrite?: boolean;
 };
 
-type TSketchWindowProps = {
-  setup: () => void;
-  frameCount: number;
-  noLoop: () => void;
-  loop: () => void;
-  clear: () => void;
-  getSession: () => any;
-};
-
 const scriptsToLoad = [
   { id: "p5js", path: "/js/p5.min.js" },
   {
@@ -54,7 +45,6 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   const { html: sketchCode, userScripts } = useSketchCodeManager();
 
   const scripts = useMemo(() => {
-    console.log(userScripts, userPersistedScripts);
     return [
       ...scriptsToLoad,
       ...userPersistedScripts,
@@ -107,7 +97,6 @@ export const useScriptLoader = (iframeRef: HTMLIFrameElement | null) => {
   ]);
 
   const loadScripts = useCallback(() => {
-    console.log(scripts);
     const scriptToLoad = scripts.find((s) => !scriptsLoaded.includes(s.id));
 
     if (!scriptToLoad) {

@@ -17,10 +17,6 @@ const StyledCanvas = styled.div`
   background-color: black;
 `;
 
-const InnerCanvas = styled.div`
-  margin: 0;
-`;
-
 const CanvasIframe = styled(CanvasFrameForwardRef)`
   width: 100vw;
   height: 100vh;
@@ -79,9 +75,7 @@ export const P5Canvas: FC = ({ ...rest }) => {
       <AnimatedOpacity style={settingsCaretStyles} />
       {loading && <StyledLoading />}
       <CanvasMapContainer id={"map-me"}>
-        <CanvasIframe ref={canvasRef}>
-          <InnerCanvas></InnerCanvas>
-        </CanvasIframe>
+        <CanvasIframe ref={canvasRef}></CanvasIframe>
       </CanvasMapContainer>
     </StyledCanvas>
   );
