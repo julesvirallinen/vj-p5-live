@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
-import { loadProcessingScripts, loadScriptTags } from "./lib/loadScripts";
+import {
+  loadProcessingScripts,
+  loadScriptTags,
+} from "../CanvasIFrameAsync/libs/loadScripts";
 import { useSketchCodeManager } from "./useSketchCodeManager";
 
 export type TInnerHTMLScript = {

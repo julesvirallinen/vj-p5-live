@@ -1,5 +1,5 @@
 import { TSrcScript } from "../../../models/script";
-import { TInnerHTMLScript } from "../useScriptLoader";
+import { TInnerHTMLScript } from "../../P5Canvas/useScriptLoader";
 import * as R from "ramda";
 
 // investigate https://addyosmani.com/basket.js/ for localstorage caching
@@ -59,7 +59,6 @@ export const loadProcessingScripts = (
   callback: () => void
 ) => {
   if (R.isNil(doc)) return null;
-  const hasCallback = !R.isNil(callback);
   const existingScript = doc.getElementById(scriptProps.id);
   existingScript?.remove();
   const script = doc.createElement("script");
@@ -71,9 +70,6 @@ export const loadProcessingScripts = (
     `${scriptProps.content}\n${existingScript ? "" : " new p5()"}` ?? "";
 
   doc.body.appendChild(script);
-  script.onload = () => {
-    if (hasCallback) callback();
-  };
 
-  if (existingScript && hasCallback) callback();
+  callback();
 };

@@ -1,50 +1,52 @@
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
-import * as SNIPPETS from "../CanvasIFrameAsync/libs/snippets";
-import * as R from "ramda";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { debounce } from "lodash";
 import { useSettings } from "../../hooks/useSettings";
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
-
-// sorry for the regex :(
-
-// matches const loadScripts = [ANYTHING HERE]
-// P5LIVE syntax for compatability
-const matchScripts = /^[\w]?(let |const |var )libs = \[(?<scriptTags>.*)(\])/gm;
-
-const extractUserScripts = (code: string) => {
-  const match = matchScripts.exec(code);
-
-  const scripts = R.pipe(
-    // get script group or empty string
-    R.pathOr<string>("", ["groups", "scriptTags"]),
-    // split scripts with comma
-    R.split(","),
-    // remove quotes from each url
-    R.map(R.replace(/['"]+/g, ""))
-  )(match);
-
-  if (scripts.length === 1 && scripts[0] == "") return [];
-
-  return scripts;
-};
+import Logger from "js-logger";
 
 export const useSketchCodeManager = () => {
-  const { code } = useCurrentSketch();
+  const { code, id } = useCurrentSketch();
   const { compileAfterMs } = useSettings();
   const { codeHasSyntaxErrors } = useGlobalCommands();
   const [userCode, setUserCode] = useState(code);
-  const [userScripts, setUserScripts] = useState<string[]>([]);
+  const [currentId, setCurrentId] = useState(id);
 
   // 2. debounce sets the user code
   const memoedDebounce = useMemo(
-    () => debounce((code: string) => setUserCode(code), compileAfterMs),
+    () =>
+      debounce(
+        (code: string) => {
+          setUserCode(code);
+          Logger.debug(`Updated after debounce ${compileAfterMs}`);
+        },
+        compileAfterMs,
+        { trailing: true }
+      ),
     [compileAfterMs]
   );
   // 1. useEffect gets change from saved code and debounces update
   useEffect(() => {
+    if (codeHasSyntaxErrors) {
+      Logger.info("Not updating code, code has syntax errors");
+    }
     memoedDebounce(code);
-  }, [memoedDebounce, code]);
+  }, [memoedDebounce, code, codeHasSyntaxErrors]);
 
-  return { userScripts };
+  // always update code on id change
+  useEffect(() => {
+    if (currentId === id) return;
+    memoedDebounce.cancel();
+    setUserCode(code);
+    setCurrentId(id);
+  }, [id, code, currentId, memoedDebounce]);
+
+  const forceLoadCode = useCallback(() => {
+    Logger.info("Forced code reload, cancel debounce");
+    setUserCode(code);
+    setCurrentId(id);
+    memoedDebounce.cancel();
+  }, [code, id, memoedDebounce]);
+
+  return { codeToRun: userCode, code, id, forceLoadCode };
 };

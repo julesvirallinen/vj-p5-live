@@ -1,9 +1,8 @@
 import React, { Component, RefObject } from "react";
 import styled from "styled-components";
-import { ALWAYS_LOADED_SCRIPTS } from "../../defs/Scripts";
 import { TSrcScript } from "../../models/script";
-import { loadProcessingScripts, loadScript } from "../P5Canvas/lib/loadScripts";
-import { compileScriptList, extractUserScripts } from "./libs/extractScripts";
+import { loadProcessingScripts, loadScript } from "./libs/loadScripts";
+import { compileScriptList } from "./libs/extractScripts";
 import Logger from "js-logger";
 import { TCanvasWindowProps } from "../../models/canvas";
 import { formatUserCode } from "./libs/formatUserCode";
@@ -26,20 +25,17 @@ const StyledIframe = styled.iframe`
 
 export interface ISketchCanvasProps {
   userPersistedScripts: TSrcScript[];
-  sketchCode: string;
-  sketchId: string;
-  setRecompileSketch: (any) => void;
-  setCanvasMediaStream: (any) => void;
+  sketch: { codeToRun: string; id: string };
+  setRecompileSketch: (fn: () => void) => void;
+  setCanvasMediaStream: (s: MediaStream) => void;
   setSketchLoaded: () => void;
   key: number;
+  canvasPopupOpen: boolean;
 }
 
 export interface ISketchCanvasState {
   iframeRef: RefObject<HTMLIFrameElement>;
-  scriptsLoaded: number;
   loadingState: TLoadingState;
-
-  recompileSketch?: () => void;
   sketchId: string;
   renderedCode: string;
 }
@@ -70,10 +66,9 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
 
     this.state = {
       iframeRef,
-      scriptsLoaded: 0,
       loadingState: "started",
-      sketchId: props.sketchId,
-      renderedCode: this.props.sketchCode,
+      sketchId: props.sketch.id,
+      renderedCode: this.props.sketch.codeToRun,
     };
   }
 
@@ -83,26 +78,25 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
   }
 
   async componentDidMount() {
-    Logger.debug(`Mounted new canvas iframe ${this.props.sketchId}`);
+    Logger.debug(`Mounted canvas iframe. SketchId:${this.props.sketch.id}`);
     const { contentWindow, document } = getIframeDocumentAndWindow(this.state);
     document.body.style.margin = "0";
 
     this.props.setRecompileSketch(() => {
       if (this.state.loadingState !== "userCodeLoaded") return;
+      this.updateUserCode(this.props.sketch.codeToRun);
       contentWindow.frameCount = 0;
       contentWindow.setup();
     });
 
     const allScripts = compileScriptList(
-      this.props.sketchCode,
+      this.props.sketch.codeToRun,
       this.props.userPersistedScripts
     );
 
     await Promise.all(allScripts.map(loadScript(document))).then(() => {
       Logger.info(`Loaded ${allScripts.length} scripts`);
-      this.setState({
-        scriptsLoaded: allScripts.length,
-      });
+
       this.updateLoadingState("scriptsLoaded");
     });
   }
@@ -111,29 +105,38 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
     nextProps: Readonly<ISketchCanvasProps>,
     nextState: Readonly<ISketchCanvasState>
   ): boolean {
+    if (!this.props.canvasPopupOpen && nextProps.canvasPopupOpen) {
+      return true;
+    }
     if (nextState.loadingState === "started") {
+      Logger.debug("Scripts not loaded, not updating");
       return false;
     }
     // Don't rerender if sketch changes, component should be remounted
-    if (nextState.sketchId !== nextProps.sketchId) return false;
+    if (nextState.sketchId !== nextProps.sketch.id) {
+      Logger.debug("Sketch id changed, needs to be remounted");
+      return false;
+    }
+    if (nextState.loadingState === "scriptsLoaded") {
+      return true;
+    }
 
     if (
-      nextProps.sketchCode === nextState.renderedCode &&
+      nextProps.sketch.codeToRun === nextState.renderedCode &&
       nextState.loadingState === "userCodeLoaded"
     ) {
       return false;
+    } else {
+      this.setState({ renderedCode: nextProps.sketch.codeToRun });
+      Logger.debug("Updating sketch code");
+      return true;
     }
-
-    return true;
   }
 
-  async componentDidUpdate(
-    prevProps: Readonly<ISketchCanvasProps>,
-    prevState: Readonly<ISketchCanvasState>
-  ): Promise<void> {
-    const { document } = getIframeDocumentAndWindow(prevState);
+  updateUserCode(code: string) {
+    const { document } = getIframeDocumentAndWindow(this.state);
 
-    const formattedCode = formatUserCode(prevProps.sketchCode);
+    const formattedCode = formatUserCode(code);
 
     loadProcessingScripts(
       document,
@@ -144,15 +147,34 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
       () => {
         Logger.info("Done loading user code");
         if (this.state.loadingState === "scriptsLoaded") {
-          this.setState({ renderedCode: formattedCode });
-          prevProps.setSketchLoaded();
+          this.props.setSketchLoaded();
           this.updateLoadingState("userCodeLoaded");
         }
       }
     );
   }
 
+  createCanvasPopstream() {
+    const { document } = getIframeDocumentAndWindow(this.state);
+    const stream = document.querySelector("canvas")?.captureStream();
+
+    if (stream) {
+      Logger.debug("Popstream updated");
+      this.props.setCanvasMediaStream(stream);
+    } else {
+      Logger.warn("Popstream not updated");
+    }
+  }
+
+  componentDidUpdate(): void {
+    this.updateUserCode(this.props.sketch.codeToRun);
+    this.props.canvasPopupOpen &&
+      setTimeout(() => this.createCanvasPopstream(), 100);
+  }
+
   render() {
+    Logger.debug("Canvas rerendered");
+
     return (
       <StyledSketchCanvas>
         <StyledIframe

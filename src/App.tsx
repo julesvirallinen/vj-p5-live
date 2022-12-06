@@ -10,6 +10,7 @@ import { ActionBar } from "./components/ActionBar";
 import Theme from "./providers/ThemeProvider";
 import { ConsoleHandler } from "./providers/ConsoleHandler";
 import Logger from "js-logger";
+import { VisualsPopup } from "./views/VisualPopup";
 
 const StyledApp = styled.div`
   position: absolute;
@@ -32,7 +33,7 @@ const App: FC = () => {
   Logger.useDefaults({
     defaultLevel: Logger.DEBUG,
     formatter: function (messages, context) {
-      messages.unshift(new Date().toUTCString());
+      messages.unshift(new Date().toTimeString().slice(0, 8));
     },
   });
   return (
@@ -45,6 +46,7 @@ const App: FC = () => {
               <Menu />
               <StyledActionBar />
               <ConsoleHandler />
+              <VisualsPopup />
             </StyledApp>
           </Theme>
         </ShortcutProvider>
