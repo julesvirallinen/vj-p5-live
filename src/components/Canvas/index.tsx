@@ -14,7 +14,6 @@ const StyledCanvas = styled.div`
   position: fixed;
   top: 0;
   background-color: black;
-  pointer-events: none;
 `;
 
 const CanvasOpacity = styled.div<{ $opacity: number }>`
@@ -50,13 +49,13 @@ export const Canvas: FC = ({ ...rest }) => {
   useEffect(() => {
     if (maptasticEnabled && mapRef.current) {
       Logger.info("maptastic initialized");
-      setMap(new Maptastic("map-me"));
+      setMap(new Maptastic("map-me2"));
     }
   }, [maptasticEnabled]);
 
   return (
     <StyledCanvas id={"p5-canvas-container"} {...rest}>
-      <CanvasMapContainer id={"map-me"} ref={mapRef}>
+      <CanvasMapContainer id={"map-me2"} ref={mapRef}>
         <CanvasContainer />
       </CanvasMapContainer>
       <AnimatedOpacity style={canvasOpacityStyles} />

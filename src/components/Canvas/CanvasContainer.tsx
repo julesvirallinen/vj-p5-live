@@ -23,8 +23,7 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
   ...restProps
 }) => {
   const { userLoadedScripts } = useSettings();
-  const { forceLoadCode, ...sketch } = useSketchCodeManager();
-
+  const { forceLoadCode, sketch } = useSketchCodeManager();
   const {
     setRecompileSketch: setGlobalRecompileSketch,
     setHardRecompileSketch,

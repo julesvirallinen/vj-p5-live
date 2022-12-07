@@ -129,5 +129,6 @@ export const useSettings = () => {
     setCompileAfterMs,
     setMaptasticEnabled,
     toggleShowConsoleFeed,
+    patchSettings,
   };
 };

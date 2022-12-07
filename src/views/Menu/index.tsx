@@ -1,6 +1,6 @@
 import React from "react";
 import { FaCaretRight } from "react-icons/fa";
-import { animated,useSpring } from "react-spring";
+import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
 
 import { useSettings } from "../../hooks/useSettings";
@@ -11,6 +11,7 @@ import { MenuSettings } from "./components/MenuSettings";
 import { ScriptSettings } from "./components/MenuSettings/views/ScriptSettings";
 import { NewSketch } from "./components/NewSketch";
 import { SketchList } from "./components/SketchList";
+import { PaletteSettings } from "./components/MenuSettings/views/PaletteSettings";
 
 const MENU_WIDTH = 12;
 
@@ -79,6 +80,12 @@ export const Menu: React.FC<IMenuProps> = () => {
     opacity: showMenu ? 1 : 0,
     top: showMenu ? "8rem" : "0rem",
   });
+  // I know I promise I'll refactor this soon ;__;
+  const paletteCaretStyles = useSpring({
+    transform: getCaretRotation(showMenu, openMenu === "palette"),
+    opacity: showMenu ? 1 : 0,
+    top: showMenu ? "10.5rem" : "0rem",
+  });
 
   const handleCaret = (menu: TMenu) => {
     if (!showMenu) {
@@ -116,6 +123,12 @@ export const Menu: React.FC<IMenuProps> = () => {
         >
           <FaCaretRight size={30} />
         </AnimatedCaret>
+        <AnimatedCaret
+          style={paletteCaretStyles}
+          onClick={() => handleCaret("palette")}
+        >
+          <FaCaretRight size={30} />
+        </AnimatedCaret>
         {openMenu === "sketches" && (
           <StyledMenu>
             <CurrentSketchSettings />
@@ -131,6 +144,11 @@ export const Menu: React.FC<IMenuProps> = () => {
         {openMenu === "scripts" && (
           <StyledSettingsMenu>
             <ScriptSettings />
+          </StyledSettingsMenu>
+        )}
+        {openMenu === "palette" && (
+          <StyledSettingsMenu>
+            <PaletteSettings />
           </StyledSettingsMenu>
         )}
       </AnimatedMenu>

@@ -21,7 +21,6 @@ export const useCurrentSketch = () => {
 
   const currentSketchData = useMemo(() => {
     const sketchData = sketches.find((s) => s.id == sketch.id);
-
     if (!sketchData) {
       console.error("no sketch saved");
     }

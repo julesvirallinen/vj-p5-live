@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { FaRegFileCode } from "react-icons/fa";
-import styled from "styled-components";
-
+import styled, { css } from "styled-components";
 import { LabelText } from "../../../../components/ui/Label";
 import { useSettings } from "../../../../hooks/useSettings";
 import { useSketchManager } from "../../../../hooks/useSketchManager";
@@ -32,9 +31,15 @@ const ListItem = styled.div`
   }
 `;
 
-const SketchName = styled(LabelText)`
+const SketchName = styled(LabelText)<{ $isSelected: boolean }>`
   text-weight: 100;
   font-family: "Fredoka One", cursive;
+
+  ${(props) =>
+    props.$isSelected &&
+    css`
+      color: ${(props) => props.theme.colors.secondary} !important;
+    `}
 `;
 
 export const SketchList: React.FC<ISketchListProps> = ({ ...restProps }) => {
@@ -53,12 +58,8 @@ export const SketchList: React.FC<ISketchListProps> = ({ ...restProps }) => {
         {sketchesToShow.map((sketch) => (
           <ListItem key={sketch.id} onClick={() => loadSketch(sketch)}>
             <FaRegFileCode />
-            <SketchName>
-              {loadedSketchId === sketch.id ? (
-                <b>{sketch.name}</b>
-              ) : (
-                sketch.name
-              )}
+            <SketchName $isSelected={loadedSketchId === sketch.id}>
+              {sketch.name}
             </SketchName>
           </ListItem>
         ))}

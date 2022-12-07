@@ -3,11 +3,10 @@ import { FaArrowDown, FaArrowUp, FaSkullCrossbones } from "react-icons/fa";
 import * as R from "ramda";
 import styled from "styled-components";
 
-import { Button } from "../../../../../components/ui/Button";
-import { LabelText } from "../../../../../components/ui/Label";
-import { useSettings } from "../../../../../hooks/useSettings";
-
 import { AddScript } from "./components/AddScript";
+import { LabelText } from "../../../../../../components/ui/Label";
+import { Button } from "../../../../../../components/ui/Button";
+import { useSettings } from "../../../../../../hooks/useSettings";
 export interface IScriptSettingsProps {}
 
 const StyledScriptSettings = styled.div`

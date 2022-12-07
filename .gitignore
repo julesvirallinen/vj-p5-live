@@ -23,4 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 
-src/data/*
+src/data/js/*

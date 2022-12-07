@@ -4,6 +4,7 @@ import * as R from "ramda";
 import { defaultSketchCode } from "../components/Canvas/libs/snippets";
 import {
   ICurrentSketch,
+  ISettingsSketch,
   SKETCH_TEMPLATE_ID,
   SKETCH_TEMPLATE_NAME,
 } from "../models/sketch";
@@ -70,14 +71,20 @@ export const useSketchManager = () => {
     });
   };
 
-  const renameSketch = (id: string, name: string) => {
+  const patchSketch = (id: string, patch: Partial<ISettingsSketch>) =>
     dispatchSettings({
       type: "patchSettings",
       payload: {
-        sketches: sketches.map((s) => (s.id === id ? { ...s, name } : s)),
+        sketches: sketches.map((s) =>
+          s.id === id ? R.mergeDeepLeft({ id, ...patch }, s) : s
+        ),
       },
     });
-  };
+
+  const renameSketch = (id: string, name: string) => patchSketch(id, { name });
+
+  const setSketchPalette = (id: string, paletteName: string) =>
+    patchSketch(id, { paletteName });
 
   const saveSketch = (sketch: ICurrentSketch) =>
     setItem(getSketchKey(sketch), sketch);
@@ -152,5 +159,6 @@ export const useSketchManager = () => {
     reloadSketch,
     renameSketch,
     loadDefaultSketchTemplate,
+    setSketchPalette,
   };
 };

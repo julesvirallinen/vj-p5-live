@@ -4,7 +4,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { animated,useSpring } from "react-spring";
+import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
 
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
@@ -140,12 +140,9 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === "Enter") {
       const [action, ...options] = command.split(" ");
-      console.log(action, options);
-
       const actionDef = commands.find(
         (c) => c.shortCommand === action || c.fullCommand === action
       );
-      console.log(actionDef);
 
       if (actionDef) {
         actionDef.handler(options);

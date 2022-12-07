@@ -13,11 +13,12 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { TSrcScript } from "../../models/script";
 import { ISettingsSketch } from "../../models/sketch";
 import { TTheme } from "../ThemeProvider";
+import { TColorPalette } from "../../models/colors";
 
 /** Omit settings from being saved to localstorage (IAppState["settings"]) */
 export const NON_PERSISTED_SETTINGS_KEYS = [];
 
-export type TMenu = "sketches" | "settings" | "scripts";
+export type TMenu = "sketches" | "settings" | "scripts" | "palette";
 
 export interface IAppState {
   settings: {
@@ -30,6 +31,7 @@ export interface IAppState {
     showActionBar: boolean;
     loadedSketchId?: string;
     compileAfterMs: number;
+    colorPalettes: TColorPalette[];
     /**
      * Scripts that are always loaded for all sketches
      */
@@ -90,6 +92,7 @@ const initialState: IAppState = {
     showActionBar: true,
     compileAfterMs: 1000,
     userLoadedScripts: [],
+    colorPalettes: [],
     canvas: {
       percentDimmed: 1,
     },

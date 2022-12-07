@@ -29,7 +29,7 @@ const StyledOpacitySlider = styled.input`
   height: 25px;
   background: #000;
   border: 1px solid ${(props) => props.theme.colors.primary};
-  opacity: 0.7;
+  /* opacity: 0.7; */
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
 
@@ -37,7 +37,7 @@ const StyledOpacitySlider = styled.input`
     -webkit-appearance: none;
     appearance: none;
     width: 1.5rem;
-    opacity: 0.5;
+    /* opacity: 0.5; */
     height: 1.5rem;
     background-color: ${(props) => `${props.theme.colors.secondary}`};
     border-radius: 2rem;
