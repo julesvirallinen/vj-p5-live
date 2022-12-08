@@ -1,5 +1,6 @@
 import React from "react";
-import { GlobalHotKeys, configure } from "react-hotkeys";
+import { configure,GlobalHotKeys } from "react-hotkeys";
+
 import { useGlobalCommands } from "../hooks/useGlobalCommands";
 import { useSettings } from "../hooks/useSettings";
 import { useSketchManager } from "../hooks/useSketchManager";

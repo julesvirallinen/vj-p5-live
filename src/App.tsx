@@ -1,16 +1,18 @@
 import React, { FC } from "react";
-import "./App.css";
-import styled from "styled-components";
-import { Menu } from "./views/Menu";
-import { ShortcutProvider } from "./providers/ShortcutProvider";
-import { SettingsProvider } from "./providers/SettingsProvider";
-import { CurrentSketchProvider } from "./providers/SketchProvider";
-import { ActionBar } from "./components/ActionBar";
-import Theme from "./providers/ThemeProvider";
-import { ConsoleHandler } from "./providers/ConsoleHandler";
 import Logger from "js-logger";
-import { VisualsPopup } from "./views/VisualPopup";
+import styled from "styled-components";
+
+import "./App.css";
+
+import { ActionBar } from "./components/ActionBar";
+import { ConsoleHandler } from "./providers/ConsoleHandler";
+import { SettingsProvider } from "./providers/SettingsProvider";
+import { ShortcutProvider } from "./providers/ShortcutProvider";
+import { CurrentSketchProvider } from "./providers/SketchProvider";
+import Theme from "./providers/ThemeProvider";
 import { EditorAndCanvasView } from "./views/EditorAndCanvasView";
+import { Menu } from "./views/Menu";
+import { VisualsPopup } from "./views/VisualPopup";
 
 const StyledApp = styled.div`
   position: absolute;

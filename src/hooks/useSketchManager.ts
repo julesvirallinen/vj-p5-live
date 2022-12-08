@@ -1,16 +1,18 @@
-import { useSettingsDispatchContext } from "../providers/SettingsProvider";
-import { useCurrentSketchDispatchContext } from "../providers/SketchProvider";
-import { useLocalStorage } from "./useLocalStorage";
+import JSLogger from "js-logger";
 import * as R from "ramda";
-import { useSettings } from "./useSettings";
-import { useGlobalCommands } from "./useGlobalCommands";
+
+import { defaultSketchCode } from "../components/Canvas/libs/snippets";
 import {
   ICurrentSketch,
   SKETCH_TEMPLATE_ID,
   SKETCH_TEMPLATE_NAME,
 } from "../models/sketch";
-import { defaultSketchCode } from "../components/Canvas/libs/snippets";
-import JSLogger from "js-logger";
+import { useSettingsDispatchContext } from "../providers/SettingsProvider";
+import { useCurrentSketchDispatchContext } from "../providers/SketchProvider";
+
+import { useGlobalCommands } from "./useGlobalCommands";
+import { useLocalStorage } from "./useLocalStorage";
+import { useSettings } from "./useSettings";
 
 const Logger = JSLogger.get("canvasLogger");
 

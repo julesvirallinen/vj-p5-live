@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { animated, useSpring } from "react-spring";
-import styled from "styled-components";
-import { useSettings } from "../../hooks/useSettings";
 import Logger from "js-logger";
-
 import { Maptastic } from "maptastic";
+import styled from "styled-components";
+
+import { useSettings } from "../../hooks/useSettings";
+
 import { CanvasContainer } from "./CanvasContainer";
 
 const StyledCanvas = styled.div`

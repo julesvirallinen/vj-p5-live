@@ -1,4 +1,5 @@
 import { RefObject, useCallback } from "react";
+
 import {
   IAppState,
   useSettingsDispatchContext,

@@ -1,10 +1,11 @@
 import React from "react";
 import styled, { useTheme } from "styled-components";
-import { useSettings } from "../../../../hooks/useSettings";
-import { TTheme } from "../../../../providers/ThemeProvider";
+
 import { ColorPicker } from "../../../../components/ColorPicker";
 import { Input } from "../../../../components/ui/Input";
 import { LabelText } from "../../../../components/ui/Label";
+import { useSettings } from "../../../../hooks/useSettings";
+import { TTheme } from "../../../../providers/ThemeProvider";
 
 export interface IMenuSettingsProps {}
 

@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaSkullCrossbones } from "react-icons/fa";
-import styled from "styled-components";
-import { useSettings } from "../../../../../hooks/useSettings";
-import { AddScript } from "./components/AddScript";
 import * as R from "ramda";
+import styled from "styled-components";
+
 import { Button } from "../../../../../components/ui/Button";
 import { LabelText } from "../../../../../components/ui/Label";
+import { useSettings } from "../../../../../hooks/useSettings";
+
+import { AddScript } from "./components/AddScript";
 export interface IScriptSettingsProps {}
 
 const StyledScriptSettings = styled.div`

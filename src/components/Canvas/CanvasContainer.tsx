@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
+
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
 import { useSketchCodeManager } from "../../hooks/useSketchCodeManager";
+
 import SketchCanvas from "./SketchCanvas";
 
 export interface ICanvasContainerProps {}

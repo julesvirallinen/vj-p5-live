@@ -4,8 +4,9 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useSpring, animated } from "react-spring";
+import { animated,useSpring } from "react-spring";
 import styled from "styled-components";
+
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
 import { useSketchManager } from "../../hooks/useSketchManager";

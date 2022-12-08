@@ -1,9 +1,11 @@
 import { useCallback, useMemo } from "react";
+
 import { ISettingsSketch } from "../models/sketch";
 import {
   useCurrentSketchDispatchContext,
   useCurrentSketchStateContext,
 } from "../providers/SketchProvider";
+
 import { useSettings } from "./useSettings";
 
 export const useCurrentSketch = () => {

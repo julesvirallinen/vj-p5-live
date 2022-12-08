@@ -1,13 +1,15 @@
 import { useCallback } from "react";
+import * as R from "ramda";
+import { Path } from "ramda";
+
+import { TSrcScript } from "../models/script";
 import {
   TMenu,
   useSettingsDispatchContext,
   useSettingsStateContext,
 } from "../providers/SettingsProvider";
-import * as R from "ramda";
-import { Path } from "ramda";
+
 import { useGlobalCommands } from "./useGlobalCommands";
-import { TSrcScript } from "../models/script";
 
 export const useSettings = () => {
   const dispatch = useSettingsDispatchContext();

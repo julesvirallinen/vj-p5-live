@@ -1,11 +1,13 @@
 import React, { Component, RefObject } from "react";
-import styled from "styled-components";
-import { TSrcScript } from "../../models/script";
-import { loadProcessingScripts, loadScript } from "./libs/loadScripts";
-import { compileScriptList } from "./libs/extractScripts";
 import Logger from "js-logger";
+import styled from "styled-components";
+
 import { TCanvasWindowProps } from "../../models/canvas";
+import { TSrcScript } from "../../models/script";
+
+import { compileScriptList } from "./libs/extractScripts";
 import { formatUserCode } from "./libs/formatUserCode";
+import { loadProcessingScripts, loadScript } from "./libs/loadScripts";
 
 const StyledSketchCanvas = styled.div`
   width: 100vw;

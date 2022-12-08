@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
-import styled from "styled-components";
-import { Hook, Console, Decode } from "console-feed";
+import { Console, Decode,Hook } from "console-feed";
 import { Message } from "console-feed/lib/definitions/Console";
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import * as R from "ramda";
+import styled from "styled-components";
+
+import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
 
 const MESSAGES_TO_SHOW = 20;

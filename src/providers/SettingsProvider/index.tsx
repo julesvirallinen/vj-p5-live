@@ -7,10 +7,11 @@ import React, {
 } from "react";
 import * as R from "ramda";
 import { Path } from "ramda";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { ISettingsSketch } from "../../models/sketch";
-import { TSrcScript } from "../../models/script";
 import { PartialDeep } from "type-fest";
+
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { TSrcScript } from "../../models/script";
+import { ISettingsSketch } from "../../models/sketch";
 import { TTheme } from "../ThemeProvider";
 
 /** Omit settings from being saved to localstorage (IAppState["settings"]) */

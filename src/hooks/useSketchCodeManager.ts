@@ -1,9 +1,10 @@
-import { useCurrentSketch } from "./useCurrentSketch";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { debounce } from "lodash";
-import { useSettings } from "./useSettings";
-import { useGlobalCommands } from "./useGlobalCommands";
 import Logger from "js-logger";
+import { debounce } from "lodash";
+
+import { useCurrentSketch } from "./useCurrentSketch";
+import { useGlobalCommands } from "./useGlobalCommands";
+import { useSettings } from "./useSettings";
 
 export const useSketchCodeManager = () => {
   const { code, id } = useCurrentSketch();

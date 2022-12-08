@@ -1,5 +1,6 @@
-import { TInnerHTMLScript, TSrcScript } from "../../../models/script";
 import * as R from "ramda";
+
+import { TInnerHTMLScript, TSrcScript } from "../../../models/script";
 
 // investigate https://addyosmani.com/basket.js/ for localstorage caching
 
