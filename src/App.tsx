@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import Logger from "js-logger";
 import styled from "styled-components";
 
 import "./App.css";
 
 import { ActionBar } from "./components/ActionBar";
+import useInitLogger from "./hooks/useInitLogger";
 import { ConsoleHandler } from "./providers/ConsoleHandler";
 import { SettingsProvider } from "./providers/SettingsProvider";
 import { ShortcutProvider } from "./providers/ShortcutProvider";
@@ -32,12 +32,7 @@ const StyledActionBar = styled(ActionBar)`
 `;
 
 const App: FC = () => {
-  Logger.useDefaults({
-    defaultLevel: Logger.DEBUG,
-    formatter: function (messages, context) {
-      messages.unshift(new Date().toTimeString().slice(0, 8));
-    },
-  });
+  useInitLogger();
 
   return (
     <SettingsProvider>
