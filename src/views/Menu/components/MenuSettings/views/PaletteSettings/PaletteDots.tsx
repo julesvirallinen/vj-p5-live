@@ -1,11 +1,12 @@
 import React from "react";
 import { BsFillCircleFill, BsSlashCircle } from "react-icons/bs";
 import styled from "styled-components";
+
 import { TColorCode } from "../../../../../../models/colors";
 
 export interface IPaletteDotsProps {
   colors: (TColorCode | null)[];
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const ColorDots = styled.div`

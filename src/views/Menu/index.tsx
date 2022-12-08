@@ -8,10 +8,10 @@ import { TMenu } from "../../providers/SettingsProvider";
 
 import { CurrentSketchSettings } from "./components/CurrentSketch";
 import { MenuSettings } from "./components/MenuSettings";
+import { PaletteSettings } from "./components/MenuSettings/views/PaletteSettings";
 import { ScriptSettings } from "./components/MenuSettings/views/ScriptSettings";
 import { NewSketch } from "./components/NewSketch";
 import { SketchList } from "./components/SketchList";
-import { PaletteSettings } from "./components/MenuSettings/views/PaletteSettings";
 
 const MENU_WIDTH = 12;
 
@@ -19,6 +19,7 @@ export interface IMenuProps {}
 
 const StyledMenu = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   width: ${MENU_WIDTH}rem;
   background-color: rgb(0 0 0 / 74%);
@@ -45,6 +46,7 @@ const StyledMenuCaret = styled.div`
   position: fixed;
   top: 2rem;
   right: ${MENU_WIDTH + 1}rem;
+  opacity: 0.4;
 `;
 
 const AnimatedMenu = animated(StyledMenuContainer);
@@ -71,20 +73,21 @@ export const Menu: React.FC<IMenuProps> = () => {
 
   const settingsCaretStyles = useSpring({
     transform: getCaretRotation(showMenu, openMenu === "settings"),
-    opacity: showMenu ? 1 : 0,
+    opacity: showMenu ? 0.4 : 0,
     top: showMenu ? "5rem" : "0rem",
   });
 
   const scriptsCaretStyles = useSpring({
     transform: getCaretRotation(showMenu, openMenu === "scripts"),
-    opacity: showMenu ? 1 : 0,
+    opacity: showMenu ? 0.4 : 0,
     top: showMenu ? "8rem" : "0rem",
   });
+
   // I know I promise I'll refactor this soon ;__;
   const paletteCaretStyles = useSpring({
     transform: getCaretRotation(showMenu, openMenu === "palette"),
-    opacity: showMenu ? 1 : 0,
-    top: showMenu ? "10.5rem" : "0rem",
+    opacity: showMenu ? 0.4 : 0,
+    top: showMenu ? "11rem" : "0rem",
   });
 
   const handleCaret = (menu: TMenu) => {

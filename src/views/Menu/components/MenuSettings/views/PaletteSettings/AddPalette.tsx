@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { usePaletteMenu } from "./usePaletteMenu";
-import { TColorCode, TColorPalette } from "../../../../../../models/colors";
-import { Input } from "../../../../../../components/ui/Input";
-import { Button } from "../../../../../../components/ui/Button";
-import * as R from "ramda";
 import {
   BsFillCircleFill,
   BsFillExclamationCircleFill,
   BsSlashCircle,
 } from "react-icons/bs";
+import * as R from "ramda";
+import styled from "styled-components";
+
+import { Button } from "../../../../../../components/ui/Button";
+import { Input } from "../../../../../../components/ui/Input";
+import { TColorCode, TColorPalette } from "../../../../../../models/colors";
+
 import { PaletteDots } from "./PaletteDots";
+import { usePaletteMenu } from "./usePaletteMenu";
 
 export interface IAddPaletteProps {}
 
@@ -18,6 +20,7 @@ const sanitizeId = (id: string) => id.replace(/[^A-Za-z_-]+/g, "");
 
 const isHexColor = (hex: string): hex is TColorCode => {
   if (typeof hex !== "string") return false;
+
   if (hex[0] !== "#") return false;
   const hexPart = R.drop(1, hex);
 
@@ -38,10 +41,11 @@ export const AddPalette: React.FC<IAddPaletteProps> = ({ ...restProps }) => {
 
   useEffect(() => {
     if (hexCodeInput === "") return setParsedColors([]);
+
     const codes = R.pipe(
       R.split(","),
       R.map(R.trim),
-      R.map(R.replace(/['"]+/g, "")),
+      R.map(R.replace(/['"\[\]\(\)]+/g, "")), // remove quotes and braces
       (codes: string[]) => codes.map((c) => (isHexColor(c) ? c : null))
     )(hexCodeInput);
     setParsedColors(codes);

@@ -29,7 +29,8 @@ export interface ISketchCanvasProps {
   userPersistedScripts: TSrcScript[];
   sketch: { code: string; additionalCode: string; id: string };
   setRecompileSketch: Dispatch<
-    React.SetStateAction<(() => void | undefined) | undefined>;
+    React.SetStateAction<(() => void | undefined) | undefined>
+  >;
   setCanvasMediaStream: (s: MediaStream) => void;
   setSketchLoaded: () => void;
   key: number;
@@ -94,7 +95,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
 
   async componentDidMount() {
     Logger.debug(`Mounted canvas iframe. SketchId:${this.props.sketch.id}`);
-    const { document } = getIframeDocumentAndWindow(this.state);
+    const { document, contentWindow } = getIframeDocumentAndWindow(this.state);
     document.body.style.margin = "0";
 
     const allScripts = compileScriptList(

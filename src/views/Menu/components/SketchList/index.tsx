@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { FaRegFileCode } from "react-icons/fa";
 import styled, { css } from "styled-components";
+
 import { LabelText } from "../../../../components/ui/Label";
 import { useSettings } from "../../../../hooks/useSettings";
 import { useSketchManager } from "../../../../hooks/useSketchManager";
@@ -33,7 +34,6 @@ const ListItem = styled.div`
 
 const SketchName = styled(LabelText)<{ $isSelected: boolean }>`
   text-weight: 100;
-  font-family: "Fredoka One", cursive;
 
   ${(props) =>
     props.$isSelected &&

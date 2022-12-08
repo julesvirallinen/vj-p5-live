@@ -4,16 +4,16 @@ export const createPaletteSnippet = (
   userPalettes: TColorPalette[],
   selectedName: string
 ) => {
-  return `var presets = {
+  return `var PALETTE_PRESETS = {
     ${userPalettes.map((p) => `${p.name}: ${JSON.stringify(p.colors)}`)}
   };
   
-  var globalTransparency = 1;
+  var GLOBAL_TRANSPARENCY = 1;
   
-  var defPreset = presets.${selectedName};
-  var colors = defPreset;
+  var DEFAULT_PALETTE = PALETTE_PRESETS.${selectedName};
+  var CURRENT_COLORS = DEFAULT_PALETTE;
   
-  var selected;
+  var SELECTED_PALETTE_PRESET;
   var BG_COLOR = [10];
   
   var getColor = (col, T = 1) => {
@@ -30,32 +30,31 @@ export const createPaletteSnippet = (
   };
   
   var getColAtI = (i, transparency) => {
-    const c = getI(colors, i);
+    const c = color(CURRENT_COLORS[Math.abs(i) % CURRENT_COLORS.length]);
     c && c.setAlpha(transparency);
     return c;
   };
   
   var setSelected = (paletteArr) => {
-    selected = paletteArr;
-    colors = selected.map((col) => getColor(col, globalTransparency));
+    SELECTED_PALETTE_PRESET = paletteArr;
+    CURRENT_COLORS = SELECTED_PALETTE_PRESET.map((col) => getColor(col, GLOBAL_TRANSPARENCY));
     return P;
   };
   
   var setPalette = (name) => {
-    if (Object.hasOwnProperty.call(presets, name)) {
-      return setSelected(presets[name]);
+    if (Object.hasOwnProperty.call(PALETTE_PRESETS, name)) {
+      return setSelected(PALETTE_PRESETS[name]);
     }
-    return setSelected(defPreset);
+    return setSelected(DEFAULT_PALETTE);
   };
   
   var P = {
-    get: () => colors,
-    getI: (i, opacity = globalTransparency) => getColAtI(i, opacity),
-    setPreset: (name) => setPalette(name),
-    set: (palette) => setSelected(palette),
-    shift: () => setSelected(shiftArray(selected)),
+    get: () => CURRENT_COLORS,
+    getI: (i, opacity = GLOBAL_TRANSPARENCY) => getColAtI(i, opacity),
+    setPalette: (name) => setPalette(name),
+    set: (colorArray) => setSelected(colorArray),
     setTrans: (trans) => {
-      globalTransparency = trans;
+      GLOBAL_TRANSPARENCY = trans;
       return P;
     },
     getBG: () => getColor(BG_COLOR),
