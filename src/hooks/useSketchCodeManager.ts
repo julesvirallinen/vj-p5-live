@@ -1,13 +1,21 @@
-import { useCurrentSketch } from "./useCurrentSketch";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { debounce } from "lodash";
-import { useSettings } from "./useSettings";
-import { useGlobalCommands } from "./useGlobalCommands";
 import Logger from "js-logger";
 
+import { useCurrentSketch } from "./useCurrentSketch";
+import { useGlobalCommands } from "./useGlobalCommands";
+import { useSettings } from "./useSettings";
+import { createPaletteSnippet } from "../data/snippets/createPaletteSnippet";
+import * as SNIPPETS from "../components/Canvas/libs/snippets";
+
+const getDefaultSnippets = () => `
+  ${SNIPPETS.windowResizer}
+  ${SNIPPETS.customEase}
+  ${SNIPPETS.processingLoggingCompatability}`;
+
 export const useSketchCodeManager = () => {
-  const { code, id } = useCurrentSketch();
-  const { compileAfterMs } = useSettings();
+  const { code, id, paletteName } = useCurrentSketch();
+  const { compileAfterMs, colorPalettes } = useSettings();
   const { codeHasSyntaxErrors } = useGlobalCommands();
   const [userCode, setUserCode] = useState(code);
   const [currentId, setCurrentId] = useState(id);
@@ -48,5 +56,16 @@ export const useSketchCodeManager = () => {
     memoedDebounce.cancel();
   }, [code, id, memoedDebounce]);
 
-  return { codeToRun: userCode, code, id, forceLoadCode };
+  const additionalCode = `
+  ${paletteName ? createPaletteSnippet(colorPalettes, paletteName) : ""}
+  ${getDefaultSnippets()}
+
+
+  `;
+
+  return {
+    sketch: { paletteName, code: userCode, id, additionalCode },
+    persistedCode: code,
+    forceLoadCode,
+  };
 };

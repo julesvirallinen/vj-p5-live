@@ -1,6 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
+import { LabelText } from "../Label";
+
+const StyledInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+`;
+
 // hacky, figure this out...
 type TDefaultProps = Omit<
   React.DetailedHTMLProps<
@@ -15,6 +23,7 @@ export interface IInputProps<
 > {
   onChange?: (value: string) => void;
   value: T;
+  label?: string;
 }
 
 const StyledInput = styled.input`
@@ -23,7 +32,8 @@ const StyledInput = styled.input`
   border-color: ${(props) => props.theme.colors.primary};
   border-style: solid;
   border-radius: 0.5rem;
-  padding: 0.1rem 0.3rem; ;
+  padding: 0.1rem 0.3rem;
+  font-family: "Roboto Mono", cursive;
 `;
 
 export const Input = <
@@ -31,13 +41,17 @@ export const Input = <
 >({
   onChange,
   value,
+  label,
   ...restProps
 }: IInputProps<T> & TDefaultProps): JSX.Element => {
   return (
-    <StyledInput
-      {...restProps}
-      value={value}
-      onChange={(e) => onChange && onChange(e.target.value)}
-    />
+    <StyledInputWrapper>
+      {label && <LabelText>{label}</LabelText>}
+      <StyledInput
+        {...restProps}
+        value={value}
+        onChange={(e) => onChange && onChange(e.target.value)}
+      />
+    </StyledInputWrapper>
   );
 };

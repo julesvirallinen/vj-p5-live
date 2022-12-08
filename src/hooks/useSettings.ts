@@ -1,13 +1,15 @@
 import { useCallback } from "react";
+import * as R from "ramda";
+import { Path } from "ramda";
+
+import { TSrcScript } from "../models/script";
 import {
   TMenu,
   useSettingsDispatchContext,
   useSettingsStateContext,
 } from "../providers/SettingsProvider";
-import * as R from "ramda";
-import { Path } from "ramda";
+
 import { useGlobalCommands } from "./useGlobalCommands";
-import { TSrcScript } from "../models/script";
 
 export const useSettings = () => {
   const dispatch = useSettingsDispatchContext();
@@ -30,6 +32,7 @@ export const useSettings = () => {
     },
     [patchSettings]
   );
+
   const setUserLoadedScripts = useCallback(
     (scripts: TSrcScript[]) => {
       patchSettings(["userLoadedScripts"], scripts);
@@ -71,12 +74,14 @@ export const useSettings = () => {
 
     [patchSettings]
   );
+
   const setThemePrimaryColor = useCallback(
     (color: string) =>
       patchSettings(["themeOverrides", "colors", "primary"], color),
 
     [patchSettings]
   );
+
   const setThemeSecondaryColor = useCallback(
     (color: string) =>
       patchSettings(["themeOverrides", "colors", "secondary"], color),
@@ -93,10 +98,12 @@ export const useSettings = () => {
 
     if (document.activeElement === actionBarRef?.current) {
       actionBarRef.current?.blur();
+
       return setActionbarVisible(false);
     }
 
     actionBarRef?.current?.focus();
+
     return setActionbarVisible(true);
   }, [actionBarRef, patchSettings]);
 
@@ -122,5 +129,6 @@ export const useSettings = () => {
     setCompileAfterMs,
     setMaptasticEnabled,
     toggleShowConsoleFeed,
+    patchSettings,
   };
 };

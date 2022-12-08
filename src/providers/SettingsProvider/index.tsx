@@ -7,15 +7,18 @@ import React, {
 } from "react";
 import * as R from "ramda";
 import { Path } from "ramda";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { ISettingsSketch } from "../../models/sketch";
-import { TSrcScript } from "../../models/script";
 import { PartialDeep } from "type-fest";
+
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { TSrcScript } from "../../models/script";
+import { ISettingsSketch } from "../../models/sketch";
 import { TTheme } from "../ThemeProvider";
+import { TColorPalette } from "../../models/colors";
 
-export const NON_PERSISTED_SETTINGS_KEYS = ["compileAfterMs"];
+/** Omit settings from being saved to localstorage (IAppState["settings"]) */
+export const NON_PERSISTED_SETTINGS_KEYS = [];
 
-export type TMenu = "sketches" | "settings" | "scripts";
+export type TMenu = "sketches" | "settings" | "scripts" | "palette";
 
 export interface IAppState {
   settings: {
@@ -28,6 +31,7 @@ export interface IAppState {
     showActionBar: boolean;
     loadedSketchId?: string;
     compileAfterMs: number;
+    colorPalettes: TColorPalette[];
     /**
      * Scripts that are always loaded for all sketches
      */
@@ -88,6 +92,7 @@ const initialState: IAppState = {
     showActionBar: true,
     compileAfterMs: 1000,
     userLoadedScripts: [],
+    colorPalettes: [],
     canvas: {
       percentDimmed: 1,
     },
@@ -161,9 +166,11 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
     initialState,
     (initial) => {
       const fromStorage = getItem<IAppState>("settings");
+
       if (fromStorage) {
         return R.mergeDeepLeft({ settings: fromStorage }, initial);
       }
+
       return initial;
     }
   );

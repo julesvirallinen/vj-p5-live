@@ -1,22 +1,30 @@
 import React, { useCallback, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaSkullCrossbones } from "react-icons/fa";
-import styled from "styled-components";
-import { useSettings } from "../../../../../hooks/useSettings";
-import { AddScript } from "./components/AddScript";
 import * as R from "ramda";
-import { Button } from "../../../../../components/ui/Button";
+import styled from "styled-components";
+
+import { AddScript } from "./components/AddScript";
+import { LabelText } from "../../../../../../components/ui/Label";
+import { Button } from "../../../../../../components/ui/Button";
+import { useSettings } from "../../../../../../hooks/useSettings";
 export interface IScriptSettingsProps {}
 
 const StyledScriptSettings = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 const ConfirmationButtons = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
+`;
+
+const IconRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.2rem;
 `;
 
 /**
@@ -47,13 +55,14 @@ export const ScriptSettings: React.FC<IScriptSettingsProps> = ({
     },
     [setUserLoadedScripts, userLoadedScripts]
   );
+
   return (
     <StyledScriptSettings {...restProps}>
       {confirmRemove && (
         <div>
-          <b>
+          <LabelText>
             Confirm removal of <code>{confirmRemove}</code>
-          </b>
+          </LabelText>
           <ConfirmationButtons>
             <Button onClick={() => removeScript(confirmRemove)}>remove</Button>
             <Button onClick={() => setConfirmRemove(null)}>cancel</Button>
@@ -64,11 +73,13 @@ export const ScriptSettings: React.FC<IScriptSettingsProps> = ({
       <div>
         {userLoadedScripts.map((script) => (
           <div key={script.id}>
-            {script.id}
+            <IconRow>
+              <LabelText>{script.id}</LabelText>
 
-            <FaSkullCrossbones onClick={() => setConfirmRemove(script.id)} />
-            <FaArrowDown onClick={() => changeScriptPosition(script.id, 1)} />
-            <FaArrowUp onClick={() => changeScriptPosition(script.id, -1)} />
+              <FaSkullCrossbones onClick={() => setConfirmRemove(script.id)} />
+              <FaArrowDown onClick={() => changeScriptPosition(script.id, 1)} />
+              <FaArrowUp onClick={() => changeScriptPosition(script.id, -1)} />
+            </IconRow>
             <small>{script.path}</small>
           </div>
         ))}

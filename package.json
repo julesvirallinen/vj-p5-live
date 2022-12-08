@@ -19,6 +19,7 @@
     "js-logger": "^1.6.1",
     "lodash": "^4.17.21",
     "maptastic": "^3.0.0",
+    "path": "^0.12.7",
     "prettier": "^2.7.1",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
@@ -46,6 +47,7 @@
     "babel-plugin-styled-components": "^2.0.7",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
     "typescript": "^4.6.4",
     "vite": "^3.2.3"
   }

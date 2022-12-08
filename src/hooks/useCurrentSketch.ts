@@ -1,9 +1,11 @@
 import { useCallback, useMemo } from "react";
+
 import { ISettingsSketch } from "../models/sketch";
 import {
   useCurrentSketchDispatchContext,
   useCurrentSketchStateContext,
 } from "../providers/SketchProvider";
+
 import { useSettings } from "./useSettings";
 
 export const useCurrentSketch = () => {
@@ -19,10 +21,10 @@ export const useCurrentSketch = () => {
 
   const currentSketchData = useMemo(() => {
     const sketchData = sketches.find((s) => s.id == sketch.id);
-
     if (!sketchData) {
       console.error("no sketch saved");
     }
+
     return sketchData;
   }, [sketch.id, sketches]) as ISettingsSketch;
 

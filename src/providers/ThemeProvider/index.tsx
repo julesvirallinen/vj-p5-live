@@ -1,6 +1,7 @@
-import { mergeDeepLeft } from "ramda";
 import React, { FC, ReactNode } from "react";
+import { mergeDeepLeft } from "ramda";
 import { ThemeProvider } from "styled-components";
+
 import { useSettings } from "../../hooks/useSettings";
 
 const theme = {

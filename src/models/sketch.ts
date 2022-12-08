@@ -10,4 +10,5 @@ export interface ISettingsSketch {
   id: string;
   name: string;
   updatedAt?: number;
+  paletteName?: string;
 }

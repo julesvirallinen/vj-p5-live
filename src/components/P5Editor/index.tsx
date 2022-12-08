@@ -1,15 +1,15 @@
+/* eslint-disable simple-import-sort/imports */
+
 import React, { useEffect, useMemo, useRef } from "react";
 import styled, { css } from "styled-components";
 
 import { config } from "ace-builds";
 import AceEditor from "react-ace";
-
 import "ace-builds/src-noconflict/mode-javascript";
-import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/theme-twilight";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/ext-error_marker";
 import "ace-builds/src-noconflict/ext-searchbox";
-
 import "ace-builds/src-noconflict/keybinding-vscode";
 import Beautify from "ace-builds/src-noconflict/ext-beautify";
 
@@ -22,11 +22,12 @@ config.setModuleUrl(
   "https://cdn.jsdelivr.net/npm/ace-builds@1.4.3/src-noconflict/worker-javascript.js"
 );
 
+import { FaRegEye } from "react-icons/fa";
+
 import { useCurrentSketch } from "../../hooks/useCurrentSketch";
+import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
 import { Button } from "../ui/Button";
-import { FaRegEye } from "react-icons/fa";
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 
 const StyledEditorWrapper = styled.div<{ $hidden: boolean }>`
   width: 100rem;
@@ -72,7 +73,7 @@ const StyledShowEditorButton = styled(Button)`
 
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
-  const { hideEditor, toggleHideEditor, compileAfterMs } = useSettings();
+  const { hideEditor, toggleHideEditor } = useSettings();
   const { setCodeHasSyntaxErrors } = useGlobalCommands();
   const editorRef = useRef<AceEditor>(null);
 
@@ -101,7 +102,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
           commands={Beautify.commands}
           mode="javascript"
           ref={editorRef}
-          theme="monokai"
+          theme="twilight"
           onLoad={(editor) => {
             // asi = disable semicolon linting in editor
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -113,6 +114,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
               annotations.findIndex(
                 (annotation) => annotation.type === "error"
               ) >= 0;
+
             if (hasErrors) {
               return setCodeHasSyntaxErrors(true);
             }

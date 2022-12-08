@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
+import Logger from "js-logger";
 import styled from "styled-components";
+
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
 import { useSketchCodeManager } from "../../hooks/useSketchCodeManager";
+
 import SketchCanvas from "./SketchCanvas";
 
 export interface ICanvasContainerProps {}
@@ -20,7 +23,7 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
   ...restProps
 }) => {
   const { userLoadedScripts } = useSettings();
-  const { forceLoadCode, ...sketch } = useSketchCodeManager();
+  const { forceLoadCode, sketch } = useSketchCodeManager();
   const {
     setRecompileSketch: setGlobalRecompileSketch,
     setHardRecompileSketch,
@@ -30,6 +33,7 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
 
   const [iframeKey, setIframeKey] = useState(new Date().getTime());
   const [sketchLoaded, setSketchLoaded] = useState(false);
+
   const [recompileSketch, setRecompileSketch] =
     useState<() => void | undefined>();
 
@@ -41,7 +45,12 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
 
   const compileSketch = useCallback(() => {
     forceLoadCode();
-  }, [forceLoadCode]);
+
+    if (!recompileSketch) {
+      return Logger.warn("recompile sketch missing");
+    }
+    recompileSketch();
+  }, [forceLoadCode, recompileSketch]);
 
   useEffect(() => {
     setHardRecompileSketch(remountCanvas);

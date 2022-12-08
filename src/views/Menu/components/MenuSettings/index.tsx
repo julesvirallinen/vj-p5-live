@@ -1,14 +1,24 @@
 import React from "react";
 import styled, { useTheme } from "styled-components";
-import { useSettings } from "../../../../hooks/useSettings";
-import { TTheme } from "../../../../providers/ThemeProvider";
+
 import { ColorPicker } from "../../../../components/ColorPicker";
 import { Input } from "../../../../components/ui/Input";
+import { LabelText } from "../../../../components/ui/Label";
+import { useSettings } from "../../../../hooks/useSettings";
+import { TTheme } from "../../../../providers/ThemeProvider";
 
 export interface IMenuSettingsProps {}
 
 const StyledMenuSettings = styled.div`
   margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const CheckboxMenu = styled.div`
+  display: grid;
+  grid-template-columns: 4fr 1fr;
 `;
 
 const StyledOpacitySlider = styled.input`
@@ -19,7 +29,7 @@ const StyledOpacitySlider = styled.input`
   height: 25px;
   background: #000;
   border: 1px solid ${(props) => props.theme.colors.primary};
-  opacity: 0.7;
+  /* opacity: 0.7; */
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
 
@@ -27,7 +37,7 @@ const StyledOpacitySlider = styled.input`
     -webkit-appearance: none;
     appearance: none;
     width: 1.5rem;
-    opacity: 0.5;
+    /* opacity: 0.5; */
     height: 1.5rem;
     background-color: ${(props) => `${props.theme.colors.secondary}`};
     border-radius: 2rem;
@@ -40,7 +50,7 @@ const StyledOpacitySlider = styled.input`
 
 export const ColorPickerWrapper = styled.div`
   position: relative;
-  height: 2rem;
+  /* height: 2rem; */
   width: 100%;
 `;
 
@@ -65,8 +75,8 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
 
   return (
     <StyledMenuSettings {...restProps}>
-      <>
-        Canvas dimming
+      <div>
+        <LabelText>{"Canvas dimming"}</LabelText>
         <StyledOpacitySlider
           type={"range"}
           value={percentDimmed}
@@ -74,18 +84,18 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
             setCanvasDimmedPercent(Number.parseInt(event.target.value))
           }
         />
-      </>
+      </div>
       <>
-        Wait ms after last keystroke to compile
         <Input<number>
+          label="Compile after ms"
           value={compileAfterMs}
           onChange={(value) => setCompileAfterMs(parseInt(value))}
         />
       </>
       <>
-        Editor bg-color
         <ColorPickerWrapper>
           <ColorPicker
+            label="Editor background"
             color={theme.editor.textBackground}
             onChange={(c) => {
               setEditorBackgroundColor(c);
@@ -94,9 +104,9 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
         </ColorPickerWrapper>
       </>
       <>
-        code
         <ColorPickerWrapper>
           <ColorPicker
+            label="Editor font"
             color={theme.editor.textColor}
             onChange={(c) => {
               setEditorTextColor(c);
@@ -105,9 +115,9 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
         </ColorPickerWrapper>
       </>
       <>
-        Theme primary
         <ColorPickerWrapper>
           <ColorPicker
+            label="Theme primary"
             color={theme.colors.primary}
             onChange={(c) => {
               setThemePrimaryColor(c);
@@ -116,24 +126,24 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
         </ColorPickerWrapper>
       </>
       <>
-        Theme secondary
         <ColorPickerWrapper>
           <ColorPicker
             color={theme.colors.secondary}
             onChange={(c) => {
               setThemeSecondaryColor(c);
             }}
+            label="Theme secondary"
           />
         </ColorPickerWrapper>
       </>
-      <>
-        Maptastic enabled (press shift-space to map)
+      <CheckboxMenu>
+        <LabelText>{"Maptastic enabled"}</LabelText>
         <input
           type={"checkbox"}
           checked={maptasticEnabled}
           onChange={() => setMaptasticEnabled(!maptasticEnabled)}
         />
-      </>
+      </CheckboxMenu>
     </StyledMenuSettings>
   );
 };

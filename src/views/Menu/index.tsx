@@ -1,14 +1,17 @@
 import React from "react";
+import { FaCaretRight } from "react-icons/fa";
+import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
+
 import { useSettings } from "../../hooks/useSettings";
+import { TMenu } from "../../providers/SettingsProvider";
+
 import { CurrentSketchSettings } from "./components/CurrentSketch";
+import { MenuSettings } from "./components/MenuSettings";
+import { PaletteSettings } from "./components/MenuSettings/views/PaletteSettings";
+import { ScriptSettings } from "./components/MenuSettings/views/ScriptSettings";
 import { NewSketch } from "./components/NewSketch";
 import { SketchList } from "./components/SketchList";
-import { useSpring, animated } from "react-spring";
-import { FaCaretRight } from "react-icons/fa";
-import { TMenu } from "../../providers/SettingsProvider";
-import { MenuSettings } from "./components/MenuSettings";
-import { ScriptSettings } from "./components/MenuSettings/views/ScriptSettings";
 
 const MENU_WIDTH = 12;
 
@@ -16,6 +19,7 @@ export interface IMenuProps {}
 
 const StyledMenu = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   width: ${MENU_WIDTH}rem;
   background-color: rgb(0 0 0 / 74%);
@@ -42,6 +46,7 @@ const StyledMenuCaret = styled.div`
   position: fixed;
   top: 2rem;
   right: ${MENU_WIDTH + 1}rem;
+  opacity: 0.4;
 `;
 
 const AnimatedMenu = animated(StyledMenuContainer);
@@ -55,6 +60,7 @@ const getCaretRotation = (isMenuOpen: boolean, isCurrentMenu: boolean) => {
 
 export const Menu: React.FC<IMenuProps> = () => {
   const { showMenu, openMenu, setOpenMenu, setShowMenu } = useSettings();
+
   const styles = useSpring({
     transform: showMenu
       ? "translate(0rem, 0)"
@@ -64,21 +70,31 @@ export const Menu: React.FC<IMenuProps> = () => {
   const caretStyles = useSpring({
     transform: getCaretRotation(showMenu, openMenu === "sketches"),
   });
+
   const settingsCaretStyles = useSpring({
     transform: getCaretRotation(showMenu, openMenu === "settings"),
-    opacity: showMenu ? 1 : 0,
+    opacity: showMenu ? 0.4 : 0,
     top: showMenu ? "5rem" : "0rem",
   });
+
   const scriptsCaretStyles = useSpring({
     transform: getCaretRotation(showMenu, openMenu === "scripts"),
-    opacity: showMenu ? 1 : 0,
+    opacity: showMenu ? 0.4 : 0,
     top: showMenu ? "8rem" : "0rem",
+  });
+
+  // I know I promise I'll refactor this soon ;__;
+  const paletteCaretStyles = useSpring({
+    transform: getCaretRotation(showMenu, openMenu === "palette"),
+    opacity: showMenu ? 0.4 : 0,
+    top: showMenu ? "11rem" : "0rem",
   });
 
   const handleCaret = (menu: TMenu) => {
     if (!showMenu) {
       setShowMenu(true);
     }
+
     if (showMenu && menu === openMenu) {
       return setShowMenu(false);
     }
@@ -110,6 +126,12 @@ export const Menu: React.FC<IMenuProps> = () => {
         >
           <FaCaretRight size={30} />
         </AnimatedCaret>
+        <AnimatedCaret
+          style={paletteCaretStyles}
+          onClick={() => handleCaret("palette")}
+        >
+          <FaCaretRight size={30} />
+        </AnimatedCaret>
         {openMenu === "sketches" && (
           <StyledMenu>
             <CurrentSketchSettings />
@@ -125,6 +147,11 @@ export const Menu: React.FC<IMenuProps> = () => {
         {openMenu === "scripts" && (
           <StyledSettingsMenu>
             <ScriptSettings />
+          </StyledSettingsMenu>
+        )}
+        {openMenu === "palette" && (
+          <StyledSettingsMenu>
+            <PaletteSettings />
           </StyledSettingsMenu>
         )}
       </AnimatedMenu>

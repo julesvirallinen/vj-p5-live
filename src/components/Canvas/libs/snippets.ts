@@ -1,5 +1,4 @@
-export const SHOULD_RECOMPILE_SKETCH = "SHOULD_RECOMPILE_SKETCH";
-
+// ala P5LIVE
 export const windowResizer = `function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }`;

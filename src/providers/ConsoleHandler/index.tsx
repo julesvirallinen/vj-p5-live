@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
-import styled from "styled-components";
-import { Hook, Console, Decode } from "console-feed";
+import { Console, Decode,Hook } from "console-feed";
 import { Message } from "console-feed/lib/definitions/Console";
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import * as R from "ramda";
+import styled from "styled-components";
+
+import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
 
 const MESSAGES_TO_SHOW = 20;
@@ -34,6 +35,7 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
   const [lastMessage, setLastMessage] = useState<string | undefined>(undefined);
   const { showConsoleFeed } = useSettings();
   const { canvasIframeRef } = useGlobalCommands();
+
   const canvasWindow = useMemo(() => {
     return canvasIframeRef?.current?.contentWindow?.window;
   }, [canvasIframeRef]);
@@ -42,6 +44,7 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
     if (!canvasWindow) return;
     Hook(canvasWindow.console, (log) => {
       const thisMessage = R.path<string>([0, "data", 0], log);
+
       if (lastMessage === thisMessage) return;
       thisMessage && setLastMessage(thisMessage);
       setLogs([...R.takeLast(MESSAGES_TO_SHOW, logs), Decode(log)]);
@@ -51,6 +54,7 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
   useEffect(() => {
     Hook(window.console, (log) => {
       const thisMessage = R.path<string>([0, "data", 0], log);
+
       if (lastMessage === thisMessage) return;
       thisMessage && setLastMessage(thisMessage);
       setLogs([...R.takeLast(MESSAGES_TO_SHOW, logs), Decode(log)]);

@@ -1,16 +1,19 @@
-import { useSettingsDispatchContext } from "../providers/SettingsProvider";
-import { useCurrentSketchDispatchContext } from "../providers/SketchProvider";
-import { useLocalStorage } from "./useLocalStorage";
+import JSLogger from "js-logger";
 import * as R from "ramda";
-import { useSettings } from "./useSettings";
-import { useGlobalCommands } from "./useGlobalCommands";
+
+import { defaultSketchCode } from "../components/Canvas/libs/snippets";
 import {
   ICurrentSketch,
+  ISettingsSketch,
   SKETCH_TEMPLATE_ID,
   SKETCH_TEMPLATE_NAME,
 } from "../models/sketch";
-import { defaultSketchCode } from "../components/Canvas/libs/snippets";
-import JSLogger from "js-logger";
+import { useSettingsDispatchContext } from "../providers/SettingsProvider";
+import { useCurrentSketchDispatchContext } from "../providers/SketchProvider";
+
+import { useGlobalCommands } from "./useGlobalCommands";
+import { useLocalStorage } from "./useLocalStorage";
+import { useSettings } from "./useSettings";
 
 const Logger = JSLogger.get("canvasLogger");
 
@@ -57,6 +60,7 @@ export const useSketchManager = () => {
   const newSketch = (name: string) => {
     const newSketch = getNewSketchProps(name);
     createAndLoadSketch(newSketch);
+
     return newSketch;
   };
 
@@ -67,14 +71,20 @@ export const useSketchManager = () => {
     });
   };
 
-  const renameSketch = (id: string, name: string) => {
+  const patchSketch = (id: string, patch: Partial<ISettingsSketch>) =>
     dispatchSettings({
       type: "patchSettings",
       payload: {
-        sketches: sketches.map((s) => (s.id === id ? { ...s, name } : s)),
+        sketches: sketches.map((s) =>
+          s.id === id ? R.mergeDeepLeft({ id, ...patch }, s) : s
+        ),
       },
     });
-  };
+
+  const renameSketch = (id: string, name: string) => patchSketch(id, { name });
+
+  const setSketchPalette = (id: string, paletteName: string) =>
+    patchSketch(id, { paletteName });
 
   const saveSketch = (sketch: ICurrentSketch) =>
     setItem(getSketchKey(sketch), sketch);
@@ -116,6 +126,7 @@ export const useSketchManager = () => {
     if (userTemplate) {
       return loadSketch(userTemplate);
     }
+
     return createAndLoadSketch({
       code: defaultSketchCode,
       id: SKETCH_TEMPLATE_ID,
@@ -128,8 +139,10 @@ export const useSketchManager = () => {
       (sketch) => sketch.id === loadedSketchId
     );
     const sketchToLoad = loadedSketch ?? sketches[0];
+
     if (!R.isNil(sketchToLoad)) {
       const sketch = fetchSketch(sketchToLoad);
+
       if (sketch) {
         return sketch;
       }
@@ -146,5 +159,6 @@ export const useSketchManager = () => {
     reloadSketch,
     renameSketch,
     loadDefaultSketchTemplate,
+    setSketchPalette,
   };
 };
