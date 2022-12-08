@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import Logger from "js-logger";
 import styled from "styled-components";
 
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
@@ -45,7 +46,12 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
 
   const compileSketch = useCallback(() => {
     forceLoadCode();
-  }, [forceLoadCode]);
+
+    if (!recompileSketch) {
+      return Logger.warn("recompile sketch missing");
+    }
+    recompileSketch();
+  }, [forceLoadCode, recompileSketch]);
 
   useEffect(() => {
     setHardRecompileSketch(remountCanvas);

@@ -1,4 +1,4 @@
-import React, { Component, RefObject } from "react";
+import React, { Component, Dispatch, RefObject } from "react";
 import Logger from "js-logger";
 import styled from "styled-components";
 
@@ -28,7 +28,10 @@ const StyledIframe = styled.iframe`
 export interface ISketchCanvasProps {
   userPersistedScripts: TSrcScript[];
   sketch: { codeToRun: string; id: string };
-  setRecompileSketch: (fn: () => void) => void;
+  setRecompileSketch: Dispatch<
+    React.SetStateAction<(() => void | undefined) | undefined>
+  >;
+
   setCanvasMediaStream: (s: MediaStream) => void;
   setSketchLoaded: () => void;
   key: number;
@@ -72,6 +75,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
       loadingState: "started",
       sketchId: props.sketch.id,
       renderedCode: this.props.sketch.codeToRun,
+      forceSoftCompile: false,
     };
   }
 
@@ -80,17 +84,21 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
     this.setState({ loadingState: newState });
   }
 
+  recompileSketch() {
+    const { contentWindow } = getIframeDocumentAndWindow(this.state);
+
+    Logger.debug("Recompiled sketch");
+
+    if (this.state.loadingState !== "userCodeLoaded") return;
+    this.updateUserCode(this.props.sketch.codeToRun);
+    contentWindow.setup();
+    contentWindow.frameCount = 0;
+  }
+
   async componentDidMount() {
     Logger.debug(`Mounted canvas iframe. SketchId:${this.props.sketch.id}`);
-    const { contentWindow, document } = getIframeDocumentAndWindow(this.state);
+    const { document } = getIframeDocumentAndWindow(this.state);
     document.body.style.margin = "0";
-
-    this.props.setRecompileSketch(() => {
-      if (this.state.loadingState !== "userCodeLoaded") return;
-      this.updateUserCode(this.props.sketch.codeToRun);
-      contentWindow.frameCount = 0;
-      contentWindow.setup();
-    });
 
     const allScripts = compileScriptList(
       this.props.sketch.codeToRun,
@@ -102,6 +110,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
 
       this.updateLoadingState("scriptsLoaded");
     });
+    this.props.setRecompileSketch(() => this.recompileSketch.bind(this));
   }
 
   shouldComponentUpdate(
