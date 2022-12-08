@@ -56,6 +56,7 @@ export const ScriptSettings: React.FC<IScriptSettingsProps> = ({
     },
     [setUserLoadedScripts, userLoadedScripts]
   );
+
   return (
     <StyledScriptSettings {...restProps}>
       {confirmRemove && (

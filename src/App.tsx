@@ -38,6 +38,7 @@ const App: FC = () => {
       messages.unshift(new Date().toTimeString().slice(0, 8));
     },
   });
+
   return (
     <SettingsProvider>
       <CurrentSketchProvider>

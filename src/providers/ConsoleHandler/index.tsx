@@ -35,6 +35,7 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
   const [lastMessage, setLastMessage] = useState<string | undefined>(undefined);
   const { showConsoleFeed } = useSettings();
   const { canvasIframeRef } = useGlobalCommands();
+
   const canvasWindow = useMemo(() => {
     return canvasIframeRef?.current?.contentWindow?.window;
   }, [canvasIframeRef]);
@@ -43,6 +44,7 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
     if (!canvasWindow) return;
     Hook(canvasWindow.console, (log) => {
       const thisMessage = R.path<string>([0, "data", 0], log);
+
       if (lastMessage === thisMessage) return;
       thisMessage && setLastMessage(thisMessage);
       setLogs([...R.takeLast(MESSAGES_TO_SHOW, logs), Decode(log)]);
@@ -52,6 +54,7 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
   useEffect(() => {
     Hook(window.console, (log) => {
       const thisMessage = R.path<string>([0, "data", 0], log);
+
       if (lastMessage === thisMessage) return;
       thisMessage && setLastMessage(thisMessage);
       setLogs([...R.takeLast(MESSAGES_TO_SHOW, logs), Decode(log)]);

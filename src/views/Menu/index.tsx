@@ -57,6 +57,7 @@ const getCaretRotation = (isMenuOpen: boolean, isCurrentMenu: boolean) => {
 
 export const Menu: React.FC<IMenuProps> = () => {
   const { showMenu, openMenu, setOpenMenu, setShowMenu } = useSettings();
+
   const styles = useSpring({
     transform: showMenu
       ? "translate(0rem, 0)"
@@ -66,11 +67,13 @@ export const Menu: React.FC<IMenuProps> = () => {
   const caretStyles = useSpring({
     transform: getCaretRotation(showMenu, openMenu === "sketches"),
   });
+
   const settingsCaretStyles = useSpring({
     transform: getCaretRotation(showMenu, openMenu === "settings"),
     opacity: showMenu ? 1 : 0,
     top: showMenu ? "5rem" : "0rem",
   });
+
   const scriptsCaretStyles = useSpring({
     transform: getCaretRotation(showMenu, openMenu === "scripts"),
     opacity: showMenu ? 1 : 0,
@@ -81,6 +84,7 @@ export const Menu: React.FC<IMenuProps> = () => {
     if (!showMenu) {
       setShowMenu(true);
     }
+
     if (showMenu && menu === openMenu) {
       return setShowMenu(false);
     }

@@ -114,6 +114,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
               annotations.findIndex(
                 (annotation) => annotation.type === "error"
               ) >= 0;
+
             if (hasErrors) {
               return setCodeHasSyntaxErrors(true);
             }

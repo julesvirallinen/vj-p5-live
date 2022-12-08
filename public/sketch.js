@@ -65,9 +65,11 @@ class Glob {
     this.noiseX += this.noiseInc;
     this.noiseY += this.noiseInc;
     this.lifeLeft -= 1;
+
     if (this.lifeLeft <= 0) {
       return true; // kill
     }
+
     return false;
   }
 }
@@ -101,6 +103,7 @@ class Ball {
       distance = abs(
         sqrt(pow(this.x - circles[i].x, 2) + pow(this.y - circles[i].y, 2))
       );
+
       if (distance <= circles[i].diameter / 2) {
         this.velocityX = -this.velocityX;
         this.velocityY = -this.velocityY;
@@ -133,6 +136,7 @@ class GrowingCircle {
     if (this.opacity <= 0) {
       return true;
     }
+
     return false;
   }
 }

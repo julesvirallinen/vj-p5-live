@@ -38,9 +38,11 @@ export const Canvas: FC = ({ ...rest }) => {
   const [map, setMap] = useState<any>();
   const mapRef = useRef<HTMLDivElement>(null);
   const { maptasticEnabled } = useSettings();
+
   const {
     canvas: { percentDimmed },
   } = useSettings();
+
   const canvasOpacityStyles = useSpring({
     opacity: percentDimmed / 100,
   });

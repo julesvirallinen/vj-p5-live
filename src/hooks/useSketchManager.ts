@@ -59,6 +59,7 @@ export const useSketchManager = () => {
   const newSketch = (name: string) => {
     const newSketch = getNewSketchProps(name);
     createAndLoadSketch(newSketch);
+
     return newSketch;
   };
 
@@ -118,6 +119,7 @@ export const useSketchManager = () => {
     if (userTemplate) {
       return loadSketch(userTemplate);
     }
+
     return createAndLoadSketch({
       code: defaultSketchCode,
       id: SKETCH_TEMPLATE_ID,
@@ -130,8 +132,10 @@ export const useSketchManager = () => {
       (sketch) => sketch.id === loadedSketchId
     );
     const sketchToLoad = loadedSketch ?? sketches[0];
+
     if (!R.isNil(sketchToLoad)) {
       const sketch = fetchSketch(sketchToLoad);
+
       if (sketch) {
         return sketch;
       }

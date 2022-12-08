@@ -16,7 +16,20 @@ module.exports = {
   plugins: ["@typescript-eslint", "react", "simple-import-sort"],
   rules: {
     "@typescript-eslint/no-empty-interface": [0],
-    "padding-line-between-statements": ["error"],
+    "no-console": ["error"],
+    "padding-line-between-statements": [
+      "warn",
+      {
+        blankLine: "always",
+        prev: "*",
+        next: ["return", "if", "multiline-const", "function"],
+      },
+      {
+        blankLine: "always",
+        prev: ["function"],
+        next: "*",
+      },
+    ],
     "simple-import-sort/imports": [
       "warn",
       {

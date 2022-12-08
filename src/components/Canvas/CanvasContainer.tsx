@@ -23,6 +23,7 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
 }) => {
   const { userLoadedScripts } = useSettings();
   const { forceLoadCode, ...sketch } = useSketchCodeManager();
+
   const {
     setRecompileSketch: setGlobalRecompileSketch,
     setHardRecompileSketch,
@@ -32,6 +33,7 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
 
   const [iframeKey, setIframeKey] = useState(new Date().getTime());
   const [sketchLoaded, setSketchLoaded] = useState(false);
+
   const [recompileSketch, setRecompileSketch] =
     useState<() => void | undefined>();
 

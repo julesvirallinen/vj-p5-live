@@ -25,6 +25,7 @@ export const useCurrentSketch = () => {
     if (!sketchData) {
       console.error("no sketch saved");
     }
+
     return sketchData;
   }, [sketch.id, sketches]) as ISettingsSketch;
 

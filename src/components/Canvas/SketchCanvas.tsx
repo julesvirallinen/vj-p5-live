@@ -51,6 +51,7 @@ type TLoadingState =
 const getIframeDocumentAndWindow = (state: ISketchCanvasState) => {
   const document = state.iframeRef?.current?.contentWindow
     ?.document as Document;
+
   const contentWindow = state.iframeRef.current?.contentWindow as Window &
     TCanvasWindowProps;
 
@@ -110,15 +111,20 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
     if (!this.props.canvasPopupOpen && nextProps.canvasPopupOpen) {
       return true;
     }
+
     if (nextState.loadingState === "started") {
       Logger.debug("Scripts not loaded, not updating");
+
       return false;
     }
+
     // Don't rerender if sketch changes, component should be remounted
     if (nextState.sketchId !== nextProps.sketch.id) {
       Logger.debug("Sketch id changed, needs to be remounted");
+
       return false;
     }
+
     if (nextState.loadingState === "scriptsLoaded") {
       return true;
     }
@@ -131,6 +137,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
     } else {
       this.setState({ renderedCode: nextProps.sketch.codeToRun });
       Logger.debug("Updating sketch code");
+
       return true;
     }
   }
@@ -148,6 +155,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
       },
       () => {
         Logger.info("Done loading user code");
+
         if (this.state.loadingState === "scriptsLoaded") {
           this.props.setSketchLoaded();
           this.updateLoadingState("userCodeLoaded");

@@ -29,6 +29,7 @@ export const compileScriptList = (
   userPersistedScripts: TSrcScript[]
 ) => {
   const sketchScripts = extractUserScripts(code);
+
   return [
     ...ALWAYS_LOADED_SCRIPTS,
     ...userPersistedScripts,

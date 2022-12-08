@@ -163,9 +163,11 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
     initialState,
     (initial) => {
       const fromStorage = getItem<IAppState>("settings");
+
       if (fromStorage) {
         return R.mergeDeepLeft({ settings: fromStorage }, initial);
       }
+
       return initial;
     }
   );

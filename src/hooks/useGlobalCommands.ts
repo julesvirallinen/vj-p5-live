@@ -22,6 +22,7 @@ export const useGlobalCommands = () => {
   const dispatch = useSettingsDispatchContext();
   const { globalCommands, sessionGlobals } = useSettingsStateContext();
   const run = runCommand(globalCommands);
+
   const setRecompileSketch = useCallback(
     (fn: () => void) => {
       dispatch({
@@ -31,18 +32,21 @@ export const useGlobalCommands = () => {
     },
     [dispatch]
   );
+
   const setIframeKey = useCallback(
     (key: string) => {
       dispatch({ type: "patchSessionGlobals", payload: { iframeKey: key } });
     },
     [dispatch]
   );
+
   const setActionBarRef = useCallback(
     (ref: RefObject<HTMLInputElement>) => {
       dispatch({ type: "patchSessionGlobals", payload: { actionBarRef: ref } });
     },
     [dispatch]
   );
+
   const setIframeRef = useCallback(
     (ref: RefObject<HTMLIFrameElement>) => {
       dispatch({
@@ -52,6 +56,7 @@ export const useGlobalCommands = () => {
     },
     [dispatch]
   );
+
   const setCanvasMediaStream = useCallback(
     (canvasMediaStream: MediaStream) => {
       dispatch({
@@ -61,6 +66,7 @@ export const useGlobalCommands = () => {
     },
     [dispatch]
   );
+
   const setCanvasPopupOpen = useCallback(
     (canvasPopupOpen: boolean) => {
       dispatch({

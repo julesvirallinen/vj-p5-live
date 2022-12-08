@@ -53,6 +53,7 @@ const AnimatedActionBar = animated(StyledActionBar);
 
 export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const [command, setCommand] = useState("");
+
   const {
     sketches,
     showActionBar,
@@ -60,6 +61,7 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
     toggleShowMenu,
     toggleShowConsoleFeed,
   } = useSettings();
+
   const { loadSketch, newSketch, loadDefaultSketchTemplate } =
     useSketchManager();
   const { setActionBarRef } = useGlobalCommands();
@@ -139,6 +141,7 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
     if (event.key === "Enter") {
       const [action, ...options] = command.split(" ");
       console.log(action, options);
+
       const actionDef = commands.find(
         (c) => c.shortCommand === action || c.fullCommand === action
       );

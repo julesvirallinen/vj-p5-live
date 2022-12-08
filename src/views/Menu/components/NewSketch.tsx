@@ -26,6 +26,7 @@ const SketchInput = styled(Input)`
 export const NewSketch: React.FC<INewSketchProps> = ({ ...restProps }) => {
   const { newSketch } = useSketchManager();
   const [name, setName] = useState("new sketch");
+
   return (
     <StyledNewSketch {...restProps}>
       <SketchInput value={name} onChange={setName} label={"new sketch"} />
