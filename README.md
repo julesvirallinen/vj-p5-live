@@ -8,6 +8,8 @@ Stack: Typescript / React + p5.js for the code
 
 ✨ Modular clean code for easier open source collaboration. ✨
 
+This is still stongly in the works, and extremely open to contribution!
+
 # Features
 
 - Live coding p5js
