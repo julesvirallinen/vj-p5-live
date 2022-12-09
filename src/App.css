@@ -4,3 +4,7 @@
   box-sizing: border-box;
   cursor: crosshair
 }
+
+*::selection {
+  background: rgb(255, 0, 0, 0.1);
+}

@@ -96,6 +96,8 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
           setOptions={{
             useWorker: true,
             highlightSelectedWord: true,
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
           }}
           highlightActiveLine={false}
           keyboardHandler={"vscode"}

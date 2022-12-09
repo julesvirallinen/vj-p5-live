@@ -9,38 +9,41 @@ import * as R from "ramda";
 import { Path } from "ramda";
 import { PartialDeep } from "type-fest";
 
+import { defaultSettings } from "../../data/defaultSettings";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { TColorPalette } from "../../models/colors";
 import { TSrcScript } from "../../models/script";
 import { ISettingsSketch } from "../../models/sketch";
 import { TTheme } from "../ThemeProvider";
-import { TColorPalette } from "../../models/colors";
 
 /** Omit settings from being saved to localstorage (IAppState["settings"]) */
 export const NON_PERSISTED_SETTINGS_KEYS = [];
 
 export type TMenu = "sketches" | "settings" | "scripts" | "palette";
 
-export interface IAppState {
-  settings: {
-    themeOverrides: PartialDeep<TTheme>;
-    hideEditor: boolean;
-    sketches: ISettingsSketch[];
-    showMenu: boolean;
-    showConsoleFeed: boolean;
-    openMenu: TMenu;
-    showActionBar: boolean;
-    loadedSketchId?: string;
-    compileAfterMs: number;
-    colorPalettes: TColorPalette[];
-    /**
-     * Scripts that are always loaded for all sketches
-     */
-    userLoadedScripts: TSrcScript[];
-    maptasticEnabled: boolean;
-    canvas: {
-      percentDimmed: number;
-    };
+export interface ISettings {
+  themeOverrides: PartialDeep<TTheme>;
+  hideEditor: boolean;
+  sketches: ISettingsSketch[];
+  showMenu: boolean;
+  showConsoleFeed: boolean;
+  openMenu: TMenu;
+  showActionBar: boolean;
+  loadedSketchId?: string;
+  compileAfterMs: number;
+  colorPalettes: TColorPalette[];
+  /**
+   * Scripts that are always loaded for all sketches
+   */
+  userLoadedScripts: TSrcScript[];
+  maptasticEnabled: boolean;
+  canvas: {
+    percentDimmed: number;
   };
+}
+
+export interface IAppState {
+  settings: ISettings;
   sessionGlobals: {
     iframeKey: string;
     actionBarRef?: RefObject<HTMLInputElement>;
@@ -82,22 +85,7 @@ const assocSettingsPath =
     R.assocPath(path, val, settings);
 
 const initialState: IAppState = {
-  settings: {
-    hideEditor: false,
-    themeOverrides: {},
-    sketches: [],
-    showMenu: true,
-    openMenu: "sketches",
-    showConsoleFeed: true,
-    showActionBar: true,
-    compileAfterMs: 1000,
-    userLoadedScripts: [],
-    colorPalettes: [],
-    canvas: {
-      percentDimmed: 1,
-    },
-    maptasticEnabled: false,
-  },
+  settings: defaultSettings,
   globalCommands: {},
   sessionGlobals: {
     // used to refresh iframe on change
@@ -165,10 +153,13 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
     R.pipe(reducer, R.tap(updateSettings)),
     initialState,
     (initial) => {
-      const fromStorage = getItem<IAppState>("settings");
+      const savedSettings = getItem<ISettings>("settings");
 
-      if (fromStorage) {
-        return R.mergeDeepLeft({ settings: fromStorage }, initial);
+      if (savedSettings) {
+        return R.mergeDeepLeft(
+          { settings: savedSettings },
+          initial
+        ) as IAppState;
       }
 
       return initial;

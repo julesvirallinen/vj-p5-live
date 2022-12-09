@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "react";
+import Logger from "js-logger";
 
 import { ISettingsSketch } from "../models/sketch";
 import {
@@ -21,8 +22,9 @@ export const useCurrentSketch = () => {
 
   const currentSketchData = useMemo(() => {
     const sketchData = sketches.find((s) => s.id == sketch.id);
+
     if (!sketchData) {
-      console.error("no sketch saved");
+      Logger.error("no sketch saved");
     }
 
     return sketchData;

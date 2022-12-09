@@ -1,5 +1,5 @@
 import React from "react";
-import { configure,GlobalHotKeys } from "react-hotkeys";
+import { configure, GlobalHotKeys } from "react-hotkeys";
 
 import { useGlobalCommands } from "../hooks/useGlobalCommands";
 import { useSettings } from "../hooks/useSettings";
@@ -11,6 +11,7 @@ import { useSketchManager } from "../hooks/useSketchManager";
 
 const keyMap = {
   SHOW_MENU: "ctrl+m",
+  SHOW_PALETTE_MENU: "ctrl+shift+p",
   SHOW_ACTION_BAR: "cmd+p",
   COMPILE: "ctrl+enter",
   HARD_COMPILE: "ctrl+shift+enter",
@@ -27,11 +28,14 @@ export const ShortcutProvider: React.FC<IShortcutProviderProps> = ({
   children,
 }) => {
   const { recompileSketch } = useGlobalCommands();
-  const { toggleActionBar, toggleShowMenu, toggleHideEditor } = useSettings();
+
+  const { toggleActionBar, toggleShowMenu, toggleHideEditor, setOpenMenu } =
+    useSettings();
   const { reloadSketch } = useSketchManager();
 
   const handlers = {
     SHOW_MENU: () => toggleShowMenu(),
+    SHOW_PALETTE_MENU: () => setOpenMenu("palette"),
     TOGGLE_CODE_VISIBLE: () => toggleHideEditor(),
     COMPILE: () => recompileSketch(),
     HARD_COMPILE: () => reloadSketch(),
