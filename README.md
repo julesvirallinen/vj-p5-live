@@ -1,10 +1,10 @@
 #### P5JS LIVE CODING FOR VJ
 
-Open source P5.js live-editor for live-coded VJ performances.
+Open source P5.js live-editor optimized for live-coded VJ performances.
 
 Loose port of the amazing https://github.com/ffd8/P5LIVE by https://github.com/ffd8.
 
-Stack: Typescript / React.
+Stack: Typescript / React + p5.js for the code
 
 ✨ Modular clean code for easier open source collaboration. ✨
 
@@ -15,6 +15,8 @@ Stack: Typescript / React.
 - Powerful control of app theme
 - Slider for sketch global transparency to make sure you are not too bright
 - Hide / show the editor to interact with the canvas
+- Built in audio + midi support and __beat matching__ 
+- Save and use color palettes in any sketch
 
 # Design idea
 
@@ -27,16 +29,18 @@ Stack: Typescript / React.
 
 If you:
 
-- want to develop a p5js live coding app
-- do live VJ coding and is looking for an interesting tool
+- Are interested in VJ live coding
+- Want to use something open source that you are able to develop easily
+- 
 
-this is probably for you. If not, try P5LIVE!
+Then this might be for you! P5LIVE is still more feature rich, and might be easier to get into!
 
 # Installation
 
 Clone repository and run
 
 ```
+(npm use)
 yarn
 yarn dev
 ```
@@ -45,7 +49,7 @@ yarn dev
 
 ## Scripts
 
-To load a script to a sketch, use the same syntax as P5live:
+To load a script to a sketch, use the same syntax as P5LIVE:
 
 `let libs = ["https://cdn.com/script.js"]`
 
@@ -128,8 +132,11 @@ The editor has default vscode keybindings.
 
 - [react-ace](https://www.npmjs.com/package/react-ace) Ace editor for react
 - [react-colorful](https://github.com/omgovich/react-colorful) color picker
+- [react-hotkeys](https://github.com/greena13/react-hotkeys) Shortcut management
 - [console-feed](https://github.com/samdenty/console-feed) console management
+- [react-new-window-styles](https://www.npmjs.com/package/react-new-window-styles) new window management for pop-up windows
+- [js-logger](https://www.npmjs.com/package/js-logger) Simple logging manager
 - [styled-components](https://styled-components.com/) awesome component styling
 - [react-spring](https://react-spring.dev/) beautiful animations
 
-- [metbrewer](https://github.com/BlakeRMills/MetBrewer) https://github.com/BlakeRMills/MetBrewer
+- [Metbrewer color palettes](https://github.com/BlakeRMills/MetBrewer) preloaded colorpalettes
