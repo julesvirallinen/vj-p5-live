@@ -1,4 +1,4 @@
-import { TColorPalette } from "../../models/colors";
+import { TColorPalette } from "~/models/colors";
 
 export const createPaletteSnippet = (
   userPalettes: TColorPalette[],

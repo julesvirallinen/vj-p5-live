@@ -15,6 +15,8 @@ import { useGlobalCommands } from "./useGlobalCommands";
 import { useLocalStorage } from "./useLocalStorage";
 import { useSettings } from "./useSettings";
 
+import { firstSketchLocalStorage } from "~/data/demos/firstSketch";
+
 const Logger = JSLogger.get("canvasLogger");
 
 const getSketchKey = (sketch: Pick<ICurrentSketch, "id">) =>
@@ -89,8 +91,13 @@ export const useSketchManager = () => {
   const saveSketch = (sketch: ICurrentSketch) =>
     setItem(getSketchKey(sketch), sketch);
 
-  const fetchSketch = (sketch: Pick<ICurrentSketch, "id">) =>
-    getItem<ICurrentSketch>(getSketchKey(sketch));
+  const fetchSketch = (sketch: Pick<ICurrentSketch, "id">) => {
+    if (sketch.id === firstSketchLocalStorage.id) {
+      return firstSketchLocalStorage;
+    }
+
+    return getItem<ICurrentSketch>(getSketchKey(sketch));
+  };
 
   const reloadSketch = () => {
     // TODO: figure out how to remove, this prevents a race condition in sketch changing

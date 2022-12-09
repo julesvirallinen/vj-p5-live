@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { debounce } from "lodash";
 import Logger from "js-logger";
+import { debounce } from "lodash";
+
+import * as SNIPPETS from "../components/Canvas/libs/snippets";
+import { createPaletteSnippet } from "../data/palette/createPaletteSnippet";
 
 import { useCurrentSketch } from "./useCurrentSketch";
 import { useGlobalCommands } from "./useGlobalCommands";
 import { useSettings } from "./useSettings";
-import { createPaletteSnippet } from "../data/snippets/createPaletteSnippet";
-import * as SNIPPETS from "../components/Canvas/libs/snippets";
 
 const getDefaultSnippets = () => `
   ${SNIPPETS.windowResizer}

@@ -5,6 +5,12 @@ import { Path } from "ramda";
 import { useSketchManager } from "../../hooks/useSketchManager";
 import { ICurrentSketch } from "../../models/sketch";
 
+/**
+ * I'm not sure about this. My dream would be syncing the text files in some way that they can be in git, and user editable otherwise.
+ * Thinking if I should just place to code in the settings sketches among the item, or would that bulk up the app state too much?
+ *
+ */
+
 export type IAction =
   | {
       type: "updateCode";
