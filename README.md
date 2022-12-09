@@ -127,8 +127,8 @@ The editor has default vscode keybindings.
 - [p5.mapper](https://github.com/jdeboi/p5.mapper) Mapping support
 - [WebMidi.js](https://github.com/djipco/webmidi) MIDI support for sketches
 - [p5.js sound](https://github.com/processing/p5.js-sound) sound support for sketches
-
 - [maptastic](https://github.com/glowbox/maptasticjs) canvas mapping!
+
 
 - [react-ace](https://www.npmjs.com/package/react-ace) Ace editor for react
 - [react-colorful](https://github.com/omgovich/react-colorful) color picker
@@ -138,5 +138,6 @@ The editor has default vscode keybindings.
 - [js-logger](https://www.npmjs.com/package/js-logger) Simple logging manager
 - [styled-components](https://styled-components.com/) awesome component styling
 - [react-spring](https://react-spring.dev/) beautiful animations
+
 
 - [Metbrewer color palettes](https://github.com/BlakeRMills/MetBrewer) preloaded colorpalettes
