@@ -10,6 +10,8 @@ Stack: Typescript / React + p5.js for the code
 
 This is still stongly in the works, and extremely open to contribution!
 
+If you're interested, hit me up on instagram @julesvisuaalinen or in the Github discussions!
+
 # Features
 
 - Live coding p5js
