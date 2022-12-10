@@ -22,12 +22,14 @@ If you're interested, hit me up on instagram @julesvisuaalinen or in the Github 
 - Built in audio + midi support and __beat matching__ 
 - Save and use color palettes in any sketch
 
+![Demo gif]([https://user-images.githubusercontent.com/4622905/204109914-fd24d10a-dec3-429e-b5fd-2cc659a28438.gif](https://s9.gifyu.com/images/CleanShot-2022-12-10-at-19.34.12.gif))
+
 # Design idea
 
 - easy development with strong typing
 - controls largely via written commands for easy live-performing
 
-![CleanShot 2022-11-26 at 23 36 07](https://user-images.githubusercontent.com/4622905/204109914-fd24d10a-dec3-429e-b5fd-2cc659a28438.gif)
+
 
 # Is this for me?
 
