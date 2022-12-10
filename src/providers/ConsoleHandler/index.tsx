@@ -26,7 +26,6 @@ const StyledConsoleHandler = styled.div`
 
 const StyledConsole = styled(Console)`
   background-color: black !important;
-  color: white ! !important; ;
 `;
 
 export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
