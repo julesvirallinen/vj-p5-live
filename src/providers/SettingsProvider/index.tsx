@@ -10,16 +10,13 @@ import { Path } from "ramda";
 import { PartialDeep } from "type-fest";
 
 import { defaultSettings } from "../../data/defaultSettings";
-import {
-  useLocalStorage,
-  useLocalStorageData,
-} from "../../hooks/useLocalStorage";
+import { useLocalStorageData } from "../../hooks/useLocalStorage";
 import { TColorPalette } from "../../models/colors";
 import { TSrcScript } from "../../models/script";
 import { ISettingsSketch } from "../../models/sketch";
 import { TTheme } from "../ThemeProvider";
 
-import { loadTutorialSketches } from "~/Providers/SettingsProvider/loadTutorialSketches";
+import { loadTutorialSketches } from "./loadTutorialSketches";
 
 export type TMenu =
   | "sketches"

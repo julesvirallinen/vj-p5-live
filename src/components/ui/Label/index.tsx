@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export interface ILabelProps {
   children?: React.ReactNode;
+  onClick?: () => void;
 }
 
 const StyledLabel = styled.label`
