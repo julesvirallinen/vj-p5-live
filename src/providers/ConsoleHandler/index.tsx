@@ -57,7 +57,6 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
   }, [canvasWindow, logs, lastMessage]);
 
   useEffect(() => {
-    Logger.info("logged");
     Hook(window.console, (log) => {
       const thisMessage = R.path<string>([0, "data", 0], log);
 

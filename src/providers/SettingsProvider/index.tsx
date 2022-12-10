@@ -16,8 +16,7 @@ import { TSrcScript } from "../../models/script";
 import { ISettingsSketch } from "../../models/sketch";
 import { TTheme } from "../ThemeProvider";
 
-/** Omit settings from being saved to localstorage (IAppState["settings"]) */
-export const NON_PERSISTED_SETTINGS_KEYS = [];
+import { loadTutorialSketches } from "~/Providers/SettingsProvider/loadTutorialSketches";
 
 export type TMenu = "sketches" | "settings" | "scripts" | "palette";
 
@@ -41,6 +40,13 @@ export interface ISettings {
     percentDimmed: number;
   };
 }
+
+/** Omit settings from being saved to localstorage (IAppState["settings"]) */
+export const NON_PERSISTED_SETTINGS_KEYS = [] as const;
+
+export type TUserSavedSettings = PartialDeep<
+  Omit<ISettings, typeof NON_PERSISTED_SETTINGS_KEYS[number]>
+>;
 
 export interface IAppState {
   settings: ISettings;
@@ -105,12 +111,6 @@ const reducer = (state: IAppState, action: IAction): IAppState => {
   switch (action.type) {
     case "addSketch":
       return assocSketches(R.union([action.payload], state.settings.sketches));
-    case "toggleShowMenu":
-      return assoc(["settings", "showMenu"])(!state.settings.showMenu);
-    case "toggleActionBar":
-      return assoc(["settings", "showActionBar"])(
-        !state.settings.showActionBar
-      );
     case "setLoadedSketchId":
       return assoc(["settings", "loadedSketchId"])(action.payload.id);
     case "setSettings":
@@ -119,7 +119,6 @@ const reducer = (state: IAppState, action: IAction): IAppState => {
       return assoc(["settings"])(
         R.mergeDeepLeft(action.payload, state.settings)
       );
-
     case "patchGlobalCommands": {
       return assoc(["globalCommands"])(
         R.mergeDeepLeft(action.payload, state.globalCommands)
@@ -129,9 +128,6 @@ const reducer = (state: IAppState, action: IAction): IAppState => {
       return assoc(["sessionGlobals"])(
         R.mergeDeepLeft(action.payload, state.sessionGlobals)
       );
-    }
-    case "setUserLoadedScripts": {
-      return assoc(["settings", "userLoadedScripts"])(action.payload);
     }
     default:
       throw new Error(`${(action as IAction).type} not supported`);
@@ -150,16 +146,10 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
     R.pipe(reducer, R.tap(updateSettings)),
     initialState,
     (initial) => {
-      const savedSettings = getItem<ISettings>("settings");
+      const savedSettings = getItem<TUserSavedSettings>("settings") || {};
+      const withTutorials = loadTutorialSketches(savedSettings);
 
-      if (savedSettings) {
-        return R.mergeDeepLeft(
-          { settings: savedSettings },
-          initial
-        ) as IAppState;
-      }
-
-      return initial;
+      return R.mergeDeepLeft({ settings: withTutorials }, initial) as IAppState;
     }
   );
 

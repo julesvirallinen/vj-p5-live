@@ -1,7 +1,7 @@
 import JSLogger from "js-logger";
 import * as R from "ramda";
 
-import { defaultSketchCode } from "../components/Canvas/libs/snippets";
+import { defaultSketchCode } from "../data/snippets";
 import {
   ICurrentSketch,
   ISettingsSketch,

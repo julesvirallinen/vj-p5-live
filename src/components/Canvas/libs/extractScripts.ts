@@ -1,6 +1,6 @@
 import * as R from "ramda";
 
-import { ALWAYS_LOADED_SCRIPTS } from "../../../defs/Scripts";
+import { ALWAYS_LOADED_SCRIPTS } from "../../../defs/alwaysLoadedScripts";
 import { TSrcScript } from "../../../models/script";
 
 // matches const loadScripts = [ANYTHING HERE]
