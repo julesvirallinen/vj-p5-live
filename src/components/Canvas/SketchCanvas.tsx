@@ -28,10 +28,14 @@ const StyledIframe = styled.iframe`
 export interface ISketchCanvasProps {
   userPersistedScripts: TSrcScript[];
   sketch: { code: string; additionalCode: string; id: string };
-  setRecompileSketch: Dispatch<
-    React.SetStateAction<(() => void | undefined) | undefined>
-  >;
-  setCanvasMediaStream: (s: MediaStream) => void;
+  globalSetters: {
+    setRecompileSketch: Dispatch<
+      React.SetStateAction<(() => void | undefined) | undefined>
+    >;
+    setCanvasMediaStream: (s: MediaStream) => void;
+    setIframeRef: (r: RefObject<HTMLIFrameElement>) => void;
+  };
+
   setSketchLoaded: () => void;
   key: number;
   canvasPopupOpen: boolean;
@@ -98,6 +102,8 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
     const { document, contentWindow } = getIframeDocumentAndWindow(this.state);
     document.body.style.margin = "0";
 
+    this.props.globalSetters.setIframeRef(this.state.iframeRef);
+
     const allScripts = compileScriptList(
       this.props.sketch.code,
       this.props.userPersistedScripts
@@ -108,7 +114,9 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
 
       this.updateLoadingState("scriptsLoaded");
     });
-    this.props.setRecompileSketch(() => this.recompileSketch.bind(this));
+    this.props.globalSetters.setRecompileSketch(() =>
+      this.recompileSketch.bind(this)
+    );
   }
 
   shouldComponentUpdate(
@@ -181,7 +189,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
 
     if (stream) {
       Logger.debug("Popstream updated");
-      this.props.setCanvasMediaStream(stream);
+      this.props.globalSetters.setCanvasMediaStream(stream);
     } else {
       Logger.warn("Popstream not updated");
     }

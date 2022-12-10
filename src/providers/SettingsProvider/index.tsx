@@ -63,12 +63,9 @@ export type IAction =
       type: "addSketch";
       payload: ISettingsSketch;
     }
-  | { type: "toggleShowMenu" }
-  | { type: "toggleActionBar" }
   | { type: "setLoadedSketchId"; payload: { id: string } }
   | { type: "setSettings"; payload: IAppState["settings"] }
   | { type: "patchSettings"; payload: Partial<IAppState["settings"]> }
-  | { type: "setUserLoadedScripts"; payload: TSrcScript[] }
   | {
       type: "patchGlobalCommands";
       payload: Partial<IAppState["globalCommands"]>;

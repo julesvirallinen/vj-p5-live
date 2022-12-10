@@ -75,7 +75,6 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   /**
    *
    * TODO:
-   * - [ ] actions defined in object and run dynamically
    * - [ ] action preview / seleciton on tab (with descriptions)
    * - [ ] some sort of preview for sketch selection (show matching sketches on tab?)
    *
@@ -140,6 +139,7 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === "Enter") {
       const [action, ...options] = command.split(" ");
+
       const actionDef = commands.find(
         (c) => c.shortCommand === action || c.fullCommand === action
       );
