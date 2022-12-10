@@ -2,13 +2,13 @@ import React, { KeyboardEventHandler, useEffect, useState } from "react";
 import { FaRegEye, FaRegEyeSlash, FaShareSquare } from "react-icons/fa";
 import styled from "styled-components";
 
-import { Button } from "../../../../components/ui/Button";
-import { Input } from "../../../../components/ui/Input";
-import { useCurrentSketch } from "../../../../hooks/useCurrentSketch";
-import { useGlobalCommands } from "../../../../hooks/useGlobalCommands";
-import { useSettings } from "../../../../hooks/useSettings";
-import { useSketchManager } from "../../../../hooks/useSketchManager";
-import { SKETCH_TEMPLATE_ID } from "../../../../models/sketch";
+import { Button } from "../../../../../../components/ui/Button";
+import { Input } from "../../../../../../components/ui/Input";
+import { useCurrentSketch } from "../../../../../../hooks/useCurrentSketch";
+import { useGlobalCommands } from "../../../../../../hooks/useGlobalCommands";
+import { useSettings } from "../../../../../../hooks/useSettings";
+import { useSketchManager } from "../../../../../../hooks/useSketchManager";
+import { SKETCH_TEMPLATE_ID } from "../../../../../../models/sketch";
 
 export interface ICurrentSketchSettingsProps {}
 

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import styled from "styled-components";
 
-import { Button } from "../../../components/ui/Button";
-import { Input } from "../../../components/ui/Input";
-import { useSketchManager } from "../../../hooks/useSketchManager";
+import { Button } from "../../../../../components/ui/Button";
+import { Input } from "../../../../../components/ui/Input";
+import { useSketchManager } from "../../../../../hooks/useSketchManager";
 
 export interface INewSketchProps {}
 

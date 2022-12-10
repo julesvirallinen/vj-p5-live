@@ -9,8 +9,6 @@ const StyledLabel = styled.label`
   display: flex;
   font-size: 0.7rem;
   line-height: 1rem;
-  /* font-weight: 500; */
-  /* margin-left: 0.1rem; */
   text-transform: uppercase;
   font-family: "Fredoka One", cursive;
   align-items: center;

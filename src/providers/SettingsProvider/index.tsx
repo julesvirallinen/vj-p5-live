@@ -10,7 +10,10 @@ import { Path } from "ramda";
 import { PartialDeep } from "type-fest";
 
 import { defaultSettings } from "../../data/defaultSettings";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import {
+  useLocalStorage,
+  useLocalStorageData,
+} from "../../hooks/useLocalStorage";
 import { TColorPalette } from "../../models/colors";
 import { TSrcScript } from "../../models/script";
 import { ISettingsSketch } from "../../models/sketch";
@@ -18,7 +21,13 @@ import { TTheme } from "../ThemeProvider";
 
 import { loadTutorialSketches } from "~/Providers/SettingsProvider/loadTutorialSketches";
 
-export type TMenu = "sketches" | "settings" | "scripts" | "palette";
+export type TMenu =
+  | "sketches"
+  | "settings"
+  | "scripts"
+  | "palette"
+  | "about"
+  | "advanced";
 
 export interface ISettings {
   themeOverrides: PartialDeep<TTheme>;
@@ -137,16 +146,16 @@ const reducer = (state: IAppState, action: IAction): IAppState => {
 export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { setItem, getItem } = useLocalStorage();
+  const { getSettings, setSettings } = useLocalStorageData();
 
   const updateSettings = (state: IAppState) =>
-    setItem("settings", R.omit(NON_PERSISTED_SETTINGS_KEYS, state.settings));
+    setSettings(R.omit(NON_PERSISTED_SETTINGS_KEYS, state.settings));
 
   const [state, dispatch] = useReducer(
     R.pipe(reducer, R.tap(updateSettings)),
     initialState,
     (initial) => {
-      const savedSettings = getItem<TUserSavedSettings>("settings") || {};
+      const savedSettings = getSettings() || {};
       const withTutorials = loadTutorialSketches(savedSettings);
 
       return R.mergeDeepLeft({ settings: withTutorials }, initial) as IAppState;
