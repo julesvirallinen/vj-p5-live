@@ -21,9 +21,16 @@ const GlobalStyle = createGlobalStyle`
     body {
         margin: 0;
     }
-    ::-webkit-media-controls {display:none !important;
+    ::-webkit-media-controls {display:none !important};
 
 `;
+
+/**
+ *
+ * ? How can maptastic be initialized for this, as the scripts don't seem to work directly?
+ * One idea is to copy styles from the canvas maptastic and copy them into the DOM here
+ *
+ */
 
 export const VisualsPopup: React.FC<IVisualsPopupProps> = ({
   ...restProps

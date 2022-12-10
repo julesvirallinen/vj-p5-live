@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Logger from "js-logger";
 import { debounce } from "lodash";
 
-import * as SNIPPETS from "../components/Canvas/libs/snippets";
 import { createPaletteSnippet } from "../data/palette/createPaletteSnippet";
+import * as SNIPPETS from "../data/snippets";
 
 import { useCurrentSketch } from "./useCurrentSketch";
 import { useGlobalCommands } from "./useGlobalCommands";

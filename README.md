@@ -19,17 +19,15 @@ If you're interested, hit me up on instagram @julesvisuaalinen or in the Github 
 - Powerful control of app theme
 - Slider for sketch global transparency to make sure you are not too bright
 - Hide / show the editor to interact with the canvas
-- Built in audio + midi support and __beat matching__ 
+- Built in audio + midi support and **beat matching**
 - Save and use color palettes in any sketch
 
-![Demo gif]([https://user-images.githubusercontent.com/4622905/204109914-fd24d10a-dec3-429e-b5fd-2cc659a28438.gif](https://s9.gifyu.com/images/CleanShot-2022-12-10-at-19.34.12.gif))
+![demo gif](/public/demo.gif)
 
 # Design idea
 
 - easy development with strong typing
 - controls largely via written commands for easy live-performing
-
-
 
 # Is this for me?
 
@@ -37,7 +35,7 @@ If you:
 
 - Are interested in VJ live coding
 - Want to use something open source that you are able to develop easily
-- 
+-
 
 Then this might be for you! P5LIVE is still more feature rich, and might be easier to get into!
 
@@ -135,7 +133,6 @@ The editor has default vscode keybindings.
 - [p5.js sound](https://github.com/processing/p5.js-sound) sound support for sketches
 - [maptastic](https://github.com/glowbox/maptasticjs) canvas mapping!
 
-
 - [react-ace](https://www.npmjs.com/package/react-ace) Ace editor for react
 - [react-colorful](https://github.com/omgovich/react-colorful) color picker
 - [react-hotkeys](https://github.com/greena13/react-hotkeys) Shortcut management
@@ -144,6 +141,5 @@ The editor has default vscode keybindings.
 - [js-logger](https://www.npmjs.com/package/js-logger) Simple logging manager
 - [styled-components](https://styled-components.com/) awesome component styling
 - [react-spring](https://react-spring.dev/) beautiful animations
-
 
 - [Metbrewer color palettes](https://github.com/BlakeRMills/MetBrewer) preloaded colorpalettes

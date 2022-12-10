@@ -6,12 +6,16 @@ import styled from "styled-components";
 import { useSettings } from "../../hooks/useSettings";
 import { TMenu } from "../../providers/SettingsProvider";
 
-import { CurrentSketchSettings } from "./components/CurrentSketch";
 import { MenuSettings } from "./components/MenuSettings";
 import { PaletteSettings } from "./components/MenuSettings/views/PaletteSettings";
 import { ScriptSettings } from "./components/MenuSettings/views/ScriptSettings";
-import { NewSketch } from "./components/NewSketch";
-import { SketchList } from "./components/SketchList";
+import { CurrentSketchSettings } from "./components/SketchMenu/components/CurrentSketch";
+import { NewSketch } from "./components/SketchMenu/components/NewSketch";
+import { SketchList } from "./components/SketchMenu/components/SketchList";
+
+import { AboutMenu } from "~/views/Menu/components/AboutMenu";
+import { AdvancedMenu } from "~/views/Menu/components/AdvancedMenu";
+import { SketchMenu } from "~/views/Menu/components/SketchMenu";
 
 const MENU_WIDTH = 12;
 
@@ -134,9 +138,7 @@ export const Menu: React.FC<IMenuProps> = () => {
         </AnimatedCaret>
         {openMenu === "sketches" && (
           <StyledMenu>
-            <CurrentSketchSettings />
-            <SketchList />
-            <NewSketch />
+            <SketchMenu />
           </StyledMenu>
         )}
         {openMenu === "settings" && (
@@ -152,6 +154,16 @@ export const Menu: React.FC<IMenuProps> = () => {
         {openMenu === "palette" && (
           <StyledSettingsMenu>
             <PaletteSettings />
+          </StyledSettingsMenu>
+        )}
+        {openMenu === "about" && (
+          <StyledSettingsMenu>
+            <AboutMenu />
+          </StyledSettingsMenu>
+        )}
+        {openMenu === "advanced" && (
+          <StyledSettingsMenu>
+            <AdvancedMenu />
           </StyledSettingsMenu>
         )}
       </AnimatedMenu>

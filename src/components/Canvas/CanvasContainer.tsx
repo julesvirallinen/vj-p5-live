@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Logger from "js-logger";
+import React from "react";
 import styled from "styled-components";
 
 import { useGlobalCommands } from "../../hooks/useGlobalCommands";
 import { useSettings } from "../../hooks/useSettings";
 import { useSketchCodeManager } from "../../hooks/useSketchCodeManager";
 
-import SketchCanvas from "./SketchCanvas";
+import SketchCanvas, { ISketchCanvasProps } from "./SketchCanvas";
+
+import { useRecompileCanvas } from "~/components/Canvas/useRecompileCanvas";
 
 export interface ICanvasContainerProps {}
 
@@ -19,60 +20,43 @@ const StyledLoading = styled.div`
   height: 100%;
 `;
 
+// Small hook to handle passing props forward to canvas from providers
+const useGetSketchCanvasProps = (props: {
+  setRecompileSketch: ISketchCanvasProps["globalSetters"]["setRecompileSketch"];
+}) => {
+  const { sketch } = useSketchCodeManager();
+
+  const { userLoadedScripts } = useSettings();
+
+  const { setCanvasMediaStream, canvasPopupOpen, setIframeRef } =
+    useGlobalCommands();
+
+  return {
+    sketch,
+    userPersistedScripts: userLoadedScripts,
+    canvasPopupOpen,
+    globalSetters: {
+      setIframeRef,
+      setRecompileSketch: props.setRecompileSketch,
+      setCanvasMediaStream,
+    },
+  };
+};
+
 export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
   ...restProps
 }) => {
-  const { userLoadedScripts } = useSettings();
-  const { forceLoadCode, sketch } = useSketchCodeManager();
-  const {
-    setRecompileSketch: setGlobalRecompileSketch,
-    setHardRecompileSketch,
-    setCanvasMediaStream,
-    canvasPopupOpen,
-  } = useGlobalCommands();
+  const { iframeKey, setRecompileSketch, setSketchLoaded, sketchLoaded } =
+    useRecompileCanvas();
 
-  const [iframeKey, setIframeKey] = useState(new Date().getTime());
-  const [sketchLoaded, setSketchLoaded] = useState(false);
-
-  const [recompileSketch, setRecompileSketch] =
-    useState<() => void | undefined>();
-
-  const remountCanvas = useCallback(() => {
-    const canvasKey = new Date().getTime();
-    setIframeKey(canvasKey);
-    setSketchLoaded(false);
-  }, []);
-
-  const compileSketch = useCallback(() => {
-    forceLoadCode();
-
-    if (!recompileSketch) {
-      return Logger.warn("recompile sketch missing");
-    }
-    recompileSketch();
-  }, [forceLoadCode, recompileSketch]);
-
-  useEffect(() => {
-    setHardRecompileSketch(remountCanvas);
-    setGlobalRecompileSketch(compileSketch);
-  }, [
-    setHardRecompileSketch,
-    remountCanvas,
-    compileSketch,
-    setGlobalRecompileSketch,
-    recompileSketch,
-  ]);
+  const sketchCanvasProps = useGetSketchCanvasProps({ setRecompileSketch });
 
   return (
     <StyledCanvasContainer {...restProps}>
       <SketchCanvas
-        userPersistedScripts={userLoadedScripts}
-        sketch={sketch}
-        setRecompileSketch={setRecompileSketch}
-        setCanvasMediaStream={setCanvasMediaStream}
+        {...sketchCanvasProps}
         key={iframeKey}
         setSketchLoaded={() => setSketchLoaded(true)}
-        canvasPopupOpen={canvasPopupOpen}
       />
       {!sketchLoaded && <StyledLoading />}
     </StyledCanvasContainer>

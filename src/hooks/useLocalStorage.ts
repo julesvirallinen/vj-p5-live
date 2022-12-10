@@ -1,5 +1,7 @@
 import * as R from "ramda";
 
+import { TUserSavedSettings } from "~/providers/SettingsProvider";
+
 export const useLocalStorage = () => {
   const getItem = <T>(name: string): T | null => {
     const raw = localStorage.getItem(name);
@@ -15,4 +17,14 @@ export const useLocalStorage = () => {
   };
 
   return { getItem, setItem };
+};
+
+export const useLocalStorageData = () => {
+  const { setItem, getItem } = useLocalStorage();
+
+  return {
+    getSettings: () => getItem<TUserSavedSettings>("settings"),
+    setSettings: (settings: TUserSavedSettings) =>
+      setItem("settings", settings),
+  };
 };

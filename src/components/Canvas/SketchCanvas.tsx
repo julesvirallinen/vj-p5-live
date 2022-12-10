@@ -28,10 +28,14 @@ const StyledIframe = styled.iframe`
 export interface ISketchCanvasProps {
   userPersistedScripts: TSrcScript[];
   sketch: { code: string; additionalCode: string; id: string };
-  setRecompileSketch: Dispatch<
-    React.SetStateAction<(() => void | undefined) | undefined>
-  >;
-  setCanvasMediaStream: (s: MediaStream) => void;
+  globalSetters: {
+    setRecompileSketch: Dispatch<
+      React.SetStateAction<(() => void | undefined) | undefined>
+    >;
+    setCanvasMediaStream: (s: MediaStream) => void;
+    setIframeRef: (r: RefObject<HTMLIFrameElement>) => void;
+  };
+
   setSketchLoaded: () => void;
   key: number;
   canvasPopupOpen: boolean;
@@ -78,7 +82,6 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
   }
 
   updateLoadingState(newState: TLoadingState) {
-    Logger.debug(`Set loadingState: ${newState}`);
     this.setState({ loadingState: newState });
   }
 
@@ -94,9 +97,11 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
   }
 
   async componentDidMount() {
-    Logger.debug(`Mounted canvas iframe. SketchId:${this.props.sketch.id}`);
-    const { document, contentWindow } = getIframeDocumentAndWindow(this.state);
+    Logger.time(`sketchRenderTime`);
+    const { document } = getIframeDocumentAndWindow(this.state);
     document.body.style.margin = "0";
+
+    this.props.globalSetters.setIframeRef(this.state.iframeRef);
 
     const allScripts = compileScriptList(
       this.props.sketch.code,
@@ -108,7 +113,9 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
 
       this.updateLoadingState("scriptsLoaded");
     });
-    this.props.setRecompileSketch(() => this.recompileSketch.bind(this));
+    this.props.globalSetters.setRecompileSketch(() =>
+      this.recompileSketch.bind(this)
+    );
   }
 
   shouldComponentUpdate(
@@ -168,6 +175,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
         Logger.info("Done loading user code");
 
         if (this.state.loadingState === "scriptsLoaded") {
+          Logger.timeEnd(`sketchRenderTime`);
           this.props.setSketchLoaded();
           this.updateLoadingState("userCodeLoaded");
         }
@@ -181,7 +189,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
 
     if (stream) {
       Logger.debug("Popstream updated");
-      this.props.setCanvasMediaStream(stream);
+      this.props.globalSetters.setCanvasMediaStream(stream);
     } else {
       Logger.warn("Popstream not updated");
     }
