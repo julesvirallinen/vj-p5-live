@@ -82,7 +82,6 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
   }
 
   updateLoadingState(newState: TLoadingState) {
-    Logger.debug(`Set loadingState: ${newState}`);
     this.setState({ loadingState: newState });
   }
 
@@ -98,8 +97,8 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
   }
 
   async componentDidMount() {
-    Logger.debug(`Mounted canvas iframe. SketchId:${this.props.sketch.id}`);
-    const { document, contentWindow } = getIframeDocumentAndWindow(this.state);
+    Logger.time(`sketchRenderTime`);
+    const { document } = getIframeDocumentAndWindow(this.state);
     document.body.style.margin = "0";
 
     this.props.globalSetters.setIframeRef(this.state.iframeRef);
@@ -176,6 +175,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
         Logger.info("Done loading user code");
 
         if (this.state.loadingState === "scriptsLoaded") {
+          Logger.timeEnd(`sketchRenderTime`);
           this.props.setSketchLoaded();
           this.updateLoadingState("userCodeLoaded");
         }
