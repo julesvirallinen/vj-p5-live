@@ -1,6 +1,7 @@
+// TODO: allow disabling these
+
 export const ALWAYS_LOADED_SCRIPTS = [
   { id: 'p5js', path: '/js/p5.min.js' },
-  { id: 'errorHandler', path: '/src/data/errorSnippet.js' },
   {
     id: 'ramda',
     path: '/js/ramda.min.js',

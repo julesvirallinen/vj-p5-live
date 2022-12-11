@@ -9,6 +9,8 @@ import { useCurrentSketch } from './useCurrentSketch';
 import { useGlobalCommands } from './useGlobalCommands';
 import { useSettings } from './useSettings';
 
+import { errorSnippet } from '~/data/errorSnippet';
+
 const getDefaultSnippets = () => `
   ${SNIPPETS.windowResizer}
   ${SNIPPETS.customEase}
@@ -58,11 +60,9 @@ export const useSketchCodeManager = () => {
   }, [code, id, memoedDebounce]);
 
   const additionalCode = `
+  ${errorSnippet}
   ${paletteName ? createPaletteSnippet(colorPalettes, paletteName) : ''}
-  ${getDefaultSnippets()}
-
-
-  `;
+  ${getDefaultSnippets()}`;
 
   return {
     sketch: { paletteName, code: userCode, id, additionalCode },

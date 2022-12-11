@@ -54,7 +54,8 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
 
   useErrorReceiver(
     iframeKey,
-    sketchCanvasProps.sketch.additionalCode.split('\n').length + 2
+    // ! offset calculation is off and needs work
+    sketchCanvasProps.sketch.additionalCode.split('\n').length
   );
 
   return (

@@ -1,9 +1,10 @@
+export const errorSnippet = `
 window.onerror = function (msg, url, lineNumber) {
   var data = { msg, lineNumber, source: 'sketch' };
   window.parent.postMessage(JSON.stringify(data), '*');
 
   return false;
-};
+};`;
 
 // TODO:  catch rejected promises
 // window.onunhandledrejection = function (event) {
