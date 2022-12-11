@@ -1,13 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import Logger from "js-logger";
-import { debounce } from "lodash";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import Logger from 'js-logger';
+import { debounce } from 'lodash';
 
-import { createPaletteSnippet } from "../data/palette/createPaletteSnippet";
-import * as SNIPPETS from "../data/snippets";
+import { createPaletteSnippet } from '../data/palette/createPaletteSnippet';
+import * as SNIPPETS from '../data/snippets';
 
-import { useCurrentSketch } from "./useCurrentSketch";
-import { useGlobalCommands } from "./useGlobalCommands";
-import { useSettings } from "./useSettings";
+import { useCurrentSketch } from './useCurrentSketch';
+import { useGlobalCommands } from './useGlobalCommands';
+import { useSettings } from './useSettings';
+
+import { errorSnippet } from '~/data/errorSnippet';
 
 const getDefaultSnippets = () => `
   ${SNIPPETS.windowResizer}
@@ -37,7 +39,7 @@ export const useSketchCodeManager = () => {
   // 1. useEffect gets change from saved code and debounces update
   useEffect(() => {
     if (codeHasSyntaxErrors) {
-      Logger.info("Not updating code, code has syntax errors");
+      Logger.info('Not updating code, code has syntax errors');
     }
     memoedDebounce(code);
   }, [memoedDebounce, code, codeHasSyntaxErrors]);
@@ -51,18 +53,16 @@ export const useSketchCodeManager = () => {
   }, [id, code, currentId, memoedDebounce]);
 
   const forceLoadCode = useCallback(() => {
-    Logger.info("Forced code reload, cancel debounce");
+    Logger.info('Forced code reload, cancel debounce');
     setUserCode(code);
     setCurrentId(id);
     memoedDebounce.cancel();
   }, [code, id, memoedDebounce]);
 
   const additionalCode = `
-  ${paletteName ? createPaletteSnippet(colorPalettes, paletteName) : ""}
-  ${getDefaultSnippets()}
-
-
-  `;
+  ${errorSnippet}
+  ${paletteName ? createPaletteSnippet(colorPalettes, paletteName) : ''}
+  ${getDefaultSnippets()}`;
 
   return {
     sketch: { paletteName, code: userCode, id, additionalCode },

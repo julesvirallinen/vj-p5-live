@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import { Maptastic } from "maptastic";
-import styled from "styled-components";
+import React, { useEffect, useRef } from 'react';
+import { Maptastic } from 'maptastic';
+import styled from 'styled-components';
 
-import { useSettings } from "~/hooks/useSettings";
+import { useSettings } from '~/hooks/useSettings';
 
 export interface IMappableProps {
   id: string;

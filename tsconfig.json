@@ -18,9 +18,9 @@
     "baseUrl": "./src",
     "paths": {
       "~/*": ["./*"]
-    },
+    }
   },
-  
+
   "include": ["src", "public/sketch.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

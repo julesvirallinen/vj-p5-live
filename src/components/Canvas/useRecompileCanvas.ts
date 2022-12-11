@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
-import Logger from "js-logger";
+import { useCallback, useEffect, useState } from 'react';
+import Logger from 'js-logger';
 
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
-import { useSketchCodeManager } from "../../hooks/useSketchCodeManager";
+import { useGlobalCommands } from '../../hooks/useGlobalCommands';
+import { useSketchCodeManager } from '../../hooks/useSketchCodeManager';
 
 /**
  * Handles logic relating to recompiling / resetting the canvas
@@ -32,7 +32,7 @@ export const useRecompileCanvas = () => {
     forceLoadCode();
 
     if (!recompileSketch) {
-      return Logger.warn("recompile sketch missing");
+      return Logger.warn('recompile sketch missing');
     }
     recompileSketch();
   }, [forceLoadCode, recompileSketch]);

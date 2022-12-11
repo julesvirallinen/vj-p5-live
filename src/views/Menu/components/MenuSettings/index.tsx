@@ -1,11 +1,11 @@
-import React from "react";
-import styled, { useTheme } from "styled-components";
+import React from 'react';
+import styled, { useTheme } from 'styled-components';
 
-import { ColorPicker } from "../../../../components/ColorPicker";
-import { Input } from "../../../../components/ui/Input";
-import { LabelText } from "../../../../components/ui/Label";
-import { useSettings } from "../../../../hooks/useSettings";
-import { TTheme } from "../../../../providers/ThemeProvider";
+import { ColorPicker } from '../../../../components/ColorPicker';
+import { Input } from '../../../../components/ui/Input';
+import { LabelText } from '../../../../components/ui/Label';
+import { useSettings } from '../../../../hooks/useSettings';
+import { TTheme } from '../../../../providers/ThemeProvider';
 
 export interface IMenuSettingsProps {}
 
@@ -76,9 +76,9 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
   return (
     <StyledMenuSettings {...restProps}>
       <div>
-        <LabelText>{"Canvas dimming"}</LabelText>
+        <LabelText>{'Canvas dimming'}</LabelText>
         <StyledOpacitySlider
-          type={"range"}
+          type={'range'}
           value={percentDimmed}
           onChange={(event) =>
             setCanvasDimmedPercent(Number.parseInt(event.target.value))
@@ -137,9 +137,9 @@ export const MenuSettings: React.FC<IMenuSettingsProps> = ({
         </ColorPickerWrapper>
       </>
       <CheckboxMenu>
-        <LabelText>{"Maptastic enabled"}</LabelText>
+        <LabelText>{'Maptastic enabled'}</LabelText>
         <input
-          type={"checkbox"}
+          type={'checkbox'}
           checked={maptasticEnabled}
           onChange={() => setMaptasticEnabled(!maptasticEnabled)}
         />

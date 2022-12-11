@@ -1,9 +1,9 @@
-import { firstSketchMenuItem } from "~/data/demos/firstSketch";
-import { ISettings, TUserSavedSettings } from "~/providers/SettingsProvider";
+import { firstSketchMenuItem } from '~/data/demos/firstSketch';
+import { ISettings, TUserSavedSettings } from '~/providers/SettingsProvider';
 
 const tutorialSketches = [firstSketchMenuItem];
 
-const getUserSketchIds = (sketches: ISettings["sketches"]) =>
+const getUserSketchIds = (sketches: ISettings['sketches']) =>
   sketches.map((s) => s.id);
 
 export const loadTutorialSketches = (

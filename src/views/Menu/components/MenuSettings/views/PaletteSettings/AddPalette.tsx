@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   BsFillCircleFill,
   BsFillExclamationCircleFill,
   BsSlashCircle,
-} from "react-icons/bs";
-import * as R from "ramda";
-import styled from "styled-components";
+} from 'react-icons/bs';
+import * as R from 'ramda';
+import styled from 'styled-components';
 
-import { Button } from "../../../../../../components/ui/Button";
-import { Input } from "../../../../../../components/ui/Input";
-import { TColorCode, TColorPalette } from "../../../../../../models/colors";
+import { Button } from '../../../../../../components/ui/Button';
+import { Input } from '../../../../../../components/ui/Input';
+import { TColorCode, TColorPalette } from '../../../../../../models/colors';
 
-import { PaletteDots } from "./PaletteDots";
-import { usePaletteMenu } from "./usePaletteMenu";
+import { PaletteDots } from './PaletteDots';
+import { usePaletteMenu } from './usePaletteMenu';
 
 export interface IAddPaletteProps {}
 
-const sanitizeId = (id: string) => id.replace(/[^A-Za-z_-]+/g, "");
+const sanitizeId = (id: string) => id.replace(/[^A-Za-z_-]+/g, '');
 
 const isHexColor = (hex: string): hex is TColorCode => {
-  if (typeof hex !== "string") return false;
+  if (typeof hex !== 'string') return false;
 
-  if (hex[0] !== "#") return false;
+  if (hex[0] !== '#') return false;
   const hexPart = R.drop(1, hex);
 
-  return hexPart.length === 6 && !isNaN(Number("0x" + hexPart));
+  return hexPart.length === 6 && !isNaN(Number('0x' + hexPart));
 };
 
 const StyledAddPalette = styled.div`
@@ -35,17 +35,17 @@ const StyledAddPalette = styled.div`
 
 export const AddPalette: React.FC<IAddPaletteProps> = ({ ...restProps }) => {
   const { addPalette } = usePaletteMenu();
-  const [nameInput, setNameInput] = useState("");
-  const [hexCodeInput, setHexCodeInput] = useState("");
+  const [nameInput, setNameInput] = useState('');
+  const [hexCodeInput, setHexCodeInput] = useState('');
   const [parsedColors, setParsedColors] = useState<(TColorCode | null)[]>([]);
 
   useEffect(() => {
-    if (hexCodeInput === "") return setParsedColors([]);
+    if (hexCodeInput === '') return setParsedColors([]);
 
     const codes = R.pipe(
-      R.split(","),
+      R.split(','),
       R.map(R.trim),
-      R.map(R.replace(/['"\[\]\(\)]+/g, "")), // remove quotes and braces
+      R.map(R.replace(/['"\[\]\(\)]+/g, '')), // remove quotes and braces
       (codes: string[]) => codes.map((c) => (isHexColor(c) ? c : null))
     )(hexCodeInput);
     setParsedColors(codes);
@@ -53,8 +53,8 @@ export const AddPalette: React.FC<IAddPaletteProps> = ({ ...restProps }) => {
 
   const handleFormSubmit = () => {
     addPalette(nameInput, parsedColors.filter(Boolean) as TColorCode[]);
-    setNameInput("");
-    setHexCodeInput("");
+    setNameInput('');
+    setHexCodeInput('');
   };
 
   return (

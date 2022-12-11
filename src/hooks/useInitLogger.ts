@@ -1,9 +1,9 @@
-import Logger from "js-logger";
+import Logger from 'js-logger';
 
 export default () => {
-  const envLogLevel = import.meta.env.VITE_LOG_LEVEL as "debug" | undefined;
+  const envLogLevel = import.meta.env.VITE_LOG_LEVEL as 'debug' | undefined;
 
-  const logLevel = envLogLevel === "debug" ? Logger.DEBUG : Logger.WARN;
+  const logLevel = envLogLevel === 'debug' ? Logger.DEBUG : Logger.WARN;
 
   Logger.useDefaults({
     defaultLevel: logLevel,

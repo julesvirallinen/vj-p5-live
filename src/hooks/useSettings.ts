@@ -1,15 +1,15 @@
-import { useCallback } from "react";
-import * as R from "ramda";
-import { Path } from "ramda";
+import { useCallback } from 'react';
+import * as R from 'ramda';
+import { Path } from 'ramda';
 
 import {
   TMenu,
   useSettingsDispatchContext,
   useSettingsStateContext,
-} from "../providers/SettingsProvider";
-import { TSrcScript } from "../models/script";
+} from '../providers/SettingsProvider';
+import { TSrcScript } from '../models/script';
 
-import { useGlobalCommands } from "./useGlobalCommands";
+import { useGlobalCommands } from './useGlobalCommands';
 
 export const useSettings = () => {
   const dispatch = useSettingsDispatchContext();
@@ -19,7 +19,7 @@ export const useSettings = () => {
   const patchSettings = useCallback(
     (path: Path, value: unknown) => {
       dispatch({
-        type: "patchSettings",
+        type: 'patchSettings',
         payload: R.assocPath(path, value, {}),
       });
     },
@@ -28,14 +28,14 @@ export const useSettings = () => {
 
   const setShowMenu = useCallback(
     (showMenu: boolean) => {
-      patchSettings(["showMenu"], showMenu);
+      patchSettings(['showMenu'], showMenu);
     },
     [patchSettings]
   );
 
   const setUserLoadedScripts = useCallback(
     (scripts: TSrcScript[]) => {
-      patchSettings(["userLoadedScripts"], scripts);
+      patchSettings(['userLoadedScripts'], scripts);
     },
     [patchSettings]
   );
@@ -45,18 +45,18 @@ export const useSettings = () => {
   }, [settings.showMenu, setShowMenu]);
 
   const toggleHideEditor = useCallback(() => {
-    patchSettings(["hideEditor"], !settings.hideEditor);
+    patchSettings(['hideEditor'], !settings.hideEditor);
   }, [settings.hideEditor, patchSettings]);
 
   const setOpenMenu = useCallback(
-    (menu: TMenu) => patchSettings(["openMenu"], menu),
+    (menu: TMenu) => patchSettings(['openMenu'], menu),
     [patchSettings]
   );
 
   const setCanvasDimmedPercent = useCallback(
     (percentDimmed: number) =>
       patchSettings(
-        ["canvas", "percentDimmed"],
+        ['canvas', 'percentDimmed'],
         R.clamp(0, 100, percentDimmed)
       ),
     [patchSettings]
@@ -64,37 +64,37 @@ export const useSettings = () => {
 
   const setEditorBackgroundColor = useCallback(
     (color: string) =>
-      patchSettings(["themeOverrides", "editor", "textBackground"], color),
+      patchSettings(['themeOverrides', 'editor', 'textBackground'], color),
     [patchSettings]
   );
 
   const setEditorTextColor = useCallback(
     (color: string) =>
-      patchSettings(["themeOverrides", "editor", "textColor"], color),
+      patchSettings(['themeOverrides', 'editor', 'textColor'], color),
 
     [patchSettings]
   );
 
   const setThemePrimaryColor = useCallback(
     (color: string) =>
-      patchSettings(["themeOverrides", "colors", "primary"], color),
+      patchSettings(['themeOverrides', 'colors', 'primary'], color),
 
     [patchSettings]
   );
 
   const setThemeSecondaryColor = useCallback(
     (color: string) =>
-      patchSettings(["themeOverrides", "colors", "secondary"], color),
+      patchSettings(['themeOverrides', 'colors', 'secondary'], color),
 
     [patchSettings]
   );
 
   const setCompileAfterMs = (ms: number) =>
-    patchSettings(["compileAfterMs"], ms);
+    patchSettings(['compileAfterMs'], ms);
 
   const toggleActionBar = useCallback(() => {
     const setActionbarVisible = (value: boolean) =>
-      patchSettings(["showActionBar"], value);
+      patchSettings(['showActionBar'], value);
 
     if (document.activeElement === actionBarRef?.current) {
       actionBarRef.current?.blur();
@@ -108,10 +108,10 @@ export const useSettings = () => {
   }, [actionBarRef, patchSettings]);
 
   const setMaptasticEnabled = (enabled: boolean) =>
-    patchSettings(["maptasticEnabled"], enabled);
+    patchSettings(['maptasticEnabled'], enabled);
 
   const toggleShowConsoleFeed = () =>
-    patchSettings(["showConsoleFeed"], !settings.showConsoleFeed);
+    patchSettings(['showConsoleFeed'], !settings.showConsoleFeed);
 
   return {
     ...settings,

@@ -1,13 +1,13 @@
-import { useCallback, useMemo } from "react";
-import Logger from "js-logger";
+import { useCallback, useMemo } from 'react';
+import Logger from 'js-logger';
 
-import { ISettingsSketch } from "../models/sketch";
+import { ISettingsSketch } from '../models/sketch';
 import {
   useCurrentSketchDispatchContext,
   useCurrentSketchStateContext,
-} from "../providers/SketchProvider";
+} from '../providers/SketchProvider';
 
-import { useSettings } from "./useSettings";
+import { useSettings } from './useSettings';
 
 export const useCurrentSketch = () => {
   const sketch = useCurrentSketchStateContext();
@@ -16,7 +16,7 @@ export const useCurrentSketch = () => {
 
   const saveSketch = useCallback(
     (code: string) =>
-      dispatchCurrentSketch({ type: "updateCode", payload: { code } }),
+      dispatchCurrentSketch({ type: 'updateCode', payload: { code } }),
     [dispatchCurrentSketch]
   );
 
@@ -24,7 +24,7 @@ export const useCurrentSketch = () => {
     const sketchData = sketches.find((s) => s.id == sketch.id);
 
     if (!sketchData) {
-      Logger.error("no sketch saved");
+      Logger.error('no sketch saved');
     }
 
     return sketchData;

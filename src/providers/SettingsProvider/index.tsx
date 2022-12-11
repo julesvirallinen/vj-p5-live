@@ -4,27 +4,29 @@ import React, {
   RefObject,
   useContext,
   useReducer,
-} from "react";
-import * as R from "ramda";
-import { Path } from "ramda";
-import { PartialDeep } from "type-fest";
+} from 'react';
+import * as R from 'ramda';
+import { Path } from 'ramda';
+import { PartialDeep } from 'type-fest';
 
-import { defaultSettings } from "../../data/defaultSettings";
-import { useLocalStorageData } from "../../hooks/useLocalStorage";
-import { TColorPalette } from "../../models/colors";
-import { TSrcScript } from "../../models/script";
-import { ISettingsSketch } from "../../models/sketch";
-import { TTheme } from "../ThemeProvider";
+import { defaultSettings } from '../../data/defaultSettings';
+import { useLocalStorageData } from '../../hooks/useLocalStorage';
+import { TColorPalette } from '../../models/colors';
+import { TSrcScript } from '../../models/script';
+import { ISettingsSketch } from '../../models/sketch';
+import { TTheme } from '../ThemeProvider';
 
-import { loadTutorialSketches } from "./loadTutorialSketches";
+import { loadTutorialSketches } from './loadTutorialSketches';
+
+import { TSketchError } from '~/models/error';
 
 export type TMenu =
-  | "sketches"
-  | "settings"
-  | "scripts"
-  | "palette"
-  | "about"
-  | "advanced";
+  | 'sketches'
+  | 'settings'
+  | 'scripts'
+  | 'palette'
+  | 'about'
+  | 'advanced';
 
 export interface ISettings {
   themeOverrides: PartialDeep<TTheme>;
@@ -63,6 +65,7 @@ export interface IAppState {
     canvasPopupOpen: boolean;
     canvasIframeRef?: RefObject<HTMLIFrameElement>;
     codeHasSyntaxErrors?: boolean;
+    errors: TSketchError[];
   };
   globalCommands: {
     recompileSketch?: () => void;
@@ -72,19 +75,19 @@ export interface IAppState {
 
 export type IAction =
   | {
-      type: "addSketch";
+      type: 'addSketch';
       payload: ISettingsSketch;
     }
-  | { type: "setLoadedSketchId"; payload: { id: string } }
-  | { type: "setSettings"; payload: IAppState["settings"] }
-  | { type: "patchSettings"; payload: Partial<IAppState["settings"]> }
+  | { type: 'setLoadedSketchId'; payload: { id: string } }
+  | { type: 'setSettings'; payload: IAppState['settings'] }
+  | { type: 'patchSettings'; payload: Partial<IAppState['settings']> }
   | {
-      type: "patchGlobalCommands";
-      payload: Partial<IAppState["globalCommands"]>;
+      type: 'patchGlobalCommands';
+      payload: Partial<IAppState['globalCommands']>;
     }
   | {
-      type: "patchSessionGlobals";
-      payload: Partial<IAppState["sessionGlobals"]>;
+      type: 'patchSessionGlobals';
+      payload: Partial<IAppState['sessionGlobals']>;
     };
 
 const assocSettingsPath =
@@ -98,8 +101,9 @@ const initialState: IAppState = {
   globalCommands: {},
   sessionGlobals: {
     // used to refresh iframe on change
-    iframeKey: "new",
+    iframeKey: 'new',
     canvasPopupOpen: false,
+    errors: [],
   },
 };
 
@@ -113,25 +117,25 @@ const SettingsDispatchContext = createContext<React.Dispatch<IAction>>(
 
 const reducer = (state: IAppState, action: IAction): IAppState => {
   const assoc = assocSettingsPath(state);
-  const assocSketches = assoc(["settings", "sketches"]);
+  const assocSketches = assoc(['settings', 'sketches']);
   switch (action.type) {
-    case "addSketch":
+    case 'addSketch':
       return assocSketches(R.union([action.payload], state.settings.sketches));
-    case "setLoadedSketchId":
-      return assoc(["settings", "loadedSketchId"])(action.payload.id);
-    case "setSettings":
-      return assoc(["settings"])(action.payload);
-    case "patchSettings":
-      return assoc(["settings"])(
+    case 'setLoadedSketchId':
+      return assoc(['settings', 'loadedSketchId'])(action.payload.id);
+    case 'setSettings':
+      return assoc(['settings'])(action.payload);
+    case 'patchSettings':
+      return assoc(['settings'])(
         R.mergeDeepLeft(action.payload, state.settings)
       );
-    case "patchGlobalCommands": {
-      return assoc(["globalCommands"])(
+    case 'patchGlobalCommands': {
+      return assoc(['globalCommands'])(
         R.mergeDeepLeft(action.payload, state.globalCommands)
       );
     }
-    case "patchSessionGlobals": {
-      return assoc(["sessionGlobals"])(
+    case 'patchSessionGlobals': {
+      return assoc(['sessionGlobals'])(
         R.mergeDeepLeft(action.payload, state.sessionGlobals)
       );
     }

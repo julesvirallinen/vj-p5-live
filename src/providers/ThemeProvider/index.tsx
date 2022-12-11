@@ -1,31 +1,31 @@
-import React, { FC, ReactNode } from "react";
-import { mergeDeepLeft } from "ramda";
-import { ThemeProvider } from "styled-components";
+import React, { FC, ReactNode } from 'react';
+import { mergeDeepLeft } from 'ramda';
+import { ThemeProvider } from 'styled-components';
 
-import { useSettings } from "../../hooks/useSettings";
+import { useSettings } from '../../hooks/useSettings';
 
 const theme = {
   canvas: {
     opacity: 0.5,
   },
   editor: {
-    textBackground: "#000",
-    textColor: "#ccc1c1",
+    textBackground: '#000',
+    textColor: '#ccc1c1',
   },
   colors: {
-    powderWhite: "#FFFDF9",
-    persianGreen: "#06B49A",
-    lightBlue: "#AFDBD2",
-    onyx: "#36313D",
-    darkPink: "#ccc1c1",
-    primary: "#06B49A",
-    secondary: "#AFDBD2",
+    powderWhite: '#FFFDF9',
+    persianGreen: '#06B49A',
+    lightBlue: '#AFDBD2',
+    onyx: '#36313D',
+    darkPink: '#ccc1c1',
+    primary: '#06B49A',
+    secondary: '#AFDBD2',
   },
-  fonts: ["sans-serif", "Roboto"],
+  fonts: ['sans-serif', 'Roboto'],
   fontSizes: {
-    small: "1em",
-    medium: "2em",
-    large: "3em",
+    small: '1em',
+    medium: '2em',
+    large: '3em',
   },
 };
 

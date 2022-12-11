@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { Column } from "~/components/ui/Layout";
-import { Regular } from "~/components/ui/Text";
-import { Travolta } from "~/views/Menu/components/AdvancedMenu/Travolta";
+import { Column } from '~/components/ui/Layout';
+import { Regular } from '~/components/ui/Text';
+import { Travolta } from '~/views/Menu/components/AdvancedMenu/Travolta';
 
 export interface IAdvancedMenuProps {}
 

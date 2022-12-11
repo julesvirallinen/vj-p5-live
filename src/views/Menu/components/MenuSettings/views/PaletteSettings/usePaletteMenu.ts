@@ -1,9 +1,9 @@
-import { useCurrentSketch } from "../../../../../../hooks/useCurrentSketch";
-import { useSettings } from "../../../../../../hooks/useSettings";
-import { useSketchManager } from "../../../../../../hooks/useSketchManager";
-import { TColorCode, TColorPalette } from "../../../../../../models/colors";
-import Logger from "js-logger";
-import * as R from "ramda";
+import { useCurrentSketch } from '../../../../../../hooks/useCurrentSketch';
+import { useSettings } from '../../../../../../hooks/useSettings';
+import { useSketchManager } from '../../../../../../hooks/useSketchManager';
+import { TColorCode, TColorPalette } from '../../../../../../models/colors';
+import Logger from 'js-logger';
+import * as R from 'ramda';
 
 export const usePaletteMenu = () => {
   const { colorPalettes, patchSettings } = useSettings();
@@ -12,9 +12,9 @@ export const usePaletteMenu = () => {
     useCurrentSketch();
 
   const addPalette = (name: string, colors: TColorCode[]) => {
-    const paletteNameTaken = colorPalettes.findIndex(R.propEq("name", name));
+    const paletteNameTaken = colorPalettes.findIndex(R.propEq('name', name));
     if (paletteNameTaken !== -1) {
-      Logger.warn("Palette name taken");
+      Logger.warn('Palette name taken');
       return;
     }
     const newPalette: TColorPalette = {
@@ -23,19 +23,19 @@ export const usePaletteMenu = () => {
       id: `${name}-${new Date().getTime()}`,
     };
 
-    patchSettings(["colorPalettes"], [...colorPalettes, newPalette]);
+    patchSettings(['colorPalettes'], [...colorPalettes, newPalette]);
   };
 
   const removePalette = (name: string) => {
-    Logger.info("Deleted palette: ", name);
+    Logger.info('Deleted palette: ', name);
     patchSettings(
-      ["colorPalettes"],
+      ['colorPalettes'],
       colorPalettes.filter((p) => p.name !== name)
     );
   };
 
   const setPaletteForCurrentSketch = (name: string) => {
-    Logger.info("Set palette: ", name, " for sketch " + sketchId);
+    Logger.info('Set palette: ', name, ' for sketch ' + sketchId);
     setSketchPalette(sketchId, name);
   };
 

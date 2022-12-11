@@ -3,15 +3,15 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from "react";
-import { animated, useSpring } from "react-spring";
-import styled from "styled-components";
+} from 'react';
+import { animated, useSpring } from 'react-spring';
+import styled from 'styled-components';
 
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
-import { useSettings } from "../../hooks/useSettings";
-import { useSketchManager } from "../../hooks/useSketchManager";
-import { ISettingsSketch } from "../../models/sketch";
-import { useSettingsDispatchContext } from "../../providers/SettingsProvider";
+import { useGlobalCommands } from '../../hooks/useGlobalCommands';
+import { useSettings } from '../../hooks/useSettings';
+import { useSketchManager } from '../../hooks/useSketchManager';
+import { ISettingsSketch } from '../../models/sketch';
+import { useSettingsDispatchContext } from '../../providers/SettingsProvider';
 
 export interface IActionBarProps {}
 
@@ -52,7 +52,7 @@ type TCommand = {
 const AnimatedActionBar = animated(StyledActionBar);
 
 export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
-  const [command, setCommand] = useState("");
+  const [command, setCommand] = useState('');
 
   const {
     sketches,
@@ -69,7 +69,7 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
 
   const styles = useSpring({
     transform: showActionBar
-      ? "translate(0rem, 0rem)"
+      ? 'translate(0rem, 0rem)'
       : `translate(0rem, 2rem)`,
   });
   /**
@@ -86,30 +86,30 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
 
   const commands: TCommand[] = [
     {
-      name: "Toggle menu",
-      shortCommand: "m",
-      fullCommand: "menu",
+      name: 'Toggle menu',
+      shortCommand: 'm',
+      fullCommand: 'menu',
       handler: () => toggleShowMenu(),
     },
     {
-      name: "Edit default sketch template",
-      shortCommand: "ed",
-      fullCommand: "edittemplate",
+      name: 'Edit default sketch template',
+      shortCommand: 'ed',
+      fullCommand: 'edittemplate',
       handler: () => loadDefaultSketchTemplate(),
     },
     {
-      name: "Toggle show console feed",
-      shortCommand: "cf",
-      fullCommand: "toggleconsole",
+      name: 'Toggle show console feed',
+      shortCommand: 'cf',
+      fullCommand: 'toggleconsole',
       handler: () => toggleShowConsoleFeed(),
     },
     {
-      name: "Load sketch",
-      shortCommand: "s",
-      fullCommand: "sketch",
+      name: 'Load sketch',
+      shortCommand: 's',
+      fullCommand: 'sketch',
       handler: (options) => {
         if (!options) return;
-        const search = options.join(" ");
+        const search = options.join(' ');
 
         const sketchToLoad = sketches.find((sketch) =>
           sketch.name.includes(search)
@@ -118,27 +118,27 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
       },
     },
     {
-      name: "Create new sketch",
-      shortCommand: "n",
-      fullCommand: "new",
+      name: 'Create new sketch',
+      shortCommand: 'n',
+      fullCommand: 'new',
       handler: (options) => {
         if (!options) return;
-        const name = options.join(" ");
+        const name = options.join(' ');
 
         newSketch(name);
       },
     },
     {
-      name: "Hide editor code",
-      shortCommand: "h",
-      fullCommand: "hide",
+      name: 'Hide editor code',
+      shortCommand: 'h',
+      fullCommand: 'hide',
       handler: () => toggleHideEditor(),
     },
   ];
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
-    if (event.key === "Enter") {
-      const [action, ...options] = command.split(" ");
+    if (event.key === 'Enter') {
+      const [action, ...options] = command.split(' ');
 
       const actionDef = commands.find(
         (c) => c.shortCommand === action || c.fullCommand === action

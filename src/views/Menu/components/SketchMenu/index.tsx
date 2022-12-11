@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { AppHeader } from "~/views/Menu/components/AppHeader";
-import { CurrentSketchSettings } from "~/views/Menu/components/SketchMenu/components/CurrentSketch";
-import { NewSketch } from "~/views/Menu/components/SketchMenu/components/NewSketch";
-import { SketchList } from "~/views/Menu/components/SketchMenu/components/SketchList";
+import { AppHeader } from '~/views/Menu/components/AppHeader';
+import { CurrentSketchSettings } from '~/views/Menu/components/SketchMenu/components/CurrentSketch';
+import { NewSketch } from '~/views/Menu/components/SketchMenu/components/NewSketch';
+import { SketchList } from '~/views/Menu/components/SketchMenu/components/SketchList';
 
 export interface ISketchMenuProps {}
 

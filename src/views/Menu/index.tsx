@@ -1,21 +1,21 @@
-import React from "react";
-import { FaCaretRight } from "react-icons/fa";
-import { animated, useSpring } from "react-spring";
-import styled from "styled-components";
+import React from 'react';
+import { FaCaretRight } from 'react-icons/fa';
+import { animated, useSpring } from 'react-spring';
+import styled from 'styled-components';
 
-import { useSettings } from "../../hooks/useSettings";
-import { TMenu } from "../../providers/SettingsProvider";
+import { useSettings } from '../../hooks/useSettings';
+import { TMenu } from '../../providers/SettingsProvider';
 
-import { MenuSettings } from "./components/MenuSettings";
-import { PaletteSettings } from "./components/MenuSettings/views/PaletteSettings";
-import { ScriptSettings } from "./components/MenuSettings/views/ScriptSettings";
-import { CurrentSketchSettings } from "./components/SketchMenu/components/CurrentSketch";
-import { NewSketch } from "./components/SketchMenu/components/NewSketch";
-import { SketchList } from "./components/SketchMenu/components/SketchList";
+import { MenuSettings } from './components/MenuSettings';
+import { PaletteSettings } from './components/MenuSettings/views/PaletteSettings';
+import { ScriptSettings } from './components/MenuSettings/views/ScriptSettings';
+import { CurrentSketchSettings } from './components/SketchMenu/components/CurrentSketch';
+import { NewSketch } from './components/SketchMenu/components/NewSketch';
+import { SketchList } from './components/SketchMenu/components/SketchList';
 
-import { AboutMenu } from "~/views/Menu/components/AboutMenu";
-import { AdvancedMenu } from "~/views/Menu/components/AdvancedMenu";
-import { SketchMenu } from "~/views/Menu/components/SketchMenu";
+import { AboutMenu } from '~/views/Menu/components/AboutMenu';
+import { AdvancedMenu } from '~/views/Menu/components/AdvancedMenu';
+import { SketchMenu } from '~/views/Menu/components/SketchMenu';
 
 const MENU_WIDTH = 12;
 
@@ -58,8 +58,8 @@ const AnimatedCaret = animated(StyledMenuCaret);
 
 const getCaretRotation = (isMenuOpen: boolean, isCurrentMenu: boolean) => {
   if (isMenuOpen && isCurrentMenu) {
-    return "rotate(0deg)";
-  } else return "rotate(180deg)";
+    return 'rotate(0deg)';
+  } else return 'rotate(180deg)';
 };
 
 export const Menu: React.FC<IMenuProps> = () => {
@@ -67,31 +67,31 @@ export const Menu: React.FC<IMenuProps> = () => {
 
   const styles = useSpring({
     transform: showMenu
-      ? "translate(0rem, 0)"
+      ? 'translate(0rem, 0)'
       : `translate(${MENU_WIDTH}rem,0)`,
   });
 
   const caretStyles = useSpring({
-    transform: getCaretRotation(showMenu, openMenu === "sketches"),
+    transform: getCaretRotation(showMenu, openMenu === 'sketches'),
   });
 
   const settingsCaretStyles = useSpring({
-    transform: getCaretRotation(showMenu, openMenu === "settings"),
+    transform: getCaretRotation(showMenu, openMenu === 'settings'),
     opacity: showMenu ? 0.4 : 0,
-    top: showMenu ? "5rem" : "0rem",
+    top: showMenu ? '5rem' : '0rem',
   });
 
   const scriptsCaretStyles = useSpring({
-    transform: getCaretRotation(showMenu, openMenu === "scripts"),
+    transform: getCaretRotation(showMenu, openMenu === 'scripts'),
     opacity: showMenu ? 0.4 : 0,
-    top: showMenu ? "8rem" : "0rem",
+    top: showMenu ? '8rem' : '0rem',
   });
 
   // I know I promise I'll refactor this soon ;__;
   const paletteCaretStyles = useSpring({
-    transform: getCaretRotation(showMenu, openMenu === "palette"),
+    transform: getCaretRotation(showMenu, openMenu === 'palette'),
     opacity: showMenu ? 0.4 : 0,
-    top: showMenu ? "11rem" : "0rem",
+    top: showMenu ? '11rem' : '0rem',
   });
 
   const handleCaret = (menu: TMenu) => {
@@ -113,55 +113,55 @@ export const Menu: React.FC<IMenuProps> = () => {
       <AnimatedMenu style={styles}>
         <AnimatedCaret
           style={caretStyles}
-          onClick={() => handleCaret("sketches")}
+          onClick={() => handleCaret('sketches')}
         >
           <FaCaretRight size={30} />
         </AnimatedCaret>
         {/* TODO: generalize these... */}
         <AnimatedCaret
           style={settingsCaretStyles}
-          onClick={() => handleCaret("settings")}
+          onClick={() => handleCaret('settings')}
         >
           <FaCaretRight size={30} />
         </AnimatedCaret>
         <AnimatedCaret
           style={scriptsCaretStyles}
-          onClick={() => handleCaret("scripts")}
+          onClick={() => handleCaret('scripts')}
         >
           <FaCaretRight size={30} />
         </AnimatedCaret>
         <AnimatedCaret
           style={paletteCaretStyles}
-          onClick={() => handleCaret("palette")}
+          onClick={() => handleCaret('palette')}
         >
           <FaCaretRight size={30} />
         </AnimatedCaret>
-        {openMenu === "sketches" && (
+        {openMenu === 'sketches' && (
           <StyledMenu>
             <SketchMenu />
           </StyledMenu>
         )}
-        {openMenu === "settings" && (
+        {openMenu === 'settings' && (
           <StyledSettingsMenu>
             <MenuSettings />
           </StyledSettingsMenu>
         )}
-        {openMenu === "scripts" && (
+        {openMenu === 'scripts' && (
           <StyledSettingsMenu>
             <ScriptSettings />
           </StyledSettingsMenu>
         )}
-        {openMenu === "palette" && (
+        {openMenu === 'palette' && (
           <StyledSettingsMenu>
             <PaletteSettings />
           </StyledSettingsMenu>
         )}
-        {openMenu === "about" && (
+        {openMenu === 'about' && (
           <StyledSettingsMenu>
             <AboutMenu />
           </StyledSettingsMenu>
         )}
-        {openMenu === "advanced" && (
+        {openMenu === 'advanced' && (
           <StyledSettingsMenu>
             <AdvancedMenu />
           </StyledSettingsMenu>

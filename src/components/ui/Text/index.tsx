@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Regular = styled.span`
   font-size: 0.8rem;

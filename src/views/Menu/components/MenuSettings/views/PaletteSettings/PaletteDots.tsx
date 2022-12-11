@@ -1,8 +1,8 @@
-import React from "react";
-import { BsFillCircleFill, BsSlashCircle } from "react-icons/bs";
-import styled from "styled-components";
+import React from 'react';
+import { BsFillCircleFill, BsSlashCircle } from 'react-icons/bs';
+import styled from 'styled-components';
 
-import { TColorCode } from "../../../../../../models/colors";
+import { TColorCode } from '../../../../../../models/colors';
 
 export interface IPaletteDotsProps {
   colors: (TColorCode | null)[];
@@ -24,7 +24,7 @@ export const PaletteDots: React.FC<IPaletteDotsProps> = ({
         color ? (
           <BsFillCircleFill fill={color as string} key={i} />
         ) : (
-          <BsSlashCircle key={i} fill={"red"} />
+          <BsSlashCircle key={i} fill={'red'} />
         )
       )}
     </ColorDots>

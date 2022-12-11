@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { LabelText } from "~/components/ui/Label";
-import { Column, Row } from "~/components/ui/Layout";
-import { useSettings } from "~/hooks/useSettings";
+import { LabelText } from '~/components/ui/Label';
+import { Column, Row } from '~/components/ui/Layout';
+import { useSettings } from '~/hooks/useSettings';
 
 export interface IAppHeaderProps {}
 
@@ -36,8 +36,8 @@ export const AppHeader: React.FC<IAppHeaderProps> = ({ ...restProps }) => {
         <LabelText>(name pending)</LabelText>
       </div>
       <Row $gap={1}>
-        <LabelLink onClick={() => setOpenMenu("about")}>about</LabelLink>
-        <LabelLink onClick={() => setOpenMenu("advanced")}>Advanced</LabelLink>
+        <LabelLink onClick={() => setOpenMenu('about')}>about</LabelLink>
+        <LabelLink onClick={() => setOpenMenu('advanced')}>Advanced</LabelLink>
       </Row>
       <Line />
     </StyledAppHeader>

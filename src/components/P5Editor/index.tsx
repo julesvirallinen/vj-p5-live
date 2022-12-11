@@ -1,33 +1,33 @@
 /* eslint-disable simple-import-sort/imports */
 
-import React, { useEffect, useMemo, useRef } from "react";
-import styled, { css } from "styled-components";
+import React, { useEffect, useRef } from 'react';
+import styled, { css } from 'styled-components';
 
-import { config } from "ace-builds";
-import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-javascript";
-import "ace-builds/src-noconflict/theme-twilight";
-import "ace-builds/src-noconflict/ext-language_tools";
-import "ace-builds/src-noconflict/ext-error_marker";
-import "ace-builds/src-noconflict/ext-searchbox";
-import "ace-builds/src-noconflict/keybinding-vscode";
-import Beautify from "ace-builds/src-noconflict/ext-beautify";
+import { config } from 'ace-builds';
+import AceEditor from 'react-ace';
+import 'ace-builds/src-noconflict/mode-javascript';
+import 'ace-builds/src-noconflict/theme-twilight';
+import 'ace-builds/src-noconflict/ext-language_tools';
+import 'ace-builds/src-noconflict/ext-error_marker';
+import 'ace-builds/src-noconflict/ext-searchbox';
+import 'ace-builds/src-noconflict/keybinding-vscode';
+import Beautify from 'ace-builds/src-noconflict/ext-beautify';
 
 config.set(
-  "basePath",
-  "https://cdn.jsdelivr.net/npm/ace-builds@1.4.3/src-noconflict/"
+  'basePath',
+  'https://cdn.jsdelivr.net/npm/ace-builds@1.4.3/src-noconflict/'
 );
 config.setModuleUrl(
-  "ace/mode/javascript_worker",
-  "https://cdn.jsdelivr.net/npm/ace-builds@1.4.3/src-noconflict/worker-javascript.js"
+  'ace/mode/javascript_worker',
+  'https://cdn.jsdelivr.net/npm/ace-builds@1.4.3/src-noconflict/worker-javascript.js'
 );
 
-import { FaRegEye } from "react-icons/fa";
+import { FaRegEye } from 'react-icons/fa';
 
-import { useCurrentSketch } from "../../hooks/useCurrentSketch";
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
-import { useSettings } from "../../hooks/useSettings";
-import { Button } from "../ui/Button";
+import { useCurrentSketch } from '../../hooks/useCurrentSketch';
+import { useGlobalCommands } from '../../hooks/useGlobalCommands';
+import { useSettings } from '../../hooks/useSettings';
+import { Button } from '../ui/Button';
 
 const StyledEditorWrapper = styled.div<{ $hidden: boolean }>`
   width: 100rem;
@@ -74,12 +74,23 @@ const StyledShowEditorButton = styled(Button)`
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
   const { hideEditor, toggleHideEditor } = useSettings();
-  const { setCodeHasSyntaxErrors } = useGlobalCommands();
+  const { setCodeHasSyntaxErrors, errors } = useGlobalCommands();
   const editorRef = useRef<AceEditor>(null);
 
   useEffect(() => {
     Beautify.beautify(editorRef?.current?.editor.session);
   }, []);
+
+  useEffect(() => {
+    editorRef?.current?.editor.getSession().setAnnotations(
+      errors.map((error) => ({
+        row: error.lineNumber,
+        column: 0,
+        text: error.message,
+        type: 'error',
+      }))
+    );
+  }, [errors]);
 
   return (
     <>
@@ -91,8 +102,8 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
       <StyledEditorWrapper $hidden={hideEditor}>
         <StyledP5Editor
           {...restProps}
-          height={"100vh"}
-          width={"100vw"}
+          height={'100vh'}
+          width={'100vw'}
           setOptions={{
             useWorker: true,
             highlightSelectedWord: true,
@@ -100,7 +111,7 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
             enableSnippets: true,
           }}
           highlightActiveLine={false}
-          keyboardHandler={"vscode"}
+          keyboardHandler={'vscode'}
           commands={Beautify.commands}
           mode="javascript"
           ref={editorRef}
@@ -109,12 +120,12 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
             // asi = disable semicolon linting in editor
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore bug in ace
-            editor.session.$worker.send("changeOptions", [{ asi: true }]);
+            editor.session.$worker.send('changeOptions', [{ asi: true }]);
           }}
           onValidate={(annotations) => {
             const hasErrors =
               annotations.findIndex(
-                (annotation) => annotation.type === "error"
+                (annotation) => annotation.type === 'error'
               ) >= 0;
 
             if (hasErrors) {

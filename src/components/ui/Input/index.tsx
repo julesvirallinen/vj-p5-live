@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { LabelText } from "../Label";
+import { LabelText } from '../Label';
 
 const StyledInputWrapper = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ type TDefaultProps = Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   >,
-  "ref" | "onChange" | "value"
+  'ref' | 'onChange' | 'value'
 >;
 
 export interface IInputProps<
@@ -33,7 +33,7 @@ const StyledInput = styled.input`
   border-style: solid;
   border-radius: 0.5rem;
   padding: 0.1rem 0.3rem;
-  font-family: "Roboto Mono", cursive;
+  font-family: 'Roboto Mono', cursive;
 `;
 
 export const Input = <
