@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
-import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
-import styled from "styled-components";
+import React, { useRef, useState } from 'react';
+import { HexAlphaColorPicker, HexColorInput } from 'react-colorful';
+import styled from 'styled-components';
 
-import { useClickedOutside } from "../../hooks/useClickedOutside";
-import { LabelText } from "../ui/Label";
+import { useClickedOutside } from '../../hooks/useClickedOutside';
+import { LabelText } from '../ui/Label';
 
 export interface IColorPickerProps {
   color: string;

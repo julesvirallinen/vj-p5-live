@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { useGlobalCommands } from "~/hooks/useGlobalCommands";
+import { useGlobalCommands } from '~/hooks/useGlobalCommands';
 
 const IGNORED_SOURCES = [
-  "react-devtools-bridge",
-  "react-devtools-inject-backend",
-  "react-devtools-content-script",
+  'react-devtools-bridge',
+  'react-devtools-inject-backend',
+  'react-devtools-content-script',
 ];
 
 // ? How could
@@ -20,9 +20,9 @@ export const useErrorReceiver = (iframeKey: number, errorOffset: number) => {
     if (handlerCreated) return;
     setHandlerCreated(true);
     window.addEventListener(
-      "message",
+      'message',
       (event) => {
-        if (event.origin !== "http://localhost:5173") return;
+        if (event.origin !== 'http://localhost:5173') return;
 
         if (IGNORED_SOURCES.includes(event?.data?.source)) return;
         const data = JSON.parse(event.data);

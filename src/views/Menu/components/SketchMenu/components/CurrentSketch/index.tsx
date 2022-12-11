@@ -1,14 +1,14 @@
-import React, { KeyboardEventHandler, useEffect, useState } from "react";
-import { FaRegEye, FaRegEyeSlash, FaShareSquare } from "react-icons/fa";
-import styled from "styled-components";
+import React, { KeyboardEventHandler, useEffect, useState } from 'react';
+import { FaRegEye, FaRegEyeSlash, FaShareSquare } from 'react-icons/fa';
+import styled from 'styled-components';
 
-import { Button } from "../../../../../../components/ui/Button";
-import { Input } from "../../../../../../components/ui/Input";
-import { useCurrentSketch } from "../../../../../../hooks/useCurrentSketch";
-import { useGlobalCommands } from "../../../../../../hooks/useGlobalCommands";
-import { useSettings } from "../../../../../../hooks/useSettings";
-import { useSketchManager } from "../../../../../../hooks/useSketchManager";
-import { SKETCH_TEMPLATE_ID } from "../../../../../../models/sketch";
+import { Button } from '../../../../../../components/ui/Button';
+import { Input } from '../../../../../../components/ui/Input';
+import { useCurrentSketch } from '../../../../../../hooks/useCurrentSketch';
+import { useGlobalCommands } from '../../../../../../hooks/useGlobalCommands';
+import { useSettings } from '../../../../../../hooks/useSettings';
+import { useSketchManager } from '../../../../../../hooks/useSketchManager';
+import { SKETCH_TEMPLATE_ID } from '../../../../../../models/sketch';
 
 export interface ICurrentSketchSettingsProps {}
 
@@ -38,11 +38,11 @@ export const CurrentSketchSettings: React.FC<ICurrentSketchSettingsProps> = ({
   }, [id, name]);
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       renameSketch(id, newName);
     }
 
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       setNewname(name);
     }
   };

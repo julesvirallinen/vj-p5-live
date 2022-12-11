@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { BsPencil } from "react-icons/bs";
-import { FaCopy, FaSkullCrossbones } from "react-icons/fa";
-import { TColorPalette } from "models/colors";
-import styled, { css } from "styled-components";
+import React, { useState } from 'react';
+import { BsPencil } from 'react-icons/bs';
+import { FaCopy, FaSkullCrossbones } from 'react-icons/fa';
+import { TColorPalette } from 'models/colors';
+import styled, { css } from 'styled-components';
 
-import { AddPalette } from "./AddPalette";
-import { PaletteDots } from "./PaletteDots";
-import { usePaletteMenu } from "./usePaletteMenu";
+import { AddPalette } from './AddPalette';
+import { PaletteDots } from './PaletteDots';
+import { usePaletteMenu } from './usePaletteMenu';
 
-import { Button } from "~/components/ui/Button";
-import { LabelText } from "~/components/ui/Label";
+import { Button } from '~/components/ui/Button';
+import { LabelText } from '~/components/ui/Label';
 
 export interface IPaletteSettingsProps {}
 
@@ -94,7 +94,7 @@ export const PaletteSettings: React.FC<IPaletteSettingsProps> = ({
         </>
       )}
       <StyledHeader>
-        <span>{"palettes"}</span>
+        <span>{'palettes'}</span>
         <BsPencil onClick={() => setIsEditMode(!isEditMode)} />
       </StyledHeader>
       <StyledPalettes>
@@ -110,7 +110,7 @@ export const PaletteSettings: React.FC<IPaletteSettingsProps> = ({
                   size={14}
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      JSON.stringify(palette.colors.join(","))
+                      JSON.stringify(palette.colors.join(','))
                     );
                   }}
                 />

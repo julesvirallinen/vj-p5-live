@@ -1,6 +1,6 @@
-import { HIROSHIGE } from "~/data/palette/defaultPalettes";
-import { ICurrentSketch, ISettingsSketch } from "~/models/sketch";
-import { keyMap } from "~/providers/ShortcutProvider";
+import { HIROSHIGE } from '~/data/palette/defaultPalettes';
+import { ICurrentSketch, ISettingsSketch } from '~/models/sketch';
+import { keyMap } from '~/providers/ShortcutProvider';
 
 const firstSketchCode = `
 // Welcome to unnamed p5.js live-coding app!
@@ -57,10 +57,10 @@ function draw() {
 }
 `;
 
-const FIRST_SKETCH_ID = "TUTORIAL1";
+const FIRST_SKETCH_ID = 'TUTORIAL1';
 
 export const firstSketchMenuItem: ISettingsSketch = {
-  name: "tutorial1",
+  name: 'tutorial1',
   id: FIRST_SKETCH_ID,
   paletteName: HIROSHIGE.name,
 };

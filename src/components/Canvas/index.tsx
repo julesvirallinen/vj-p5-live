@@ -1,12 +1,12 @@
-import React, { FC } from "react";
-import { animated, useSpring } from "react-spring";
-import styled from "styled-components";
+import React, { FC } from 'react';
+import { animated, useSpring } from 'react-spring';
+import styled from 'styled-components';
 
-import { useSettings } from "../../hooks/useSettings";
+import { useSettings } from '../../hooks/useSettings';
 
-import { CanvasContainer } from "./CanvasContainer";
+import { CanvasContainer } from './CanvasContainer';
 
-import { Mappable } from "~/components/Mappable";
+import { Mappable } from '~/components/Mappable';
 
 const StyledCanvas = styled.div`
   width: 100vw;
@@ -36,8 +36,8 @@ export const Canvas: FC = ({ ...rest }) => {
   });
 
   return (
-    <StyledCanvas id={"p5-canvas-container"} {...rest}>
-      <Mappable id={"map-me2"}>
+    <StyledCanvas id={'p5-canvas-container'} {...rest}>
+      <Mappable id={'map-me2'}>
         <CanvasContainer />
       </Mappable>
       <AnimatedOpacity style={canvasOpacityStyles} />

@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 export interface ILabelProps {
   children?: React.ReactNode;
@@ -11,7 +11,7 @@ const StyledLabel = styled.label`
   font-size: 0.7rem;
   line-height: 1rem;
   text-transform: uppercase;
-  font-family: "Fredoka One", cursive;
+  font-family: 'Fredoka One', cursive;
   align-items: center;
 `;
 export const LabelText: React.FC<ILabelProps> = ({

@@ -1,15 +1,15 @@
-import React, { Component, Dispatch, RefObject } from "react";
-import Logger from "js-logger";
-import styled from "styled-components";
+import React, { Component, Dispatch, RefObject } from 'react';
+import Logger from 'js-logger';
+import styled from 'styled-components';
 
-import { TCanvasWindowProps } from "../../models/canvas";
-import { TSrcScript } from "../../models/script";
+import { TCanvasWindowProps } from '../../models/canvas';
+import { TSrcScript } from '../../models/script';
 
-import { compileScriptList } from "./libs/extractScripts";
-import { formatUserCode } from "./libs/formatUserCode";
-import { loadProcessingScripts, loadScript } from "./libs/loadScripts";
+import { compileScriptList } from './libs/extractScripts';
+import { formatUserCode } from './libs/formatUserCode';
+import { loadProcessingScripts, loadScript } from './libs/loadScripts';
 
-import { TSketchError } from "~/models/error";
+import { TSketchError } from '~/models/error';
 
 const StyledSketchCanvas = styled.div`
   width: 100vw;
@@ -52,10 +52,10 @@ export interface ISketchCanvasState {
 }
 
 type TLoadingState =
-  | "not_started"
-  | "started"
-  | "scriptsLoaded"
-  | "userCodeLoaded";
+  | 'not_started'
+  | 'started'
+  | 'scriptsLoaded'
+  | 'userCodeLoaded';
 
 const getIframeDocumentAndWindow = (state: ISketchCanvasState) => {
   const document = state.iframeRef?.current?.contentWindow
@@ -78,7 +78,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
 
     this.state = {
       iframeRef,
-      loadingState: "started",
+      loadingState: 'started',
       sketchId: props.sketch.id,
       renderedCode: this.props.sketch.code,
     };
@@ -91,9 +91,9 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
   recompileSketch() {
     const { contentWindow } = getIframeDocumentAndWindow(this.state);
 
-    Logger.debug("Recompiled sketch");
+    Logger.debug('Recompiled sketch');
 
-    if (this.state.loadingState !== "userCodeLoaded") return;
+    if (this.state.loadingState !== 'userCodeLoaded') return;
     this.updateUserCode(this.props.sketch);
     contentWindow.setup();
     contentWindow.frameCount = 0;
@@ -102,7 +102,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
   async componentDidMount() {
     Logger.time(`sketchRenderTime`);
     const { document } = getIframeDocumentAndWindow(this.state);
-    document.body.style.margin = "0";
+    document.body.style.margin = '0';
 
     this.props.globalSetters.setIframeRef(this.state.iframeRef);
 
@@ -114,7 +114,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
     await Promise.all(allScripts.map(loadScript(document))).then(() => {
       Logger.info(`Loaded ${allScripts.length} scripts`);
 
-      this.updateLoadingState("scriptsLoaded");
+      this.updateLoadingState('scriptsLoaded');
     });
     this.props.globalSetters.setRecompileSketch(() =>
       this.recompileSketch.bind(this)
@@ -129,20 +129,20 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
       return true;
     }
 
-    if (nextState.loadingState === "started") {
-      Logger.debug("Scripts not loaded, not updating");
+    if (nextState.loadingState === 'started') {
+      Logger.debug('Scripts not loaded, not updating');
 
       return false;
     }
 
     // Don't rerender if sketch changes, component should be remounted
     if (nextState.sketchId !== nextProps.sketch.id) {
-      Logger.debug("Sketch id changed, needs to be remounted");
+      Logger.debug('Sketch id changed, needs to be remounted');
 
       return false;
     }
 
-    if (nextState.loadingState === "scriptsLoaded") {
+    if (nextState.loadingState === 'scriptsLoaded') {
       return true;
     }
 
@@ -152,18 +152,18 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
 
     if (
       nextProps.sketch.code === nextState.renderedCode &&
-      nextState.loadingState === "userCodeLoaded"
+      nextState.loadingState === 'userCodeLoaded'
     ) {
       return false;
     } else {
       this.setState({ renderedCode: nextProps.sketch.code });
-      Logger.debug("Updating sketch code");
+      Logger.debug('Updating sketch code');
 
       return true;
     }
   }
 
-  updateUserCode(sketch: ISketchCanvasProps["sketch"]) {
+  updateUserCode(sketch: ISketchCanvasProps['sketch']) {
     const { document } = getIframeDocumentAndWindow(this.state);
 
     const formattedCode = formatUserCode(sketch.code, sketch.additionalCode);
@@ -172,15 +172,15 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
       document,
       {
         content: formattedCode,
-        id: "userCode",
+        id: 'userCode',
       },
       () => {
-        Logger.info("Done loading user code");
+        Logger.info('Done loading user code');
 
-        if (this.state.loadingState === "scriptsLoaded") {
+        if (this.state.loadingState === 'scriptsLoaded') {
           Logger.timeEnd(`sketchRenderTime`);
           this.props.setSketchLoaded();
-          this.updateLoadingState("userCodeLoaded");
+          this.updateLoadingState('userCodeLoaded');
         }
       }
     );
@@ -188,13 +188,13 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
 
   createCanvasPopstream() {
     const { document } = getIframeDocumentAndWindow(this.state);
-    const stream = document.querySelector("canvas")?.captureStream();
+    const stream = document.querySelector('canvas')?.captureStream();
 
     if (stream) {
-      Logger.debug("Popstream updated");
+      Logger.debug('Popstream updated');
       this.props.globalSetters.setCanvasMediaStream(stream);
     } else {
-      Logger.warn("Popstream not updated");
+      Logger.warn('Popstream not updated');
     }
   }
 
@@ -205,7 +205,7 @@ class SketchCanvas extends Component<ISketchCanvasProps, ISketchCanvasState> {
   }
 
   render() {
-    Logger.debug("Canvas rerendered");
+    Logger.debug('Canvas rerendered');
 
     return (
       <StyledSketchCanvas>

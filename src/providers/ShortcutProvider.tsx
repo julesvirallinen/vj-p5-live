@@ -1,21 +1,21 @@
-import React from "react";
-import { configure, GlobalHotKeys } from "react-hotkeys";
+import React from 'react';
+import { configure, GlobalHotKeys } from 'react-hotkeys';
 
-import { useGlobalCommands } from "../hooks/useGlobalCommands";
-import { useSettings } from "../hooks/useSettings";
-import { useSketchManager } from "../hooks/useSketchManager";
+import { useGlobalCommands } from '../hooks/useGlobalCommands';
+import { useSettings } from '../hooks/useSettings';
+import { useSketchManager } from '../hooks/useSketchManager';
 
 /**
  * TODO: override ace shortcuts
  */
 
 export const keyMap = {
-  SHOW_MENU: "ctrl+m",
-  SHOW_PALETTE_MENU: "ctrl+option+p",
-  SHOW_ACTION_BAR: "cmd+p",
-  COMPILE: "ctrl+enter",
-  HARD_COMPILE: "ctrl+shift+enter",
-  TOGGLE_CODE_VISIBLE: "ctrl+h",
+  SHOW_MENU: 'ctrl+m',
+  SHOW_PALETTE_MENU: 'ctrl+option+p',
+  SHOW_ACTION_BAR: 'cmd+p',
+  COMPILE: 'ctrl+enter',
+  HARD_COMPILE: 'ctrl+shift+enter',
+  TOGGLE_CODE_VISIBLE: 'ctrl+h',
 };
 
 interface IShortcutProviderProps {
@@ -37,7 +37,7 @@ export const ShortcutProvider: React.FC<IShortcutProviderProps> = ({
     SHOW_MENU: () => toggleShowMenu(),
     SHOW_PALETTE_MENU: () => {
       toggleShowMenu();
-      setOpenMenu("palette");
+      setOpenMenu('palette');
     },
     TOGGLE_CODE_VISIBLE: () => toggleHideEditor(),
     COMPILE: () => recompileSketch(),

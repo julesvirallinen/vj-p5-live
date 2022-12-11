@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { Column } from "~/components/ui/Layout";
-import { Regular } from "~/components/ui/Text";
-import { AppHeader } from "~/views/Menu/components/AppHeader";
+import { Column } from '~/components/ui/Layout';
+import { Regular } from '~/components/ui/Text';
+import { AppHeader } from '~/views/Menu/components/AppHeader';
 
 export interface IAboutMenuProps {}
 
@@ -17,8 +17,8 @@ export const AboutMenu: React.FC<IAboutMenuProps> = ({ ...restProps }) => {
       <AppHeader />
       <Column>
         <Regular>
-          {"Created by "}
-          <a href={"https://www.instagram.com/julesvisualiinen/"}>
+          {'Created by '}
+          <a href={'https://www.instagram.com/julesvisualiinen/'}>
             @julesvirallinen
           </a>
           {
@@ -26,7 +26,7 @@ export const AboutMenu: React.FC<IAboutMenuProps> = ({ ...restProps }) => {
           }
         </Regular>
         <Regular>
-          <a href={"https://github.com/julesvirallinen/vj-p5-live"}>
+          <a href={'https://github.com/julesvirallinen/vj-p5-live'}>
             Github repo
           </a>
         </Regular>

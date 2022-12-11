@@ -2,7 +2,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  cursor: crosshair
+  cursor: crosshair;
 }
 
 *::selection {

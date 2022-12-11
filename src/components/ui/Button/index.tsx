@@ -1,7 +1,7 @@
-import React, { ReactNode } from "react";
-import styled from "styled-components";
+import React, { ReactNode } from 'react';
+import styled from 'styled-components';
 
-import { LabelText } from "../Label";
+import { LabelText } from '../Label';
 
 export interface IButtonProps {
   children?: ReactNode;

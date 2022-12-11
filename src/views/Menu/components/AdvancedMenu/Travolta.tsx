@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 // by https://thenounproject.com/angelini.ngl/ via noun project premium
 
 export const Travolta = ({ ...rest }) => (

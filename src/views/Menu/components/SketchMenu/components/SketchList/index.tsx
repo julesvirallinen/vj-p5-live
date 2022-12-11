@@ -1,11 +1,11 @@
-import React, { useMemo } from "react";
-import { FaRegFileCode } from "react-icons/fa";
-import styled, { css } from "styled-components";
+import React, { useMemo } from 'react';
+import { FaRegFileCode } from 'react-icons/fa';
+import styled, { css } from 'styled-components';
 
-import { LabelText } from "../../../../../../components/ui/Label";
-import { useSettings } from "../../../../../../hooks/useSettings";
-import { useSketchManager } from "../../../../../../hooks/useSketchManager";
-import { SKETCH_TEMPLATE_ID } from "../../../../../../models/sketch";
+import { LabelText } from '../../../../../../components/ui/Label';
+import { useSettings } from '../../../../../../hooks/useSettings';
+import { useSketchManager } from '../../../../../../hooks/useSketchManager';
+import { SKETCH_TEMPLATE_ID } from '../../../../../../models/sketch';
 
 export interface ISketchListProps {}
 

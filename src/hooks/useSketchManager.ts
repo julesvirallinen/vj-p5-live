@@ -1,25 +1,25 @@
-import JSLogger from "js-logger";
-import * as R from "ramda";
+import JSLogger from 'js-logger';
+import * as R from 'ramda';
 
-import { defaultSketchCode } from "../data/snippets";
+import { defaultSketchCode } from '../data/snippets';
 import {
   ICurrentSketch,
   ISettingsSketch,
   SKETCH_TEMPLATE_ID,
   SKETCH_TEMPLATE_NAME,
-} from "../models/sketch";
-import { useSettingsDispatchContext } from "../providers/SettingsProvider";
-import { useCurrentSketchDispatchContext } from "../providers/SketchProvider";
+} from '../models/sketch';
+import { useSettingsDispatchContext } from '../providers/SettingsProvider';
+import { useCurrentSketchDispatchContext } from '../providers/SketchProvider';
 
-import { useGlobalCommands } from "./useGlobalCommands";
-import { useLocalStorage } from "./useLocalStorage";
-import { useSettings } from "./useSettings";
+import { useGlobalCommands } from './useGlobalCommands';
+import { useLocalStorage } from './useLocalStorage';
+import { useSettings } from './useSettings';
 
-import { firstSketchLocalStorage } from "~/data/demos/firstSketch";
+import { firstSketchLocalStorage } from '~/data/demos/firstSketch';
 
-const Logger = JSLogger.get("canvasLogger");
+const Logger = JSLogger.get('canvasLogger');
 
-const getSketchKey = (sketch: Pick<ICurrentSketch, "id">) =>
+const getSketchKey = (sketch: Pick<ICurrentSketch, 'id'>) =>
   `sketch_code_${sketch.id}`;
 
 export const useSketchManager = () => {
@@ -49,12 +49,12 @@ export const useSketchManager = () => {
     code: string;
   }) => {
     dispatchSettings({
-      type: "addSketch",
+      type: 'addSketch',
       payload: { name, id },
     });
-    dispatchSketch({ type: "setSketch", payload: { code, id } });
+    dispatchSketch({ type: 'setSketch', payload: { code, id } });
     dispatchSettings({
-      type: "setLoadedSketchId",
+      type: 'setLoadedSketchId',
       payload: { id },
     });
   };
@@ -68,14 +68,14 @@ export const useSketchManager = () => {
 
   const removeSketch = (id: string) => {
     dispatchSettings({
-      type: "patchSettings",
+      type: 'patchSettings',
       payload: { sketches: sketches.filter((s) => s.id !== id) },
     });
   };
 
   const patchSketch = (id: string, patch: Partial<ISettingsSketch>) =>
     dispatchSettings({
-      type: "patchSettings",
+      type: 'patchSettings',
       payload: {
         sketches: sketches.map((s) =>
           s.id === id ? R.mergeDeepLeft({ id, ...patch }, s) : s
@@ -91,7 +91,7 @@ export const useSketchManager = () => {
   const saveSketch = (sketch: ICurrentSketch) =>
     setItem(getSketchKey(sketch), sketch);
 
-  const fetchSketch = (sketch: Pick<ICurrentSketch, "id">) => {
+  const fetchSketch = (sketch: Pick<ICurrentSketch, 'id'>) => {
     if (sketch.id === firstSketchLocalStorage.id) {
       return firstSketchLocalStorage;
     }
@@ -107,20 +107,20 @@ export const useSketchManager = () => {
     }, 400);
   };
 
-  const loadSketch = (sketch: Pick<ICurrentSketch, "id">) => {
-    Logger.info("Loading sketchId: ", sketch.id);
+  const loadSketch = (sketch: Pick<ICurrentSketch, 'id'>) => {
+    Logger.info('Loading sketchId: ', sketch.id);
     const loadedSketch = fetchSketch(sketch);
 
     if (!loadedSketch) {
-      Logger.warn("Sketch code missing, removing from list");
+      Logger.warn('Sketch code missing, removing from list');
       removeSketch(sketch.id);
     }
 
     if (loadedSketch) {
       Logger.info(`Loaded sketch ${sketch.id}`);
-      dispatchSketch({ type: "setSketch", payload: loadedSketch });
+      dispatchSketch({ type: 'setSketch', payload: loadedSketch });
       dispatchSettings({
-        type: "setLoadedSketchId",
+        type: 'setLoadedSketchId',
         payload: { id: loadedSketch.id },
       });
       reloadSketch();
@@ -155,7 +155,7 @@ export const useSketchManager = () => {
       }
     }
 
-    return newSketch("new sketch");
+    return newSketch('new sketch');
   };
 
   return {

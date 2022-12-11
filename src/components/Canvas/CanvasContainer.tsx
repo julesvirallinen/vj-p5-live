@@ -1,14 +1,14 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
-import { useSettings } from "../../hooks/useSettings";
-import { useSketchCodeManager } from "../../hooks/useSketchCodeManager";
+import { useGlobalCommands } from '../../hooks/useGlobalCommands';
+import { useSettings } from '../../hooks/useSettings';
+import { useSketchCodeManager } from '../../hooks/useSketchCodeManager';
 
-import SketchCanvas, { ISketchCanvasProps } from "./SketchCanvas";
+import SketchCanvas, { ISketchCanvasProps } from './SketchCanvas';
 
-import { useErrorReceiver } from "~/components/Canvas/useErrorReceiver";
-import { useRecompileCanvas } from "~/components/Canvas/useRecompileCanvas";
+import { useErrorReceiver } from '~/components/Canvas/useErrorReceiver';
+import { useRecompileCanvas } from '~/components/Canvas/useRecompileCanvas';
 
 export interface ICanvasContainerProps {}
 
@@ -23,7 +23,7 @@ const StyledLoading = styled.div`
 
 // Small hook to handle passing props forward to canvas from providers
 const useGetSketchCanvasProps = (props: {
-  setRecompileSketch: ISketchCanvasProps["globalSetters"]["setRecompileSketch"];
+  setRecompileSketch: ISketchCanvasProps['globalSetters']['setRecompileSketch'];
 }) => {
   const { sketch } = useSketchCodeManager();
 
@@ -54,7 +54,7 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
 
   const errors = useErrorReceiver(
     iframeKey,
-    sketchCanvasProps.sketch.additionalCode.split("\n").length + 2
+    sketchCanvasProps.sketch.additionalCode.split('\n').length + 2
   );
 
   return (

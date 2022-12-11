@@ -1,9 +1,9 @@
-import React, { createContext, FC, useContext, useReducer } from "react";
-import * as R from "ramda";
-import { Path } from "ramda";
+import React, { createContext, FC, useContext, useReducer } from 'react';
+import * as R from 'ramda';
+import { Path } from 'ramda';
 
-import { useSketchManager } from "../../hooks/useSketchManager";
-import { ICurrentSketch } from "../../models/sketch";
+import { useSketchManager } from '../../hooks/useSketchManager';
+import { ICurrentSketch } from '../../models/sketch';
 
 /**
  * I'm not sure about this. My dream would be syncing the text files in some way that they can be in git, and user editable otherwise.
@@ -13,11 +13,11 @@ import { ICurrentSketch } from "../../models/sketch";
 
 export type IAction =
   | {
-      type: "updateCode";
+      type: 'updateCode';
       payload: { code: string };
     }
   | {
-      type: "setSketch";
+      type: 'setSketch';
       payload: ICurrentSketch;
     };
 
@@ -39,9 +39,9 @@ const reducer = (
     R.assocPath<T, ICurrentSketch>(path, value)(currentSketch);
 
   switch (action.type) {
-    case "updateCode":
-      return assoc(["code"], action.payload.code);
-    case "setSketch":
+    case 'updateCode':
+      return assoc(['code'], action.payload.code);
+    case 'setSketch':
       return action.payload;
     default:
       throw new Error(`action type not implemented`);

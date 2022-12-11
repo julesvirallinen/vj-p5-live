@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { Canvas } from "../../components/Canvas";
-import { P5Editor } from "../../components/P5Editor";
+import { Canvas } from '../../components/Canvas';
+import { P5Editor } from '../../components/P5Editor';
 
 export interface ICanvasWrapperProps {}
 

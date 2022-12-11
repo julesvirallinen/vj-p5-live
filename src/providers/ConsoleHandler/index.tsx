@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Console, Decode, Hook } from "console-feed";
-import { Message } from "console-feed/lib/definitions/Console";
-import Logger from "js-logger";
-import * as R from "ramda";
-import styled from "styled-components";
+import React, { useEffect, useMemo, useState } from 'react';
+import { Console, Decode, Hook } from 'console-feed';
+import { Message } from 'console-feed/lib/definitions/Console';
+import Logger from 'js-logger';
+import * as R from 'ramda';
+import styled from 'styled-components';
 
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
-import { useSettings } from "../../hooks/useSettings";
+import { useGlobalCommands } from '../../hooks/useGlobalCommands';
+import { useSettings } from '../../hooks/useSettings';
 
 const MESSAGES_TO_SHOW = 20;
 
@@ -42,12 +42,12 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
 
   useEffect(() => {
     if (!canvasWindow) {
-      Logger.warn("Canvas iframe ref not defined");
+      Logger.warn('Canvas iframe ref not defined');
 
       return;
     }
     Hook(canvasWindow.console, (log) => {
-      const thisMessage = R.path<string>([0, "data", 0], log);
+      const thisMessage = R.path<string>([0, 'data', 0], log);
 
       if (lastMessage === thisMessage) return;
       thisMessage && setLastMessage(thisMessage);
@@ -57,7 +57,7 @@ export const ConsoleHandler: React.FC<IConsoleHandlerProps> = ({
 
   useEffect(() => {
     Hook(window.console, (log) => {
-      const thisMessage = R.path<string>([0, "data", 0], log);
+      const thisMessage = R.path<string>([0, 'data', 0], log);
 
       if (lastMessage === thisMessage) return;
       thisMessage && setLastMessage(thisMessage);

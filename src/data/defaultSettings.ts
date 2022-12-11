@@ -1,15 +1,15 @@
-import { IAppState } from "../providers/SettingsProvider";
+import { IAppState } from '../providers/SettingsProvider';
 
-import { firstSketchMenuItem } from "./demos/firstSketch";
+import { firstSketchMenuItem } from './demos/firstSketch';
 
-import { HIROSHIGE, KLIMT } from "~/data/palette/defaultPalettes";
+import { HIROSHIGE, KLIMT } from '~/data/palette/defaultPalettes';
 
-export const defaultSettings: IAppState["settings"] = {
+export const defaultSettings: IAppState['settings'] = {
   hideEditor: false,
   themeOverrides: {},
   sketches: [firstSketchMenuItem],
   showMenu: true,
-  openMenu: "sketches",
+  openMenu: 'sketches',
   showConsoleFeed: true,
   showActionBar: true,
   compileAfterMs: 1000,

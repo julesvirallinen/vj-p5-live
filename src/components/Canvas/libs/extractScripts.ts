@@ -1,7 +1,7 @@
-import * as R from "ramda";
+import * as R from 'ramda';
 
-import { ALWAYS_LOADED_SCRIPTS } from "../../../defs/alwaysLoadedScripts";
-import { TSrcScript } from "../../../models/script";
+import { ALWAYS_LOADED_SCRIPTS } from '../../../defs/alwaysLoadedScripts';
+import { TSrcScript } from '../../../models/script';
 
 // matches const loadScripts = [ANYTHING HERE]
 // P5LIVE syntax for compatability
@@ -12,14 +12,14 @@ export const extractUserScripts = (code: string) => {
 
   const scripts = R.pipe(
     // get script group or empty string
-    R.pathOr<string>("", ["groups", "scriptTags"]),
+    R.pathOr<string>('', ['groups', 'scriptTags']),
     // split scripts with comma
-    R.split(","),
+    R.split(','),
     // remove quotes from each url
-    R.map(R.replace(/['"]+/g, ""))
+    R.map(R.replace(/['"]+/g, ''))
   )(match);
 
-  if (scripts.length === 1 && scripts[0] == "") return [];
+  if (scripts.length === 1 && scripts[0] == '') return [];
 
   return scripts;
 };

@@ -1,10 +1,10 @@
-import React from "react";
-import { ReactNewWindowStyles as NewWindow } from "react-new-window-styles";
-import styled, { createGlobalStyle } from "styled-components";
+import React from 'react';
+import { ReactNewWindowStyles as NewWindow } from 'react-new-window-styles';
+import styled, { createGlobalStyle } from 'styled-components';
 
-import { useGlobalCommands } from "../../hooks/useGlobalCommands";
+import { useGlobalCommands } from '../../hooks/useGlobalCommands';
 
-import { Video } from "./components/Video";
+import { Video } from './components/Video';
 
 export interface IVisualsPopupProps {}
 
