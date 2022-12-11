@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import Logger from "js-logger";
+import { useEffect, useState } from "react";
 
 import { useGlobalCommands } from "~/hooks/useGlobalCommands";
 
@@ -9,10 +8,17 @@ const IGNORED_SOURCES = [
   "react-devtools-content-script",
 ];
 
+// ? How could
+// - sketch continue on error with previous code?
+// - sketch continue gracefully after error fixed?
+
 export const useErrorReceiver = (iframeKey: number, errorOffset: number) => {
   const { errors, setErrors } = useGlobalCommands();
+  const [handlerCreated, setHandlerCreated] = useState(false);
 
   useEffect(() => {
+    if (handlerCreated) return;
+    setHandlerCreated(true);
     window.addEventListener(
       "message",
       (event) => {
@@ -22,22 +28,21 @@ export const useErrorReceiver = (iframeKey: number, errorOffset: number) => {
         const data = JSON.parse(event.data);
 
         if (data?.msg && data?.lineNumber) {
+          const lineNumber = data.lineNumber - errorOffset;
+          // eslint-disable-next-line
+          console.error(`Error in sketch: ${data.msg}, on line: ${lineNumber}`);
           setErrors([
             ...errors,
             {
               message: data.msg,
-              lineNumber: data.lineNumber - errorOffset,
+              lineNumber,
             },
           ]);
         }
       },
       true
     );
-  }, [errorOffset, errors, setErrors]);
-
-  useEffect(() => {
-    Logger.warn(errors);
-  }, [errors]);
+  }, [errorOffset, errors, setErrors, handlerCreated]);
 
   useEffect(() => {
     setErrors([]);

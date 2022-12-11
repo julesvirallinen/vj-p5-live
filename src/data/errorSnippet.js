@@ -1,4 +1,4 @@
-window.onerror = function (msg, url, lineNumber, columnNo, error) {
+window.onerror = function (msg, url, lineNumber) {
   var data = { msg, lineNumber, source: "sketch" };
   window.parent.postMessage(JSON.stringify(data), "*");
 

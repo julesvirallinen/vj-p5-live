@@ -9,6 +9,8 @@ import { compileScriptList } from "./libs/extractScripts";
 import { formatUserCode } from "./libs/formatUserCode";
 import { loadProcessingScripts, loadScript } from "./libs/loadScripts";
 
+import { TSketchError } from "~/models/error";
+
 const StyledSketchCanvas = styled.div`
   width: 100vw;
   height: 100vh;
@@ -39,6 +41,7 @@ export interface ISketchCanvasProps {
   setSketchLoaded: () => void;
   key: number;
   canvasPopupOpen: boolean;
+  errors: TSketchError[];
 }
 
 export interface ISketchCanvasState {
