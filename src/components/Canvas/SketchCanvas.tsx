@@ -41,7 +41,6 @@ export interface ISketchCanvasProps {
   setSketchLoaded: () => void;
   key: number;
   canvasPopupOpen: boolean;
-  errors: TSketchError[];
 }
 
 export interface ISketchCanvasState {

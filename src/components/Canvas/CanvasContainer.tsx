@@ -52,7 +52,7 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
 
   const sketchCanvasProps = useGetSketchCanvasProps({ setRecompileSketch });
 
-  const errors = useErrorReceiver(
+  useErrorReceiver(
     iframeKey,
     sketchCanvasProps.sketch.additionalCode.split('\n').length + 2
   );
