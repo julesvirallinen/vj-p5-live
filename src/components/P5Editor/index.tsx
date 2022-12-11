@@ -1,6 +1,6 @@
 /* eslint-disable simple-import-sort/imports */
 
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 
 import { config } from "ace-builds";
@@ -74,12 +74,23 @@ const StyledShowEditorButton = styled(Button)`
 export const P5Editor: React.FC = ({ ...restProps }) => {
   const { updateSketch, code } = useCurrentSketch();
   const { hideEditor, toggleHideEditor } = useSettings();
-  const { setCodeHasSyntaxErrors } = useGlobalCommands();
+  const { setCodeHasSyntaxErrors, errors } = useGlobalCommands();
   const editorRef = useRef<AceEditor>(null);
 
   useEffect(() => {
     Beautify.beautify(editorRef?.current?.editor.session);
   }, []);
+
+  useEffect(() => {
+    editorRef?.current?.editor.getSession().setAnnotations(
+      errors.map((error) => ({
+        row: error.lineNumber,
+        column: 0,
+        text: error.message,
+        type: "error",
+      }))
+    );
+  }, [errors]);
 
   return (
     <>

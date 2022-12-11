@@ -93,6 +93,15 @@ export const useGlobalCommands = () => {
       payload: { codeHasSyntaxErrors: hasErrors },
     });
 
+  const setErrors = useCallback(
+    (errors: IAppState["sessionGlobals"]["errors"]) =>
+      dispatch({
+        type: "patchSessionGlobals",
+        payload: { errors },
+      }),
+    [dispatch]
+  );
+
   const recompileSketch = () => run("recompileSketch");
   const hardRecompileSketch = () => run("hardRecompileSketch");
 
@@ -107,6 +116,7 @@ export const useGlobalCommands = () => {
     setIframeRef,
     setCodeHasSyntaxErrors,
     setCanvasPopupOpen,
+    setErrors,
     ...sessionGlobals,
   };
 };

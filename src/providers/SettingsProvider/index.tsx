@@ -18,6 +18,8 @@ import { TTheme } from "../ThemeProvider";
 
 import { loadTutorialSketches } from "./loadTutorialSketches";
 
+import { TSketchError } from "~/models/error";
+
 export type TMenu =
   | "sketches"
   | "settings"
@@ -63,6 +65,7 @@ export interface IAppState {
     canvasPopupOpen: boolean;
     canvasIframeRef?: RefObject<HTMLIFrameElement>;
     codeHasSyntaxErrors?: boolean;
+    errors: TSketchError[];
   };
   globalCommands: {
     recompileSketch?: () => void;
@@ -100,6 +103,7 @@ const initialState: IAppState = {
     // used to refresh iframe on change
     iframeKey: "new",
     canvasPopupOpen: false,
+    errors: [],
   },
 };
 

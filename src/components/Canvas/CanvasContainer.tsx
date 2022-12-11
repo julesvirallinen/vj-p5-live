@@ -7,6 +7,7 @@ import { useSketchCodeManager } from "../../hooks/useSketchCodeManager";
 
 import SketchCanvas, { ISketchCanvasProps } from "./SketchCanvas";
 
+import { useErrorReceiver } from "~/components/Canvas/useErrorReceiver";
 import { useRecompileCanvas } from "~/components/Canvas/useRecompileCanvas";
 
 export interface ICanvasContainerProps {}
@@ -50,6 +51,11 @@ export const CanvasContainer: React.FC<ICanvasContainerProps> = ({
     useRecompileCanvas();
 
   const sketchCanvasProps = useGetSketchCanvasProps({ setRecompileSketch });
+
+  const errors = useErrorReceiver(
+    iframeKey,
+    sketchCanvasProps.sketch.additionalCode.split("\n").length + 2
+  );
 
   return (
     <StyledCanvasContainer {...restProps}>
