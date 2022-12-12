@@ -9,7 +9,7 @@ const IGNORED_SOURCES = [
 ];
 
 // ! TODO: figure out how to get from .env
-const allowedOrigins = ['https://livecode.art', 'http://localhost:5173'];
+const allowedOrigins = ['https://vjcode.art', 'http://localhost:5173'];
 
 // ? How could
 // - sketch continue on error with previous code?
