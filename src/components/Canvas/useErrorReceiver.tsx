@@ -8,6 +8,9 @@ const IGNORED_SOURCES = [
   'react-devtools-content-script',
 ];
 
+// ! TODO: figure out how to get from .env
+const allowedOrigins = ['https://livecode.art', 'http://localhost:5173'];
+
 // ? How could
 // - sketch continue on error with previous code?
 // - sketch continue gracefully after error fixed?
@@ -22,7 +25,7 @@ export const useErrorReceiver = (iframeKey: number, errorOffset: number) => {
     window.addEventListener(
       'message',
       (event) => {
-        if (event.origin !== 'http://localhost:5173') return;
+        if (!allowedOrigins.includes(event.origin)) return;
 
         if (IGNORED_SOURCES.includes(event?.data?.source)) return;
         const data = JSON.parse(event.data);
