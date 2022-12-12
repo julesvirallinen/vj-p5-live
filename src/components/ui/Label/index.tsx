@@ -11,7 +11,7 @@ const StyledLabel = styled.label`
   font-size: 0.7rem;
   line-height: 1rem;
   text-transform: uppercase;
-  font-family: 'Fredoka One', cursive;
+  font-family: 'Fredoka One';
   align-items: center;
 `;
 export const LabelText: React.FC<ILabelProps> = ({

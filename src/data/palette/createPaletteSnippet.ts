@@ -7,11 +7,13 @@ export const createPaletteSnippet = (
   return `var PALETTE_PRESETS = {
     ${userPalettes.map((p) => `${p.name}: ${JSON.stringify(p.colors)}`)}
   };
+
+  var FALLBACK_PALETTE = ['#F27EA9', '#366CD9', '#5EADF2', '#636E73', '#F2E6D8']
   
   var GLOBAL_TRANSPARENCY = 1;
   
   var DEFAULT_PALETTE = PALETTE_PRESETS.${selectedName};
-  var CURRENT_COLORS = DEFAULT_PALETTE;
+  var CURRENT_COLORS = DEFAULT_PALETTE ? DEFAULT_PALETTE : FALLBACK_PALETTE;
   
   var SELECTED_PALETTE_PRESET;
   var BG_COLOR = [10];
@@ -45,7 +47,10 @@ export const createPaletteSnippet = (
     if (Object.hasOwnProperty.call(PALETTE_PRESETS, name)) {
       return setSelected(PALETTE_PRESETS[name]);
     }
-    return setSelected(DEFAULT_PALETTE);
+    if (Object.hasOwnProperty.call(PALETTE_PRESETS, DEFAULT_PALETTE)) {
+      return setSelected(PALETTE_PRESETS[DEFAULT_PALETTE]);
+    }
+    return setSelected(FALLBACK_PALETTE);
   };
   
   var P = {

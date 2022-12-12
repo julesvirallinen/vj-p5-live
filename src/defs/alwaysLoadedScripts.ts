@@ -18,4 +18,9 @@ export const ALWAYS_LOADED_SCRIPTS = [
     id: 'webmidi',
     path: '/js/webmidi.min.js',
   },
+  // TODO: the code of the build in helpers should be able to be modified in the app!
+  {
+    id: 'audioHelper',
+    path: '/js/setupAudio.js',
+  },
 ];

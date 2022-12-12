@@ -8,3 +8,9 @@
 *::selection {
   background: rgb(255, 0, 0, 0.1);
 }
+
+
+@font-face {
+  font-family: 'Fredoka One';
+  src: local('Fredoka One'), url("/src/data/fonts/FredokaOne.ttf") format('truetype');
+}

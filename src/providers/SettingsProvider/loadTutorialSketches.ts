@@ -1,17 +1,16 @@
-import { firstSketchMenuItem } from '~/data/demos/firstSketch';
+import { ISettingsSketch } from '~/models/sketch';
 import { ISettings, TUserSavedSettings } from '~/providers/SettingsProvider';
-
-const tutorialSketches = [firstSketchMenuItem];
 
 const getUserSketchIds = (sketches: ISettings['sketches']) =>
   sketches.map((s) => s.id);
 
 export const loadTutorialSketches = (
-  userSettings: TUserSavedSettings
+  userSettings: TUserSavedSettings,
+  tutorials: ISettingsSketch[]
 ): TUserSavedSettings => {
   const sketches = userSettings.sketches ?? [];
 
-  const missingTutorialSketches = tutorialSketches.filter(
+  const missingTutorialSketches = tutorials.filter(
     (tutorial) => !getUserSketchIds(sketches).includes(tutorial.id)
   );
 
