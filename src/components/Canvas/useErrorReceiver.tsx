@@ -22,7 +22,7 @@ export const useErrorReceiver = (iframeKey: number, errorOffset: number) => {
     window.addEventListener(
       'message',
       (event) => {
-        if (event.origin !== 'http://localhost:5173') return;
+        console.log(event.origin);
 
         if (IGNORED_SOURCES.includes(event?.data?.source)) return;
         const data = JSON.parse(event.data);
