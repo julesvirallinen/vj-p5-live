@@ -59,9 +59,11 @@ export const useSketchCodeManager = () => {
     memoedDebounce.cancel();
   }, [code, id, memoedDebounce]);
 
+  const colorPalette = paletteName ?? colorPalettes[0].name;
+
   const additionalCode = `
   ${errorSnippet}
-  ${paletteName ? createPaletteSnippet(colorPalettes, paletteName) : ''}
+  ${colorPalette && createPaletteSnippet(colorPalettes, colorPalette)}
   ${getDefaultSnippets()}`;
 
   return {

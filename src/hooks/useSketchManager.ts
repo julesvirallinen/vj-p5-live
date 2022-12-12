@@ -15,7 +15,7 @@ import { useGlobalCommands } from './useGlobalCommands';
 import { useLocalStorage } from './useLocalStorage';
 import { useSettings } from './useSettings';
 
-import { firstSketchLocalStorage } from '~/data/demos/firstSketch';
+import { useTutorials } from '~/hooks/useTutorials';
 
 const Logger = JSLogger.get('canvasLogger');
 
@@ -28,6 +28,7 @@ export const useSketchManager = () => {
   const dispatchSketch = useCurrentSketchDispatchContext();
   const { setItem, getItem } = useLocalStorage();
   const { hardRecompileSketch, setIframeKey } = useGlobalCommands();
+  const { isTutorial, tutorialCode } = useTutorials();
 
   const getNewSketchProps = (name: string) => {
     const userTemplate = fetchSketch({ id: SKETCH_TEMPLATE_ID });
@@ -92,8 +93,8 @@ export const useSketchManager = () => {
     setItem(getSketchKey(sketch), sketch);
 
   const fetchSketch = (sketch: Pick<ICurrentSketch, 'id'>) => {
-    if (sketch.id === firstSketchLocalStorage.id) {
-      return firstSketchLocalStorage;
+    if (isTutorial(sketch.id)) {
+      return tutorialCode.find((tutorial) => tutorial.id === sketch.id);
     }
 
     return getItem<ICurrentSketch>(getSketchKey(sketch));

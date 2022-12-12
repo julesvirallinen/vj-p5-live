@@ -18,6 +18,7 @@ import { TTheme } from '../ThemeProvider';
 
 import { loadTutorialSketches } from './loadTutorialSketches';
 
+import { useTutorials } from '~/hooks/useTutorials';
 import { TSketchError } from '~/models/error';
 
 export type TMenu =
@@ -148,6 +149,7 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { getSettings, setSettings } = useLocalStorageData();
+  const { tutorials } = useTutorials();
 
   const updateSettings = (state: IAppState) =>
     setSettings(R.omit(NON_PERSISTED_SETTINGS_KEYS, state.settings));
@@ -157,7 +159,7 @@ export const SettingsProvider: FC<{ children: React.ReactNode }> = ({
     initialState,
     (initial) => {
       const savedSettings = getSettings() || {};
-      const withTutorials = loadTutorialSketches(savedSettings);
+      const withTutorials = loadTutorialSketches(savedSettings, tutorials);
 
       return R.mergeDeepLeft({ settings: withTutorials }, initial) as IAppState;
     }
