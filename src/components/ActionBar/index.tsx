@@ -11,7 +11,10 @@ import { useGlobalCommands } from '../../hooks/useGlobalCommands';
 import { useSettings } from '../../hooks/useSettings';
 import { useSketchManager } from '../../hooks/useSketchManager';
 import { ISettingsSketch } from '../../models/sketch';
-import { useSettingsDispatchContext } from '../../providers/SettingsProvider';
+import {
+  TMenu,
+  useSettingsDispatchContext,
+} from '../../providers/SettingsProvider';
 
 export interface IActionBarProps {}
 
@@ -60,6 +63,7 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
     toggleHideEditor,
     toggleShowMenu,
     toggleShowConsoleFeed,
+    setOpenMenu,
   } = useSettings();
 
   const { loadSketch, newSketch, loadDefaultSketchTemplate } =
@@ -133,6 +137,12 @@ export const ActionBar: React.FC<IActionBarProps> = ({ ...restProps }) => {
       shortCommand: 'h',
       fullCommand: 'hide',
       handler: () => toggleHideEditor(),
+    },
+    {
+      name: 'Open menu page',
+      shortCommand: 'me',
+      fullCommand: 'menupage',
+      handler: (options) => options && setOpenMenu(options[0] as TMenu),
     },
   ];
 

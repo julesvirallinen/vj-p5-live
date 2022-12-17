@@ -16,6 +16,7 @@ import { SketchList } from './components/SketchMenu/components/SketchList';
 import { AboutMenu } from '~/views/Menu/components/AboutMenu';
 import { AdvancedMenu } from '~/views/Menu/components/AdvancedMenu';
 import { SketchMenu } from '~/views/Menu/components/SketchMenu';
+import { ValueSliders } from '~/views/Menu/components/ValueSliders';
 
 const MENU_WIDTH = 12;
 
@@ -37,6 +38,7 @@ const StyledMenu = styled.div`
 const StyledSettingsMenu = styled(StyledMenu)`
   position: relative;
   top: 2rem;
+  overflow: scroll;
 `;
 
 const StyledMenuContainer = styled.div`
@@ -164,6 +166,11 @@ export const Menu: React.FC<IMenuProps> = () => {
         {openMenu === 'advanced' && (
           <StyledSettingsMenu>
             <AdvancedMenu />
+          </StyledSettingsMenu>
+        )}
+        {openMenu === 'valueSliders' && (
+          <StyledSettingsMenu>
+            <ValueSliders />
           </StyledSettingsMenu>
         )}
       </AnimatedMenu>

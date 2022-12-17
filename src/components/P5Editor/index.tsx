@@ -112,7 +112,19 @@ export const P5Editor: React.FC = ({ ...restProps }) => {
           }}
           highlightActiveLine={false}
           keyboardHandler={'vscode'}
-          commands={Beautify.commands}
+          commands={[
+            {
+              bindKey: { mac: 'Ctrl-Shift-Up' },
+              name: 'numberUp',
+              exec: (editor) => editor.modifyNumber(1),
+            },
+            {
+              bindKey: { mac: 'Ctrl-Shift-Down' },
+              name: 'numberDown',
+              exec: (editor) => editor.modifyNumber(-1),
+            },
+            ...Beautify.commands,
+          ]}
           mode="javascript"
           ref={editorRef}
           theme="twilight"

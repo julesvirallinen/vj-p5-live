@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { Maptastic } from 'maptastic';
 import styled from 'styled-components';
 
 import { useSettings } from '~/hooks/useSettings';
@@ -26,6 +25,7 @@ export const Mappable: React.FC<IMappableProps> = ({
 
   useEffect(() => {
     if (maptasticEnabled && mapRef.current) {
+      // @ts-ignore
       new Maptastic(id);
     }
   }, [maptasticEnabled, id]);

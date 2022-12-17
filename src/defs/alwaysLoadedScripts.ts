@@ -7,10 +7,6 @@ export const ALWAYS_LOADED_SCRIPTS = [
     path: '/js/ramda.min.js',
   },
   {
-    id: 'mapper',
-    path: '/js/p5.mapper.min.js',
-  },
-  {
     id: 'p5jssound',
     path: '/js/p5.sound.min.js',
   },

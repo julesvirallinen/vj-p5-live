@@ -37,7 +37,7 @@ export const Canvas: FC = ({ ...rest }) => {
 
   return (
     <StyledCanvas id={'p5-canvas-container'} {...rest}>
-      <Mappable id={'map-me2'}>
+      <Mappable id={'map-me-plz3'}>
         <CanvasContainer />
       </Mappable>
       <AnimatedOpacity style={canvasOpacityStyles} />

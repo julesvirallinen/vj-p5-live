@@ -27,7 +27,8 @@ export type TMenu =
   | 'scripts'
   | 'palette'
   | 'about'
-  | 'advanced';
+  | 'advanced'
+  | 'valueSliders';
 
 export interface ISettings {
   themeOverrides: PartialDeep<TTheme>;

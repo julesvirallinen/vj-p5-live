@@ -17,6 +17,8 @@ const StyledPaletteSettings = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  overflow: scroll;
+  max-height: 40rem;
 `;
 
 const StyledPalettes = styled.div`
