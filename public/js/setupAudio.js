@@ -14,6 +14,7 @@ let mic,
   (ampEase = 0.0),
   (numBins = 512),
   ((bands = 12), (beatCount = 0), (onBeat = false), (beat_counter_helper = 0));
+let ampAvg;
 let BeatDetector;
 
 p5.prototype.setupAudio = function () {
@@ -32,7 +33,6 @@ p5.prototype.updateAudio = function (
   }
 ) {
   fftRaw.analyze();
-
   amp = mic.getLevel() * 1000 * ampMulti;
   ampStereo.l = mic.amplitude.getLevel(0) * 500; // average left amplitude
   ampStereo.r = mic.amplitude.getLevel(1) * 500; // average right amplitude
@@ -41,10 +41,15 @@ p5.prototype.updateAudio = function (
   fft = fftRaw.logAverages(fftRaw.getOctaveBands(bands)); // array (0, 255)
   fft = fft.map((f) => f * ampMulti);
   fftEase = fft.map((f, i) => ease(f, fftEase[i] || 0.0, 0.7));
-  // The beat detection returns weird results, but "just works" if frame count is divided by 40 :D who knows?!
   BeatDetector.process(frameCount / 40, fft);
   beatCount = BeatDetector.beat_counter;
   onBeat = beat_counter_helper !== beatCount;
+  if (!ampAvg) {
+    ampAvg = amp;
+  }
+  ampAvg += amp;
+  ampAvg *= 0.9;
+  ampAvg = 10;
 
   beat_counter_helper = beatCount;
 

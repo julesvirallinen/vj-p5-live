@@ -1,3 +1,6 @@
+import SketchCanvas, {
+  ISketchCanvasProps,
+} from '../../../node_modules/react-p5js-canvas';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -5,10 +8,10 @@ import { useGlobalCommands } from '../../hooks/useGlobalCommands';
 import { useSettings } from '../../hooks/useSettings';
 import { useSketchCodeManager } from '../../hooks/useSketchCodeManager';
 
-import SketchCanvas, { ISketchCanvasProps } from './SketchCanvas';
-
+import { formatUserCode } from '~/components/Canvas/libs/formatUserCode';
 import { useErrorReceiver } from '~/components/Canvas/useErrorReceiver';
 import { useRecompileCanvas } from '~/components/Canvas/useRecompileCanvas';
+import { ALWAYS_LOADED_SCRIPTS } from '~/defs/alwaysLoadedScripts';
 
 export interface ICanvasContainerProps {}
 
@@ -32,9 +35,12 @@ const useGetSketchCanvasProps = (props: {
   const { setCanvasMediaStream, canvasPopupOpen, setIframeRef } =
     useGlobalCommands();
 
+  const code = formatUserCode(sketch.code, sketch.additionalCode);
+
   return {
     sketch,
-    userPersistedScripts: userLoadedScripts,
+    code,
+    userPersistedScripts: [...ALWAYS_LOADED_SCRIPTS, ...userLoadedScripts],
     canvasPopupOpen,
     globalSetters: {
       setIframeRef,
